@@ -1,0 +1,7 @@
+Your project must read from a file that contains at least 15 full Users,
+including each User's friends and interests.
+There must be at least two Users with duplicate name contained within this file,
+and you must demonstrate that your program
+handles searching for Users with this duplicate name
+as part of your project demonstration.
+The file must contain all 15 Users and be structured like this:
