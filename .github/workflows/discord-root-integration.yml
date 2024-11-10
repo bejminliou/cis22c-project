@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+        with:
+          fetch-depth: 0  # This ensures we have the full git history
+          
       - name: Send commit info to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_ROOT_WEBHOOK_URL }}
@@ -19,14 +21,9 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
           AUTHOR_NAME=$(git log -1 --pretty=%an)
           AUTHOR_EMAIL=$(git log -1 --pretty=%ae)
+          COMMIT_SHA=$(git rev-parse --short HEAD)
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           
-          curl -X POST $DISCORD_WEBHOOK_URL \
-          -H "Content-Type: application/json" \
-          -d @- << EOF
-          {
-            "username": "Root Watcher",
-            "avatar_url": "",
-            "content": "Repository Checkout: New commit by `$AUTHOR_NAME <$AUTHOR_EMAIL>` at `$TIMESTAMP`: `$COMMIT_MSG`"
-          }
-          EOF
+          curl -H "Content-Type: application/json" \
+          -d "{\"username\":\"Root Watcher\",\"avatar_url\":\"\",\"content\":\"🔄 New commit on \`main\`\n\`\`\`\nAuthor: $AUTHOR_NAME <$AUTHOR_EMAIL>\nTimestamp: $TIMESTAMP\nCommit: $COMMIT_SHA\nMessage: $COMMIT_MSG\n\`\`\`\"}" \
+          "$DISCORD_WEBHOOK_URL"
