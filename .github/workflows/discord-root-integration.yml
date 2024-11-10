@@ -25,5 +25,5 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           
           curl -H "Content-Type: application/json" \
-          -d "{\"username\":\"Root Watcher\",\"avatar_url\":\"\",\"content\":\"🔄 New commit on \`main\`\n\`\`\`\nAuthor: $AUTHOR_NAME <$AUTHOR_EMAIL>\nTimestamp: $TIMESTAMP\nCommit: $COMMIT_SHA\nMessage: $COMMIT_MSG\n\`\`\`\"}" \
+          -d "{\"username\":\"Root Watcher\",\"avatar_url\":\"https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/71-github-512.png\",\"content\":\"🔄 New commit on \`main\`\n\`\`\`\nAuthor: $AUTHOR_NAME <$AUTHOR_EMAIL>\nTimestamp: $TIMESTAMP\nCommit: $COMMIT_SHA\nMessage: $COMMIT_MSG\n\`\`\`\"}" \
           "$DISCORD_WEBHOOK_URL"
