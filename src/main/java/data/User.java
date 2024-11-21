@@ -1,6 +1,6 @@
-package main.java.data;
+package data;
 
-import main.java.util.*;
+import util.*;
 
 public class User {
     private int id;
