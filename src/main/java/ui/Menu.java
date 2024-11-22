@@ -1,6 +1,7 @@
 package ui;
 
 import java.util.Scanner;
+import data.User;
 
 /**
  * Handles the user interface and menu system for the application.
@@ -29,8 +30,8 @@ public class Menu {
         System.out.println("2. Create Account");
         // ... other menu options
 
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline (DO NOT DO THIS)
+        int choice = getNextInt(scanner);
+        // scanner.nextLine(); // Consume newline (DO NOT DO THIS)
         // todo ; add scanner helper methods
 
         switch (choice) {
@@ -39,5 +40,47 @@ public class Menu {
                 break;
             // ... other cases
         }
+    }
+
+    // Scanner Helper Methods
+
+    private static String getNext(Scanner input) {
+        String next = "";
+
+        while (input.hasNext()) {
+            next = input.next().trim();
+
+            if (!next.isEmpty()) {
+                break;
+            }
+        }
+
+        return next;
+    }
+
+    private static String getLine(Scanner input) {
+        String next = "";
+
+        while (input.hasNextLine()) {
+            next = input.nextLine().trim();
+
+            if (!next.isEmpty()) {
+                break;
+            }
+        }
+
+        return next;
+    }
+
+    private static int getNextInt(Scanner input) {
+        return Integer.parseInt(getNext(input));
+    }
+
+    /*
+     * private static double getNextDouble(Scanner input) { return Double.parseDouble(getNext(input)); }
+     */
+
+    private static char getNextCharUpper(Scanner input) {
+        return getNext(input).toUpperCase().charAt(0);
     }
 }
