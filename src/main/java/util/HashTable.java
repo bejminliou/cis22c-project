@@ -58,7 +58,7 @@ public class HashTable<T> {
     private int hash(T obj) {
         int code = obj.hashCode();
         
-        return Math.abs(code % table.size()); // pos index
+        return Math.abs(code % table.size()); // pos
     }
 
     /**
