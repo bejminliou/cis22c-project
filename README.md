@@ -7,30 +7,43 @@ This project simulates a social network platform specifically for U.S. President
 
 ## Project Structure
 
-The project follows a standard Maven structure (final structure will probably be different):
+The project follows a standard Maven structure:
 
-```
-cis-22c-project/
+```bash
+cis22c-project/
 ├── src/
-│   └── main/
+│   ├── main/
+│   │   └── java/
+│   │       ├── data/
+│   │       │   └── Auth.java
+│   │       │   └── Interest.java
+│   │       │   └── InterestManager.java
+│   │       │   ├── User.java
+│   │       │   ├── UserDirectory.java
+│   │       ├── model/
+│   │       │   └── Account.java
+│   │       │   ├── Friend.java
+│   │       ├── util/
+│   │       │   ├── BST.java
+│   │       │   ├── Graph.java
+│   │       │   ├── HashTable.java
+│   │       │   ├── KeyValuePair.java
+│   │       │   └── LinkedList.java
+│   │       │   └── Q.java
+│   │       │   └── Queue.java
+│   │       ├── io/
+│   │       │   └── data.txt
+│   │       │   └── DataStorage.java
+│   │       ├── ui/
+│   │       │   └── Menu.java
+│   │       ├── App.java
+│   │   └── resources/
+│   │       └── users.txt
+│   │       └── dataset.js
+│   └── test/
 │       └── java/
-│           ├── data/
-│           │   ├── User.java
-│           │   └── Interest.java
-│           ├── model/
-│           │   ├── Account.java
-│           │   └── Friend.java
-│           ├── ui/
-│           │   ├── DataStorage.java
-│           │   └── Menu.java
-│           ├── util/
-│           │   ├── ArrayList.java
-│           │   ├── BST.java
-│           │   ├── Graph.java
-│           │   ├── HashTable.java
-│           │   ├── LinkedList.java
-│           │   └── App.java
-│           └── data.txt
+│           └── ... (Tests mirroring package structure) 
+├── pom.xml
 └── README.md
 ```
 
@@ -79,6 +92,71 @@ list of interests (one interest per line)
 
 The file must contain at least 15 users, including at least one duplicate name for testing purposes.
 
+## Dataset Development
+
+The dataset was developed through a multi-step process:
+
+1. **Initial Data Collection**
+    - Created a process to scrape president data from Wikipedia (see `resources/dataset.js`)
+    - Source: [List of Presidents of the United States](https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States)
+    - Extracted basic information for the 15 most recent presidents (FDR to Biden, excluding current president)
+    - Used presidential order number as unique ID (e.g., Biden is 46th president, so ID = 46)
+        * Ensures IDs are meaningful and historically accurate
+        * Makes it easy to determine chronological relationships
+        * Helps in verifying that friend connections make historical sense
+
+2. **Data Enrichment**
+    - Added realistic usernames based on name patterns (e.g., 'jbiden' for Joe Biden)
+    - Generated passwords using birthplace and birth year format (e.g., 'scranton1942')
+    - Researched and added historically accurate cities of birth/residence
+    - Compiled authentic interests and hobbies:
+        * Each president has 3-5 interests
+        * Mix of personal hobbies (e.g., Golf, Reading) and professional interests (e.g., Foreign Policy)
+        * Ensures common interests for friend recommendations
+        * Facilitates authentic interest-based friend searching
+
+3. **Relationship Mapping**
+    - Created existing friend connections based on:
+        * Chronological proximity (presidents who served close to each other)
+        * Historical relationships and interactions
+        * Known collaborations and partnerships
+    - Ensured bidirectional relationships (if A is friends with B, B is friends with A)
+    - Assigned 3-5 connections per president for realistic network density
+    - Friend connections consider:
+        * Mentor/mentee relationships (e.g., VPs who became presidents, father/son relationships)
+        * Political alliances and partnerships
+        * Post-presidency collaborations and friendships
+
+4. **Data Formatting**
+    - Structured data according to project requirements:
+      ```bash
+      id                 # Presidential order number (32-46)
+      name               # Full name
+      username           # First initial + last name
+      password           # Birthplace + birth year
+      f <amt_friends>    # 'f' prefix, 3-5 friends
+      <friend_ids>       # List of friend IDs
+      city <city>        # 'city' prefix + birthplace
+      i <amt_interests>  # 'i' prefix, 3-5 interests
+      <interests>        # List of interests/hobbies
+      ```
+    - Validated format consistency across all entries
+    - Added prefix indicators ('f' for friends, 'city' for city, 'i' for interests)
+    - Ensured consistent spacing and line breaks
+
+5. **Quality Assurance**
+   - Dataset meets minimum requirement of 15 users
+   - Ensured presence of duplicate names for testing
+     - George W. Bush
+     - George H. W. Bush
+   - Validated all friend connections are mutual
+   - Confirmed data format consistency
+   - Verified interest distribution:
+     * No president has too few (`< 3`) or too many (`> 5`) interests
+     * Mix of unique and shared interests across presidents
+
+The resulting dataset provides a comprehensive network of presidential connections, combining historical accuracy with the technical requirements of the project's data structures.
+
 ## Team Roles and Responsibilities
 
 While each team member will contribute to multiple areas, the primary responsibilities are divided as follows:
@@ -105,8 +183,9 @@ This project will mainly be coordinated through the Discord server. If you have 
 
 ## Contributors
 
-* **Rolen Louie** - 
-* **Benjamin Liou** - 
-* **Kevin Young** - 
-* **Kenneth Garcia** - 
-* **Yukai Qiu** - 
+* **Rolen Louie** -
+* **Benjamin Liou** -
+* **Kevin Young** -
+* **Kenneth Garcia** -
+* **Yukai Qiu** -
+* **Tu Luong** -
