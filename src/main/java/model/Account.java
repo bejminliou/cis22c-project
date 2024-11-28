@@ -25,6 +25,17 @@ public class Account {
     }
 
     /**
+     * Create a new Account manager with Auth and UserDirectory
+     * @param userDirectory the populated UserDirectory
+     * @see data.Auth#Auth(UserDirectory) for authentication setup
+     * @see data.UserDirectory#UserDirectory() for user storage setup
+     */
+    public Account(UserDirectory userDirectory) {
+        this.userDirectory = userDirectory;
+        this.auth = new Auth(userDirectory);
+    }
+
+    /**
      * Authenticate a user with the given credentials
      * 
      * @param username The username to check

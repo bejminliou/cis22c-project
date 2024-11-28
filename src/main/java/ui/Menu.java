@@ -37,6 +37,15 @@ public class Menu {
         switch (choice) {
             case 1:
                 // Call login() from Account class
+                System.out.println("Please enter your username:");
+                String username = getNext(scanner);
+                System.out.println("Please enter your password:");
+                String password = getNext(scanner);
+
+                break;
+            case 2:
+                // Call createAccount() from Account class
+
                 break;
             // ... other cases
         }
