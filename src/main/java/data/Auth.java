@@ -146,4 +146,17 @@ public class Auth {
     public int getRegisteredUserCount() {
         return loginTable.getNumElements();
     }
+
+
+    /**
+     * Hashs existing users to the HashTable (SHOULD ONLY BE USED AT START OF APP)
+     * @param key a string of the username and password separated by a ':'
+     * @return if the User was added to the Hashtable, verified by an increase in table size
+     */
+    public boolean addExisitingUser(String key) {
+        int amount = getRegisteredUserCount();
+        loginTable.add(key);
+        return amount != getRegisteredUserCount();
+
+    }
 }

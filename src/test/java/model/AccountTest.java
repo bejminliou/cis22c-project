@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import data.User;
+import data.Auth;
+import data.UserDirectory;
 
 /**
  * Test account management functionality
@@ -11,13 +13,27 @@ import data.User;
 public class AccountTest {
     private Account account;
     private User testUser;
+    private UserDirectory testDirectory;
 
     @Before
     public void setUp() {
+        testDirectory = new UserDirectory();
         account = new Account();
         testUser = new User();
         testUser.setUserName("testuser");
         testUser.setPassword("testpass");
+        testDirectory.addUser(testUser);
+    }
+
+    /**
+     * Test Account constructor with a test UserDirectory
+     * @see Account#Account(UserDirectory) for the method being tested
+     */
+    @Test
+    public void testAccountConstructorWithUserDirectory() {
+        Account testAccount = new Account(testDirectory);
+        assertSame("The Account should use the provided UserDirectory instance",
+                testUser, testAccount.getUser(testUser.getUserName()));
     }
 
     /**
@@ -179,4 +195,15 @@ public class AccountTest {
         assertFalse("Should not find nonexistent username",
                    account.isUsernameTaken("nonexistent"));
     }
+
+    /**
+     * Test getAuth method
+     * @see Account#getAuth() for the method being tested
+     */
+    @Test
+    public void testGetAuth() {
+        Auth authInstance = account.getAuth();
+        assertNotNull("Auth instance should not be null", authInstance);
+    }
+
 }
