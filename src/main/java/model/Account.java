@@ -86,4 +86,10 @@ public class Account {
     public boolean isUsernameTaken(String username) {
         return auth.isUserRegistered(username);
     }
+
+    /**
+     * Getter for the Auth
+     * @return auth the Authenticator Object
+     */
+    public Auth getAuth() { return auth;}
 }

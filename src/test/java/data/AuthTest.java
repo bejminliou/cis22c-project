@@ -132,4 +132,18 @@ public class AuthTest {
         assertEquals("Should still have two users",
                     2, auth.getRegisteredUserCount());
     }
+
+    @Test
+    public void testAddExistingUser() {
+        int initialCount = auth.getRegisteredUserCount();
+
+        String key = "testuser:testpass";
+        boolean isAdded = auth.addExisitingUser(key);
+
+        assertTrue("User should be added to the loginTable", isAdded);
+
+        assertEquals("Registered user count should increase after adding a new user",
+                initialCount + 1, auth.getRegisteredUserCount());
+
+    }
 }
