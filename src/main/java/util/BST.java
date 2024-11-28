@@ -2,6 +2,14 @@ package util;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+
+/**
+ * BST.java
+ *
+ * @author Rolen Louie
+ * @param <T> a generic data type
+ * CIS 22C, Lab 12
+ */
 public class BST<T> {
     private class Node {
         private T data;

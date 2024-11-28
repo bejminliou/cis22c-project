@@ -6,8 +6,12 @@ import util.HashTable;
 /**
  * Manage user accounts and authentication in the system
  * Uses Auth for login verification and UserDirectory for user storage
+ *
+ * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @see data.Auth for authentication logic
  * @see data.UserDirectory for user data storage
+ * CIS 22C, Course Project
  */
 public class Account {
     private Auth auth;
@@ -15,7 +19,7 @@ public class Account {
 
     /**
      * Create a new Account manager with Auth and UserDirectory
-     * 
+     *
      * @see data.Auth#Auth(UserDirectory) for authentication setup
      * @see data.UserDirectory#UserDirectory() for user storage setup
      */
@@ -26,6 +30,7 @@ public class Account {
 
     /**
      * Create a new Account manager with Auth and UserDirectory
+     *
      * @param userDirectory the populated UserDirectory
      * @see data.Auth#Auth(UserDirectory) for authentication setup
      * @see data.UserDirectory#UserDirectory() for user storage setup
@@ -37,7 +42,7 @@ public class Account {
 
     /**
      * Authenticate a user with the given credentials
-     * 
+     *
      * @param username The username to check
      * @param password The password to verify
      * @return true if authentication successful, false otherwise
@@ -52,7 +57,7 @@ public class Account {
 
     /**
      * Create a new user account
-     * 
+     *
      * @param user The user to create an account for
      * @return true if account creation successful, false if username already exists
      * @see data.Auth#registerUser(User) for user registration
@@ -67,7 +72,7 @@ public class Account {
 
     /**
      * Get a user by their username
-     * 
+     *
      * @param username The username to look up
      * @return The User object if found, null otherwise
      * @see data.UserDirectory#findUserByUsername(String) for user lookup
@@ -78,12 +83,21 @@ public class Account {
 
     /**
      * Check if a username is already registered
-     * 
+     *
      * @param username The username to check
      * @return true if username exists, false otherwise
      * @see data.Auth#isUserRegistered(String) for username verification
      */
     public boolean isUsernameTaken(String username) {
         return auth.isUserRegistered(username);
+    }
+
+    /**
+     * Getter for the Auth
+     *
+     * @return auth the Authenticator Object
+     */
+    public Auth getAuth() {
+        return auth;
     }
 }

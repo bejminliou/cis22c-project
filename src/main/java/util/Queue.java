@@ -2,6 +2,13 @@ package util;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Queue.java
+ *
+ * @author Rolen Louie
+ * @param <T> a generic data type
+ * CIS 22C, Lab 9
+ */
 public class Queue<T> implements Q<T> {
     private class Node {
         private T data;
