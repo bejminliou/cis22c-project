@@ -246,39 +246,40 @@ public class Menu {
 
     /**
      * Displays the current friends
-     *
-     * @param userId The user id of the current user.
      */
     private void displayFriends() {
-
         String result = account.getUser(this.userName).getFriends().inOrderString();
         System.out.println("\nHere are your current friends:");
         System.out.println(result.trim());
         System.out.println();
         mainMenu();
-        //jump to friend suggestion
-
-
     }
 
+    /**
+     * Searches for a user's friend based on a given name (first and last).
+     */
     private void searchFriends() {
-        scanner = new Scanner(System.in);
+        // get first and last name of friend
         System.out.println("Enter the first name of the friend");
-        String firstNameOfFriend = scanner.next();
+        String firstNameOfFriend = scanner.next(); // input first name
         System.out.println("Enter the last name of the friend");
-        String lastNameOfFriend = scanner.next();
+        String lastNameOfFriend = scanner.next(); // input last name
+
+        // search for friend
         User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
-        if (friend == null) {
+        if (friend == null) { // if friend not found
             System.out.println("Cannot find friend\nEnter 1 to Retry\nEnter anything else to quit to the previous menu");
             if (scanner.nextInt() == 1) {
-                searchFriends();
+                searchFriends(); // retry search
             } else {
-                viewMyFriends();
+                viewMyFriends(); // quit
             }
-        } else {
+        } else { // if matching friend is found
             System.out.println("Enter 1 to view this user's full profile or 2 to remove this friend");
             int choice = scanner.nextInt();
+
             if (choice == 1) {
+                // print name, ID, city, and interests of friend
                 System.out.println("Name: " + friend.toString());
                 System.out.println("Id: " + friend.getId());
                 System.out.println("City: " + friend.getCity());
@@ -294,17 +295,19 @@ public class Menu {
                 viewMyFriends();
 
             } else if (choice == 2) {
+                // remove friend
                 user.removeFriend(friend);
                 System.out.println("Successfully removed, your new friends list is now:");
                 displayFriends();
             }
         }
-
     }
 
+    /**
+     *
+     */
     public void addFriend() {
 
     }
-
 
 }
