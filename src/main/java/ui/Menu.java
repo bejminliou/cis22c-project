@@ -51,7 +51,7 @@ public class Menu {
         int choiceInt;
 
         // print user options
-        System.out.println("Please select from one of the following:\n");
+        System.out.println("Please select from one of the following:");
         System.out.println("1. Login");
         System.out.println("2. Create Account");
 
@@ -62,6 +62,7 @@ public class Menu {
         // error checking to ensure input was "1" or "2"
         if (!choiceStr.equals("1") && !choiceStr.equals("2")) {
             System.out.println("Invalid choice. Please Try again\n\n");
+            scanner.nextLine(); // clear scanner
             displayLogIn(); // re-call method
         }
         choiceInt = Integer.parseInt(choiceStr);
@@ -194,8 +195,10 @@ public class Menu {
 
 
     public void mainMenu() { //maybe add friend suggestion
-        System.out.println("Please enter your choice:\n1. View your friends\n2. Make new friends\n3. Quit");
+        // print user options
         while (true) {
+            System.out.println("1. View your friends\n2. Make new friends\n3. Quit");
+            System.out.print("Please enter your choice: ");
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
                 if (choice == 1) {
@@ -203,45 +206,45 @@ public class Menu {
                 } else if (choice == 2) {
                     //add friend
                 } else if (choice == 3) {
+                    System.out.println("\nGoodbye!");
                     System.exit(0);
                 } else {
-                    System.out.println("Please enter a number 1, 2, or 3");
+                    System.out.println("Please enter a number 1, 2, or 3.\n");
                 }
                 break;
             } else {
-                System.out.println("Please enter a number 1, 2, or 3");
+                System.out.println("Please enter a number 1, 2, or 3.\n");
                 scanner.next();
             }
         }
     }
 
     public void viewMyFriends() {
-        System.out.println("Enter choice\n1: View all friends sorted by name\n2: Search for a friend");
-        scanner = new Scanner(System.in);
         while (true) {
-            if (scanner.hasNextInt()) {
-                int choice = scanner.nextInt();
-                if (choice == 1) {
-                    if (account.getUser(this.userName).getFriendCount() == 0) {
-                        System.out.println("You currently do not have any friends!");
-                        mainMenu();
+            // display user options
+            System.out.println("\n1: View all friends sorted by name\n2: Search for a friend");
+            System.out.print("Enter your choice: ");
 
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt(); // input user choice
+                if (choice == 1) {
+                    if (account.getUser(this.userName).getFriendCount() == 0) { // if user's friend list is empty
+                        System.out.println("You do not currently have any friends!\n");
+                        mainMenu();
                     } else {
                         displayFriends();
                     }
                 } else if (choice == 2) {
                     searchFriends();
-
-                } else {
-                    System.out.println("Please enter a number 1 or 2");
+                } else { // if choice is not a valid input
+                    System.out.println("Please enter a valid choice (1 or 2)");
                 }
                 break;
-            } else {
-                System.out.println("Please enter a number 1 or 2");
+            } else { // if input is not an int
+                System.out.println("Please enter a valid choice (1 or 2)");
                 scanner.next();
             }
         }
-
     }
 
     /**
@@ -289,7 +292,6 @@ public class Menu {
                 for (int i = 0; i < friendInterest.getLength(); i++) {
                     System.out.println(friendInterest.getIterator());
                     friendInterest.advanceIterator();
-
                 }
                 System.out.println();
                 viewMyFriends();
