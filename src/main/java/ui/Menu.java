@@ -51,7 +51,7 @@ public class Menu {
         System.out.println("1. Login");
         System.out.println("2. Create Account");
         // ... other menu options
-
+//this menu option does not have a random bullshit catcher yet
         int choice = getNextInt(scanner);
         // scanner.nextLine(); // Consume newline (DO NOT DO THIS)
 
@@ -168,7 +168,7 @@ public class Menu {
     }
 
 
-    public void mainMenu(){ //maybe add friend suggestion
+    public void mainMenu() { //maybe add friend suggestion
         System.out.println("Please Enter number:\n1. View your friends\n2. Make new friends\n3. Quit");
         while (true) {
             if (scanner.hasNextInt()) {
@@ -177,9 +177,9 @@ public class Menu {
                     viewMyFriends();
                 } else if (choice == 2) {
                     //add friend
-                }else if(choice == 3) {
+                } else if (choice == 3) {
                     System.exit(0);
-                }else {
+                } else {
                     System.out.println("Please enter a number 1, 2, or 3");
                 }
                 break;
@@ -190,8 +190,11 @@ public class Menu {
         }
     }
 
-    public void viewMyFriends(){
-        System.out.println("Enter choice\n1: View all friends sorted by name\n2: Search for a friend");
+    /**
+     * this is the menu that user can choose to views friend, search friend, and look for friend suggestion(?)
+     */
+    public void viewMyFriends() {
+        System.out.println("Enter choice\n1: View all friends sorted by name\n2: Search for a friend\n3: Friend Recommendations\n4: Previous Menu");
         scanner = new Scanner(System.in);
         while (true) {
             if (scanner.hasNextInt()) {
@@ -201,13 +204,18 @@ public class Menu {
                         System.out.println("You currently do not have any friends!");
                         mainMenu();
 
-                    }else{
+                    } else {
                         displayFriends();
                     }
                 } else if (choice == 2) {
                     searchFriends();
 
-                }else {
+                    //else if choice == 3 give out friend recommendations
+                } else if (choice == 3) {
+
+                } else if (choice == 4) {
+                    mainMenu();
+                } else {
                     System.out.println("Please enter a number 1 or 2");
                 }
                 break;
@@ -220,9 +228,7 @@ public class Menu {
     }
 
     /**
-     * Displays the current friends
-     *
-     * @param userId The user id of the current user.
+     * Displays the current friends, if any, literally prints them out
      */
     private void displayFriends() {
 
@@ -231,53 +237,69 @@ public class Menu {
         System.out.println(result.trim());
         System.out.println();
         mainMenu();
-        //jump to friend suggestion
 
 
     }
 
-    private void searchFriends(){
+    /**
+     * Search for a specific  friend, and also printing out their full details
+     * also removes friend if prompted
+     */
+    private void searchFriends() {
         scanner = new Scanner(System.in);
         System.out.println("Enter the first name of the friend");
         String firstNameOfFriend = scanner.next();
         System.out.println("Enter the last name of the friend");
         String lastNameOfFriend = scanner.next();
         User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
-        if(friend == null){
-            System.out.println("Cannot find friend\nEnter 1 to Retry\nEnter anything else to quit to the previous menu");
-            if(scanner.nextInt() == 1){
+        if (friend == null) {
+            System.out.println("Cannot find friend\nEnter 1 to Retry\nEnter anything else to return to the previous menu.");
+            if (scanner.nextInt() == 1) {
                 searchFriends();
-            }else{
+            } else {
                 viewMyFriends();
             }
-        }else{
-            System.out.println("Enter 1 to view this user's full profile or 2 to remove this friend");
-            int choice = scanner.nextInt();
-            if(choice == 1){
-                System.out.println("Name: " + friend.toString());
-                System.out.println("Id: " + friend.getId());
-                System.out.println("City: " + friend.getCity());
-                LinkedList<String> friendInterest = friend.getInterests();
-                friendInterest.positionIterator();
-                System.out.println("Interests" + " (" + friendInterest.getLength() +"):");
-                for(int i = 0; i < friendInterest.getLength(); i++){
-                    System.out.println(friendInterest.getIterator());
-                    friendInterest.advanceIterator();
+        } else {
+            System.out.println("Enter 1 to view this user's full profile or 2 to remove this friend or 3 to go back");
+            while (true) {
+                if (scanner.hasNextInt()) {
+                    int choice = scanner.nextInt();
 
+                    if (choice == 1) {
+                        System.out.println("Name: " + friend.toString());
+                        System.out.println("Id: " + friend.getId());
+                        System.out.println("City: " + friend.getCity());
+                        LinkedList<String> friendInterest = friend.getInterests();
+                        friendInterest.positionIterator();
+                        System.out.println("Interests" + " (" + friendInterest.getLength() + "):");
+                        for (int i = 0; i < friendInterest.getLength(); i++) {
+                            System.out.println(friendInterest.getIterator());
+                            friendInterest.advanceIterator();
+
+                        }
+                        System.out.println();
+                        mainMenu();
+                        break;
+
+                    } else if (choice == 2) {
+                        user.removeFriend(friend);
+                        System.out.println("Successfully removed, your new friends list is now:");
+                        displayFriends();
+                        break;
+                    } else if (choice == 3) {
+                        viewMyFriends();
+                        break;
+                    }
+                } else {
+                    System.out.println("Please enter a valid number");
+                    scanner.next();
                 }
-                System.out.println();
-                viewMyFriends();
-
-            }else if(choice == 2){
-                user.removeFriend(friend);
-                System.out.println("Successfully removed, your new friends list is now:");
-                displayFriends();
             }
         }
 
     }
 
-    public void addFriend(){
+    public void addFriend() {
 
     }
 
