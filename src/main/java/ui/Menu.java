@@ -94,31 +94,42 @@ public class Menu {
      */
     public void displayLogIn() {
         String choiceStr;
-        int choiceInt;
+        int choiceInt = -1;
+        boolean validInput = false, login = false, createAccount = false;
 
-        // print user options
-        System.out.println("Please select from one of the following:");
-        System.out.println("1. Login");
-        System.out.println("2. Create Account");
+        // have user choose to log in or create a new account
+        while (!validInput) {
+            // print user options
+            System.out.println("Please select from one of the following:");
+            System.out.println("1. Login");
+            System.out.println("2. Create New Account");
 
-        // get user choice
-        System.out.print("Enter your choice: ");
-        choiceStr = scanner.next();
+            // get user choice
+            System.out.print("Enter your choice: ");
+            choiceStr = scanner.next();
 
-        // error checking to ensure input was "1" or "2"
-        if (!choiceStr.equals("1") && !choiceStr.equals("2")) {
-            System.out.println("Invalid choice. Please Try again\n\n");
-            scanner.nextLine(); // clear scanner
-            displayLogIn(); // re-call method
+            // error checking to ensure input was "1" or "2"
+            if (choiceStr.equals("1") || choiceStr.equals("2")) {
+                // input is valid
+                choiceInt = Integer.parseInt(choiceStr);
+                validInput = true;
+            }
+
+            // input invalid
+            if (!validInput) {
+                System.out.println("Invalid choice. Please Try again\n\n");
+                scanner.nextLine(); // clear scanner
+            }
         }
-        choiceInt = Integer.parseInt(choiceStr);
 
-        // print option user choose
+        // set the option the user choose
         if (choiceInt == 1) {
             System.out.println("\nLogin");
+            login = true;
         }
         if (choiceInt == 2) {
             System.out.println("\nCreating new account");
+            createAccount = true;
         }
 
         // get user's username and password
@@ -127,7 +138,7 @@ public class Menu {
         System.out.print("Please enter your password: ");
         String password = getNext(scanner);
 
-        if (choiceInt == 1) {
+        if (login) {
             // authenticate given credentials
             boolean authenticate = account.getAuth().authenticate(userName, password);
 
@@ -137,11 +148,12 @@ public class Menu {
                 this.userName = user.getUserName();
             } else { // if no matching credentials
                 System.out.println("Your email or password is incorrect. Please try again.\n");
+                scanner.nextLine(); // clear scanner before recursion
                 displayLogIn();
             }
         }
 
-        if (choiceInt == 2) {
+        if (createAccount) {
             // create new user with given credentials
             user = new User();
             user.setUserName(userName);
@@ -190,12 +202,13 @@ public class Menu {
                 System.out.println("\nYour account has successfully been created, welcome "
                         + user.getUserName() + "!\n");
                 this.userName = user.getUserName();
-                scanner.nextLine(); // clear scanner
+                scanner.nextLine(); // clear scanner before returning
 
             } else { // failed to create accounts
                 System.out.println("\nAn account has been found under this username. Please Log In or choose" +
                         "a different username.\n");
-                displayLogIn(); // re-call method
+                scanner.nextLine(); // clear scanner before recursion
+                displayLogIn();
             }
         }
     }
