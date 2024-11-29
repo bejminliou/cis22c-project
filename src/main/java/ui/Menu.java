@@ -154,7 +154,7 @@ public class Menu {
 
             // if account successfully created
             if (accountCreate) {
-                // input user info
+                // input remaining user info
                 System.out.println("\nLet's finish setting up your account.");
                 System.out.print("Enter your first name: ");
                 user.setFirstName(getNext(scanner)); // input first name
