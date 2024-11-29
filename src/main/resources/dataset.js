@@ -1,14 +1,49 @@
+/**
+ * @class DataSet
+ * Utility class ; parse and process data from a specific Wikipedia table of U.S. presidents
+ */
 class DataSet {
+    /**
+     * Source URL of the dataset
+     * @static
+     * @type {string}
+     * @default 'https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States'
+     */
     static source = 'https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States';
+
+    /**
+     * Retrieves the context element containing the table body (`<tbody>`)
+     * @static
+     * @type {HTMLTableSectionElement|null}
+     */
     static get context() { return document.querySelector('tbody'); }
+
+    /**
+     * Parses rows from table (context element) and returns structured data
+     * @static
+     * @type {Array<{id: string, name: string}>}
+     */
     static get parsed() { return [...this.context.querySelectorAll('tr')].map(row => this.#parse_row([...row.querySelectorAll('a')].map(a => a.text))); }
 
+    /**
+     * Parses a single row of data
+     * @private
+     * @static
+     * @param {string[]} row - Array of text content from row links.
+     * @returns {{id: string, name: string}} - Parsed row object containing `id` and `name`.
+     */
     static #parse_row(row) {
         const [id, icon, name, footnote, source, party] = [...row];
 
         return { id, name };
     }
 
+    /**
+     * Formats the parsed data into a string representation
+     * @static
+     * @param {number} amt - Number of rows to include, starting from the end.
+     * @returns {string} - Formatted string of the selected data rows.
+     */
     static str(amt) {
         return this.parsed.reverse().slice(0, amt).map(p => Object.entries(p).map(e => e.join(' ')).join('\n')).join('\n\n');
     }
