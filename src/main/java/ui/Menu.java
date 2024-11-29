@@ -94,7 +94,6 @@ public class Menu {
      */
     public void displayLogIn() {
         String choiceStr;
-        int choiceInt = -1;
         boolean validInput = false, login = false, createAccount = false;
 
         // have user choose to log in or create a new account
@@ -109,27 +108,20 @@ public class Menu {
             choiceStr = scanner.next();
 
             // error checking to ensure input was "1" or "2"
-            if (choiceStr.equals("1") || choiceStr.equals("2")) {
-                // input is valid
-                choiceInt = Integer.parseInt(choiceStr);
+            if (choiceStr.equals("1")) {
+                System.out.println("\nLogin");
+                login = true;
+                validInput = true;
+            } else if (choiceStr.equals("2")) {
+                System.out.println("\nCreating new account");
+                createAccount = true;
                 validInput = true;
             }
 
-            // input invalid
-            if (!validInput) {
+            if (!validInput) { // if valid input != true
                 System.out.println("Invalid choice. Please Try again\n\n");
                 scanner.nextLine(); // clear scanner before repeating loop
             }
-        }
-
-        // set the option the user choose
-        if (choiceInt == 1) {
-            System.out.println("\nLogin");
-            login = true;
-        }
-        if (choiceInt == 2) {
-            System.out.println("\nCreating new account");
-            createAccount = true;
         }
 
         // get user's username and password
@@ -186,7 +178,7 @@ public class Menu {
 
                     // add interest to user
                     user.addInterest(interests);
-                } while (true);
+                } while (true); // break when user quits
                 System.out.println("Finished entering your interests.\n");
 
                 // set user ID
