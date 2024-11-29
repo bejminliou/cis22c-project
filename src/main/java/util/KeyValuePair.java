@@ -6,7 +6,7 @@ package util;
  * @author Benjamin Liou
  * @param <K> The key type
  * @param <V> The value type
- * Cis 22C, Course Project
+ * CIS 22C, Course Project
  */
 public class KeyValuePair<K, V> {
     private K key;
