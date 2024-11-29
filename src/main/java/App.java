@@ -10,8 +10,9 @@ import java.io.IOException;
 /**
  * App.java
  *
+ * @author Benjamin Liou
  * @author Kenneth Garcia
- * @author Benjamin Garcia
+ * @author Kevin Young
  * CIS 22C, Course Project
  */
 public class App {
