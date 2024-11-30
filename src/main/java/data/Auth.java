@@ -6,10 +6,13 @@ import util.KeyValuePair; // (?) req 2 is misleading
 /**
  * Manage user authentication using a hash table
  * The hash table uses the combined username+password as the key for login
- * 
+ *
+ * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @see model.Account for high-level account management
  * @see data.UserDirectory for user data storage
  * @see util.HashTable
+ * CIS 22C, Course Project
  */
 public class Auth {
     private HashTable<String> loginTable;
@@ -18,7 +21,7 @@ public class Auth {
 
     /**
      * Create a new Auth instance with an empty login table
-     * 
+     *
      * @param userDirectory The user directory to validate against
      * @throws IllegalArgumentException if userDirectory is null
      * @see data.UserDirectory for user validation
@@ -34,7 +37,7 @@ public class Auth {
 
     /**
      * Create a combined key from username and password
-     * 
+     *
      * @param username The username to combine
      * @param password The password to combine
      * @return The combined login key
@@ -52,7 +55,7 @@ public class Auth {
     /**
      * Register a user's credentials in the authentication hash table
      * The combined username:password string acts as the key
-     * 
+     *
      * @param username The username to register (must be unique)
      * @param password The password to register
      * @return true if registration successful, false if username exists
@@ -89,7 +92,7 @@ public class Auth {
 
     /**
      * Authenticate a user by checking if the username password combination exists
-     * 
+     *
      * @param username The username to verify
      * @param password The password to verify
      * @return true if credentials are valid, false otherwise
@@ -108,7 +111,7 @@ public class Auth {
 
     /**
      * Register an existing user's credentials in the hash table
-     * 
+     *
      * @param user The user to register (must have username and password set)
      * @return true if registration successful, false if user exists or invalid
      * @throws IllegalArgumentException if user is null or missing credentials
@@ -125,7 +128,7 @@ public class Auth {
 
     /**
      * Check if a username is registered
-     * 
+     *
      * @param username The username to check
      * @return true if username exists, false otherwise
      * @see data.UserDirectory#findUserByUsername(String) for user lookup
@@ -139,7 +142,7 @@ public class Auth {
 
     /**
      * Get the number of registered login combinations
-     * 
+     *
      * @return The number of registered users
      * @see util.HashTable#getNumElements for count retrieval
      */
@@ -150,6 +153,7 @@ public class Auth {
 
     /**
      * Hashs existing users to the HashTable (SHOULD ONLY BE USED AT START OF APP)
+     *
      * @param key a string of the username and password separated by a ':'
      * @return if the User was added to the Hashtable, verified by an increase in table size
      */

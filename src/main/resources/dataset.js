@@ -1,5 +1,6 @@
 /**
  * @class DataSet
+ *
  * Utility class ; parse and process data from a specific Wikipedia table of U.S. presidents
  */
 class DataSet {

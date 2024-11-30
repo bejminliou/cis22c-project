@@ -2,6 +2,7 @@ package io;
 
 import java.io.*;
 import java.util.*;
+
 import data.*;
 import util.LinkedList;
 import util.BST;
@@ -9,9 +10,11 @@ import util.BST;
 /**
  * Handle persistent data storage and retrieval for the application
  * Manage saving and loading of user data, accounts, and relationships
- * 
+ *
+ * @author Benjamin Liou
  * @see data.User for user data structure
  * @see data.UserDirectory for user management operations
+ * CIS 22C, Course Project
  */
 public class DataStorage {
     private static final String DEFAULT_DATA_FILE = "src/main/java/io/data.txt";
@@ -21,7 +24,7 @@ public class DataStorage {
 
     /**
      * Create a new DataStorage instance with default data file
-     * 
+     *
      * @param userDirectory directory to load data into and save data from
      * @see data.UserDirectory for user management operations
      */
@@ -31,9 +34,9 @@ public class DataStorage {
 
     /**
      * Create a new DataStorage instance with specified data file
-     * 
+     *
      * @param userDirectory directory to load data into and save data from
-     * @param dataFile path to data file
+     * @param dataFile      path to data file
      * @see data.UserDirectory for user management operations
      */
     public DataStorage(UserDirectory userDirectory, String dataFile) {
@@ -44,7 +47,7 @@ public class DataStorage {
 
     /**
      * Load user data from persistent storage
-     * 
+     *
      * @throws IOException if there is an error reading the file
      * @see data.User for user data structure
      * @see data.UserDirectory for user management operations
@@ -137,7 +140,7 @@ public class DataStorage {
 
     /**
      * Check if two users are friends through their user ids
-     * 
+     *
      * @param userId1 ID of first user to check
      * @param userId2 ID of second user to check
      * @return true if users are friends, false otherwise
@@ -151,7 +154,7 @@ public class DataStorage {
 
     /**
      * Save user data to persistent storage
-     * 
+     *
      * @throws IOException if there is an error writing to the file
      * @see data.User for user data structure
      * @see data.UserDirectory for user management operations
