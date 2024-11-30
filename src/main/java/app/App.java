@@ -1,9 +1,8 @@
-// import ...
+package app;
 
 import data.*;
 import io.*;
 import model.*;
-import util.*;
 import ui.Menu;
 
 import java.util.*;
@@ -37,8 +36,17 @@ public class App {
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
 
+    // Accessors
 
+    /**
+     * Return the User Directory storing all users in the system.
+     *
+     * @return the UserDirectory
+     */
+    public static UserDirectory getUserDirectory() {
+        return ud;
     }
 
 }
