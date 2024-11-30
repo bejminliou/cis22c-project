@@ -1,9 +1,11 @@
 // import ...
+
 import data.*;
 import io.*;
 import model.*;
 import util.*;
 import ui.Menu;
+
 import java.util.*;
 import java.io.IOException;
 
@@ -23,6 +25,7 @@ public class App {
 
     public static void main(String[] args) {
         // ...
+        Scanner scanner = new Scanner(System.in);
         try {
             load.loadData();
             userAccount = new Account(ud);
@@ -34,13 +37,13 @@ public class App {
             menu = new Menu(userAccount);
             menu.displayLogIn();
 
+            menu.mainMenu();
+
 
             System.out.println(userAccount.getAuth().getRegisteredUserCount());
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
-
 
 
     }
