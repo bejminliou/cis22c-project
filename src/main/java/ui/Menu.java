@@ -262,10 +262,25 @@ public class Menu {
      * Searches for a user's friend based on a given first and last name.
      */
     private void searchFriendByName() {
-        // get first and last name of friend
-        System.out.print("Enter the full name of your friend: ");
-        String firstNameOfFriend = scanner.next(); // input first name
-        String lastNameOfFriend = scanner.next(); // input last name
+        String nameOfFriend, firstNameOfFriend = "", lastNameOfFriend = "";
+
+        // get first and last name of user to search
+        System.out.println("Searching friends by name:");
+        System.out.print("Enter the full name of the friend (first name + last name): ");
+        scanner.nextLine(); // clear scanner
+        nameOfFriend = scanner.nextLine(); // input full name
+
+        // split full name into first and last
+        String[] nameParts = nameOfFriend.split(" ");
+
+        if (nameParts.length >= 2) { // first and last given
+            firstNameOfFriend = nameParts[0];
+            lastNameOfFriend = nameParts[1];
+        } else if (nameParts.length == 1) { // only first name given
+            firstNameOfFriend = nameParts[0];
+            System.out.print("Please enter the last name of the user to search: ");
+            lastNameOfFriend = scanner.nextLine();
+        }
 
         // search for friend
         User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
