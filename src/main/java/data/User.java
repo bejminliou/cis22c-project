@@ -12,6 +12,7 @@ import java.util.List;
  * Users are comparable by their ID and can be searched by name
  *
  * @author Benjamin Liou
+ * @author Kevin Young
  * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {
