@@ -1,7 +1,7 @@
 package ui;
 
-import model.Account;
 import data.Interest;
+import model.Account;
 import data.UserDirectory;
 
 import java.util.ArrayList;
@@ -41,7 +41,8 @@ public class Menu {
     // Scanner Helper Methods
 
     /**
-     *
+     * @param input
+     * @return
      */
     private static String getNext(Scanner input) {
         String next = "";
@@ -313,8 +314,8 @@ public class Menu {
         // search for friend
         User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
         if (friend == null) { // if friend not found
-            System.out.println("\n\nCould not find friend.\nEnter 1 to retry or " +
-                    "enter any other key to return to the previous menu.");
+            System.out.print("\n\nCould not find friend.\nEnter 1 to retry or " +
+                    "enter any other key to return to the previous menu: ");
             if (scanner.nextInt() == 1) {
                 searchFriendByName(); // retry search
             } else {
@@ -429,16 +430,28 @@ public class Menu {
      * @return the selected User
      */
     public User searchUsersByName() {
-        String firstNameOfFriend, lastNameOfFriend, inputStr;
+        String nameOfFriend, firstNameOfFriend = "", lastNameOfFriend = "", inputStr;
         ArrayList<User> matchingUsers;
         User returnUser = null;
         ArrayList<Integer> validIDs = new ArrayList<>();
 
         // get first and last name of user to search
         System.out.println("Searching users by name:");
-        System.out.print("Enter the full name of the user: ");
-        firstNameOfFriend = scanner.next(); // input first name
-        lastNameOfFriend = scanner.next(); // input last name
+        System.out.print("Enter the full name of the user (first name + last name): ");
+        scanner.nextLine(); // clear scanner
+        nameOfFriend = scanner.nextLine(); // input full name
+
+        // split full name into first and last
+        String[] nameParts = nameOfFriend.split(" ");
+
+        if (nameParts.length >= 2) { // first and last given
+            firstNameOfFriend = nameParts[0];
+            lastNameOfFriend = nameParts[1];
+        } else if (nameParts.length == 1) { // only first name given
+            firstNameOfFriend = nameParts[0];
+            System.out.print("Please enter the last name of the user to search: ");
+            lastNameOfFriend = scanner.nextLine();
+        }
 
         // search UserDirectory by name
         matchingUsers = ud.findUsersByName(firstNameOfFriend, lastNameOfFriend);
@@ -506,12 +519,13 @@ public class Menu {
         System.out.print("Enter the interest you'd like to search users for: ");
         interest = scanner.next(); // input interest
 
+        return null;
     }
 
     /**
      *
      */
     public User getFriendRecs() {
-
+        return null;
     }
 }
