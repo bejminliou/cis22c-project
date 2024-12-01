@@ -13,6 +13,7 @@ import java.util.List;
  * name-based search and network connection analysis through a graph
  *
  * @author Benjamin Liou
+ * @author Kevin Young
  * @see data.UserDirectory for user storage and management
  * @see data.User for individual user's friend connections
  * CIS 22C, Course Project
@@ -31,7 +32,7 @@ public class Friend {
         this.friendGraph = new ArrayList<>();
 
         // Initialize graph with existing users
-        for (User user : userDirectory.getAllUsers()) {
+        for (User user : userDirectory.getArrayList()) {
             addToGraph(user);
         }
     }
@@ -73,7 +74,7 @@ public class Friend {
         ArrayList<User> matches = new ArrayList<>();
         String searchName = name.trim().toLowerCase();
 
-        for (User user : userDirectory.getAllUsers()) {
+        for (User user : userDirectory.getArrayList()) {
             String firstName = user.getFirstName() != null ? user.getFirstName().toLowerCase() : "";
             String lastName = user.getLastName() != null ? user.getLastName().toLowerCase() : "";
             String fullName = firstName + " " + lastName;
@@ -134,7 +135,7 @@ public class Friend {
     public void refreshNetwork() {
         friendGraph.clear();
 
-        for (User user : userDirectory.getAllUsers()) {
+        for (User user : userDirectory.getArrayList()) {
             addToGraph(user);
         }
     }
@@ -146,7 +147,7 @@ public class Friend {
      * @return User with matching ID, or null if not found
      */
     private User findUserById(int userId) {
-        for (User user : userDirectory.getAllUsers()) {
+        for (User user : userDirectory.getArrayList()) {
             if (user.getId() == userId) {
                 return user;
             }

@@ -26,37 +26,36 @@ public class ReadAndWriteData {
      * Read user data from persistent storage.
      *
      * @return a UserDirectory containing data from all current users
-     * @throws IOException if there is an error reading the file
      * @see data.User for user data structure
      * @see data.UserDirectory for user management operations
      */
     public static UserDirectory readData() {
-        ArrayList<Integer> friendIds = new ArrayList<>();
         HashTable<String> interests = new HashTable<>(1);
-        ArrayList<User> usersAL = new ArrayList<>(0);
-        BST<User> usersBST = new BST<>();
-        usersAL.add(null); // set usersAL[0] to null for 1-based indexing
+        ArrayList<User> usersAL = new ArrayList<>();
+        BST<User> allUsersBST = new BST<>();
 
         int userID, numFriends, friendID, numInterests;
         String fullName, interest;
         Scanner fileInput = null;
 
-        // open file
+        // open file Scanner
         try {
             fileInput = new Scanner(new File(DEFAULT_DATA_FILE));
         } catch (Exception e) { // error when opening file
-            System.out.println("UserDirectory.java readData(): could not locate data file. Exiting program.");
+            System.out.println("UserDirectory.java readData(): could not locate user data file. Exiting program.");
             System.exit(1);
         }
 
         int numUsers = Integer.parseInt(fileInput.nextLine()); // get number of usersAL in file
         Graph friendNetwork = new Graph(numUsers + 1); // +1 for additional space for new user
 
-        fileInput.nextLine();
         // read user data in file
         while (fileInput.hasNext()) {
-            User currUser = new User();
+            ArrayList<Integer> friendIds = new ArrayList<>();
 
+            fileInput.nextLine(); // skip blank line
+
+            User currUser = new User();
             userID = Integer.parseInt(fileInput.nextLine()); // get userID
             currUser.setId(userID);
 
@@ -92,17 +91,26 @@ public class ReadAndWriteData {
             }
 
             usersAL.add(currUser);
-            usersBST.insert(currUser, UserDirectory.nameComparator);
-            fileInput.nextLine();
+            allUsersBST.insert(currUser, UserDirectory.nameComparator);
+        }
+
+        // all friends to users
+        for (User user : usersAL) { // for each user
+            BST<User> currFriends = new BST<>();
+            for (int currFriendID : user.getFriendIds()) { // for each friendID
+                currFriends.insert(usersAL.get(currFriendID - 1), UserDirectory.nameComparator);
+            }
+            user.setFriends(currFriends);
         }
 
         fileInput.close();
-        return new UserDirectory(usersAL, usersBST, friendNetwork);
+        return new UserDirectory(usersAL, allUsersBST, friendNetwork);
     }
 
     /**
      * Save user data to persistent storage
      *
+     * @param ud the UserDirectory containing all the data to save
      * @throws IOException if there is an error writing to the file
      * @see data.User for user data structure
      * @see data.UserDirectory for user management operations

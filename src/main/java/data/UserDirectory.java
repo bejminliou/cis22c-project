@@ -4,20 +4,26 @@ import util.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * UserDirectory maintains a BST of all users in the system,
  * allowing for searching users by name with support for duplicates
  *
  * @author Benjamin Liou
+ * @author Kevin Young
  * CIS 22C, Course Project
  */
 public class UserDirectory {
-    private BST<User> users;
-    private Map<String, User> usernameMap; // For quick username lookups
-    private final Comparator<User> nameComparator = (u1, u2) -> {
+    private final ArrayList<User> usersAL;
+    private final BST<User> usersBST;
+    private final Graph friendNetwork;
+
+    // Comparators
+
+    /**
+     *
+     */
+    public static final Comparator<User> nameComparator = (u1, u2) -> {
         String lastName1 = u1.getLastName();
         String lastName2 = u2.getLastName();
         String firstName1 = u1.getFirstName();
@@ -44,39 +50,69 @@ public class UserDirectory {
         return firstName1.compareToIgnoreCase(firstName2);
     };
 
-    public UserDirectory() {
-        users = new BST<>();
-        usernameMap = new HashMap<>();
-    }
+    // Constructors
 
     /**
-     * Adds a new user to both the BST and username lookup map
+     * Initializes UserDirectory with given ArrayList and BinarySearchTree
+     * of users.
+     *
+     * @param usersAL       an ArrayLIst of users
+     * @param usersBST      a BinarySearchTree of users
+     * @param friendNetwork a Graph containing the friend connections between Users
+     */
+    public UserDirectory(ArrayList<User> usersAL, BST<User> usersBST, Graph friendNetwork) {
+        this.usersAL = usersAL;
+        this.usersBST = usersBST;
+        this.friendNetwork = friendNetwork;
+    }
+
+    // Mutators
+
+    /**
+     * Adds a new user to both the ArrayList and BST.
      *
      * @param user The user to add to the directory
      * @see util.BST#insert for insertion
      * @see #nameComparator for ordering
-     * @see data.User#getUserName for username uniqueness
      */
     public void addUser(User user) {
-        users.insert(user, nameComparator);
-        if (user.getUserName() != null) {
-            usernameMap.put(user.getUserName(), user);
-        }
+        usersAL.add(user);
+        usersBST.insert(user, nameComparator);
     }
 
     /**
-     * Removes a user from both the BST and username lookup map
+     * Removes a user from both the ArrayList and BSTmap
      *
      * @param user The user to remove from the directory
      * @see util.BST#remove for removal
      * @see #nameComparator for ordering
-     * @see data.User#getUserName for lookup
      */
     public void removeUser(User user) {
-        users.remove(user, nameComparator);
-        if (user.getUserName() != null) {
-            usernameMap.remove(user.getUserName());
-        }
+        usersAL.remove(user.getId());
+        usersBST.remove(user, nameComparator);
+    }
+
+    // Accessors
+
+    /**
+     * @return
+     */
+    public ArrayList<User> getArrayList() {
+        return usersAL;
+    }
+
+    /**
+     * @return
+     */
+    public BST<User> getUsersBST() {
+        return usersBST;
+    }
+
+    /**
+     * @return
+     */
+    public Graph getFriendsGraph() {
+        return friendNetwork;
     }
 
     /**
@@ -90,23 +126,28 @@ public class UserDirectory {
      */
     public ArrayList<User> findUsersByName(String firstName, String lastName) {
         ArrayList<User> results = new ArrayList<>();
-        String inOrder = users.inOrderString();
-        if (inOrder == null || inOrder.isEmpty()) {
+        String orderedStr = usersBST.inOrderString();
+
+        // if no users in BST
+        if (orderedStr == null || orderedStr.isEmpty()) {
             return results;
         }
 
-        String[] userEntries = inOrder.split("\n");
+        // adding users with matching name to results
+        String[] userEntries = orderedStr.split("\n");
         for (String entry : userEntries) {
-            if (entry == null || entry.isEmpty())
+            if (entry == null || entry.isEmpty()) {
                 continue;
+            }
 
-            User user = users.search(parseUser(entry), nameComparator);
-            if (user != null &&
-                    user.getFirstName().equalsIgnoreCase(firstName) &&
-                    user.getLastName().equalsIgnoreCase(lastName)) {
+            User user = usersBST.search(parseUser(entry), nameComparator);
+            if (user != null
+                    && user.getFirstName().equalsIgnoreCase(firstName)
+                    && user.getLastName().equalsIgnoreCase(lastName)) {
                 results.add(user);
             }
         }
+
         return results;
     }
 
@@ -141,21 +182,21 @@ public class UserDirectory {
      * @see data.User#getUserName
      */
     public User findUserByUsername(String username) {
-        if (username == null) return null;
-        return usernameMap.get(username);
-    }
+        // search through usersAL
+        for (User user : usersAL) {
+            if (user.getUserName().equalsIgnoreCase(username)) {
+                return user;
+            }
+        }
 
-    public int getUserCount() {
-        return users.getSize();
+        return null;
     }
 
     /**
-     * Get all users in the directory
-     *
-     * @return ArrayList of all users in the directory
+     * @return
      */
-    public ArrayList<User> getAllUsers() {
-        return new ArrayList<>(usernameMap.values());
+    public int getUserCount() {
+        return usersAL.size();
     }
 
     /**
@@ -183,15 +224,19 @@ public class UserDirectory {
 
         User newUser = new User();
         newUser.setUserName(username);
+        newUser.setPassword(password);
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);
-        newUser.setId(usernameMap.size() + 1);
+        newUser.setId(usersAL.size());
 
         addUser(newUser);
 
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -206,7 +251,7 @@ public class UserDirectory {
             return sb.toString();
         }
 
-        for (User user : usernameMap.values()) {
+        for (User user : usersAL) {
             sb.append(String.format("User ID: %d\n", user.getId()));
             sb.append(String.format("Name: %s %s\n",
                     user.getFirstName() != null ? user.getFirstName() : "(no first name)",

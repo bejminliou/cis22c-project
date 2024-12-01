@@ -1,7 +1,6 @@
 package model;
 
 import data.*;
-import util.HashTable;
 
 /**
  * Manage user accounts and authentication in the system
@@ -9,35 +8,22 @@ import util.HashTable;
  *
  * @author Benjamin Liou
  * @author Kenneth Garcia
+ * @author Kevin Young
  * @see data.Auth for authentication logic
  * @see data.UserDirectory for user data storage
  * CIS 22C, Course Project
  */
 public class Account {
-    private Auth auth;
-    private UserDirectory userDirectory;
+    private final Auth auth;
 
     /**
      * Create a new Account manager with Auth and UserDirectory
      *
+     * @param ud the populated UserDirectory
      * @see data.Auth#Auth(UserDirectory) for authentication setup
-     * @see data.UserDirectory#UserDirectory() for user storage setup
      */
-    public Account() {
-        this.userDirectory = new UserDirectory();
-        this.auth = new Auth(userDirectory);
-    }
-
-    /**
-     * Create a new Account manager with Auth and UserDirectory
-     *
-     * @param userDirectory the populated UserDirectory
-     * @see data.Auth#Auth(UserDirectory) for authentication setup
-     * @see data.UserDirectory#UserDirectory() for user storage setup
-     */
-    public Account(UserDirectory userDirectory) {
-        this.userDirectory = userDirectory;
-        this.auth = new Auth(userDirectory);
+    public Account(UserDirectory ud) {
+        this.auth = new Auth(ud);
     }
 
     /**
@@ -59,37 +45,28 @@ public class Account {
      * Create a new user account
      *
      * @param user The user to create an account for
+     * @param ud   the UserDirectory containing all users' data
      * @return true if account creation successful, false if username already exists
      * @see data.Auth#registerUser(User) for user registration
      * @see data.User for user data structure
      */
-    public boolean createAccount(User user) {
+    public boolean createAccount(User user, UserDirectory ud) {
         if (user == null || user.getUserName() == null || user.getPassword() == null) {
             return false;
         }
-        return auth.registerUser(user);
-    }
-
-    /**
-     * Get a user by their username
-     *
-     * @param username The username to look up
-     * @return The User object if found, null otherwise
-     * @see data.UserDirectory#findUserByUsername(String) for user lookup
-     */
-    public User getUser(String username) {
-        return userDirectory.findUserByUsername(username);
+        return auth.registerUser(user, ud);
     }
 
     /**
      * Check if a username is already registered
      *
      * @param username The username to check
+     * @param ud       the UserDirectory containing all users' data
      * @return true if username exists, false otherwise
      * @see data.Auth#isUserRegistered(String) for username verification
      */
-    public boolean isUsernameTaken(String username) {
-        return auth.isUserRegistered(username);
+    public boolean isUsernameTaken(String username, UserDirectory ud) {
+        return auth.isUserRegistered(username, ud);
     }
 
     /**
