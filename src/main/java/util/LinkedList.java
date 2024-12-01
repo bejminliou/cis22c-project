@@ -1,6 +1,14 @@
 package util;
 import java.util.NoSuchElementException;
 
+/**
+ * LinkedList.java
+ * Defines a doubly-linked list class
+ *
+ * @author Rolen Louie
+ * @param <T> a generic dadta type
+ * CIS 22C, Applied Lab 3.1
+ */
 public class LinkedList<T> {
     private class Node {
         private T data;

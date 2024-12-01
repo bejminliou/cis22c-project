@@ -1,6 +1,7 @@
 package model;
 
 import data.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -10,9 +11,11 @@ import java.util.List;
  * Search utility for finding users and analyzing network relationships
  * Uses UserDirectory as the source truth for user data, providing
  * name-based search and network connection analysis through a graph
- * 
+ *
+ * @author Benjamin Liou
  * @see data.UserDirectory for user storage and management
  * @see data.User for individual user's friend connections
+ * CIS 22C, Course Project
  */
 public class Friend {
     private ArrayList<LinkedList<Integer>> friendGraph; // Graph as ArrayList of LinkedLists
@@ -20,7 +23,7 @@ public class Friend {
 
     /**
      * Creates a new friend search utility
-     * 
+     *
      * @param userDirectory The user directory to search through
      */
     public Friend(UserDirectory userDirectory) {
@@ -36,7 +39,7 @@ public class Friend {
     /**
      * Adds a user's friend connections to the graph representation
      * Updates or creates the adjacency list for the user's ID
-     * 
+     *
      * @param user User whose connections to add
      * @see util.Graph for graph implementation details
      * @see data.User#getFriendIds() for friend ID retrieval
@@ -58,7 +61,7 @@ public class Friend {
     /**
      * Find users by name using UserDirectory
      * Supports finding multiple users with the same name
-     * 
+     *
      * @param name Name to search for (first name, last name, or full name)
      * @return List of users with matching name
      */
@@ -88,7 +91,7 @@ public class Friend {
     /**
      * Get all users directly connected to specified user in the network
      * Returns an empty list for invalid user IDs or users with no connections
-     * 
+     *
      * @param userId ID of user to get connections for
      * @return List of connected user IDs (defensive copy)
      * @see util.Graph for graph traversal concepts
@@ -104,7 +107,7 @@ public class Friend {
     /**
      * Check if two users are directly connected in the network
      * A direct connection: if the users are in each other's friend lists
-     * 
+     *
      * @param userId1 First user's ID
      * @param userId2 Second user's ID
      * @return true if users are connected
@@ -124,7 +127,7 @@ public class Friend {
      * Refresh the network graph with current user data
      * Rebuilds the entire graph to ensure consistency with UserDirectory
      * Call this when friend relationships change
-     * 
+     *
      * @see util.Graph for graph structure details
      * @see data.UserDirectory#getAllUsers() for user iteration
      */
@@ -138,7 +141,7 @@ public class Friend {
 
     /**
      * Helper method to find a user by their ID
-     * 
+     *
      * @param userId ID to search for
      * @return User with matching ID, or null if not found
      */
@@ -157,7 +160,7 @@ public class Friend {
      * friends)
      * Only includes users who share at least one connection in the network
      * Does not include the user's existing friends or the user themselves
-     * 
+     *
      * @param userId ID of user to get recommendations for
      * @return List of recommended User objects, sorted by network distance
      * @see util.Graph for BFS implementation details
@@ -227,7 +230,7 @@ public class Friend {
 
     /**
      * Calculate interest similarity between two users using Jaccard similarity
-     * 
+     *
      * @param user1 First user
      * @param user2 Second user
      * @return Similarity score between 0 and 1
@@ -267,7 +270,7 @@ public class Friend {
 
     /**
      * Sort friend recommendations by interest similarity and network distance
-     * 
+     *
      * @param userId ID of user to get recommendations for
      * @return List of recommended users, sorted by relevance
      */

@@ -14,6 +14,11 @@ import util.LinkedList;
 /**
  * Handles the user interface and menu system for the application.
  * Provides options for login, account creation, and other user interactions.
+ *
+ * @author Benjamin Liou
+ * @author Kenneth Garcia
+ * @author Kevin Young
+ * CIS 22C, Course Project
  */
 public class Menu {
     private Scanner scanner;

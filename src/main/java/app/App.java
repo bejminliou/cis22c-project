@@ -8,7 +8,14 @@ import ui.Menu;
 import java.util.*;
 import java.io.IOException;
 
-
+/**
+ * App.java
+ *
+ * @author Benjamin Liou
+ * @author Kenneth Garcia
+ * @author Kevin Young
+ * CIS 22C, Course Project
+ */
 public class App {
     public static UserDirectory ud = new UserDirectory();
     public static DataStorage load = new DataStorage(ud);

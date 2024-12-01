@@ -1,6 +1,12 @@
 package util;
 import java.util.ArrayList;
 
+/**
+ * Graph.java
+ *
+ * @author Rolen Louie
+ * CIS 22C, Lab 16
+ */
 public class Graph {
     private int vertices;
     private int edges;

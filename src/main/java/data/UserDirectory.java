@@ -1,6 +1,7 @@
 package data;
 
 import util.*;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +10,9 @@ import java.util.Map;
 /**
  * UserDirectory maintains a BST of all users in the system,
  * allowing for searching users by name with support for duplicates
+ *
+ * @author Benjamin Liou
+ * CIS 22C, Course Project
  */
 public class UserDirectory {
     private BST<User> users;
@@ -20,10 +24,18 @@ public class UserDirectory {
         String firstName2 = u2.getFirstName();
 
         // Handle null values
-        if (lastName1 == null) { lastName1 = ""; }
-        if (lastName2 == null) { lastName2 = ""; }
-        if (firstName1 == null) { firstName1 = ""; }
-        if (firstName2 == null) { firstName2 = ""; }
+        if (lastName1 == null) {
+            lastName1 = "";
+        }
+        if (lastName2 == null) {
+            lastName2 = "";
+        }
+        if (firstName1 == null) {
+            firstName1 = "";
+        }
+        if (firstName2 == null) {
+            firstName2 = "";
+        }
 
         int lastNameComparison = lastName1.compareToIgnoreCase(lastName2);
         if (lastNameComparison != 0) {
@@ -39,7 +51,7 @@ public class UserDirectory {
 
     /**
      * Adds a new user to both the BST and username lookup map
-     * 
+     *
      * @param user The user to add to the directory
      * @see util.BST#insert for insertion
      * @see #nameComparator for ordering
@@ -54,7 +66,7 @@ public class UserDirectory {
 
     /**
      * Removes a user from both the BST and username lookup map
-     * 
+     *
      * @param user The user to remove from the directory
      * @see util.BST#remove for removal
      * @see #nameComparator for ordering
@@ -69,7 +81,7 @@ public class UserDirectory {
 
     /**
      * Returns all users that match the given name
-     * 
+     *
      * @param firstName First name to search for (case insensitive)
      * @param lastName  Last name to search for (case insensitive)
      * @return List of users with exactly matching names
@@ -100,12 +112,12 @@ public class UserDirectory {
 
     /**
      * Parses a user from the BST's string representation
-     * 
+     *
      * @param entry The string entry to parse
+     * @return A User object with the parsed first and last name
      * @see util.BST#inOrderString for the format of the string representation
      * @see data.User#setFirstName for setting parsed first name
      * @see data.User#setLastName for setting parsed last name
-     * @return A User object with the parsed first and last name
      */
     public User parseUser(String entry) {
         User temp = new User();
@@ -123,7 +135,7 @@ public class UserDirectory {
     /**
      * Finds a user by their unique username in the system
      * Uses optimized username map for O(1) lookup instead of searching the BST
-     * 
+     *
      * @param username The username to search for ((?) case-sensitive)
      * @return The user with the given username, or null if not found
      * @see data.User#getUserName
@@ -139,7 +151,7 @@ public class UserDirectory {
 
     /**
      * Get all users in the directory
-     * 
+     *
      * @return ArrayList of all users in the directory
      */
     public ArrayList<User> getAllUsers() {
@@ -148,7 +160,7 @@ public class UserDirectory {
 
     /**
      * Get the name comparator used for ordering users
-     * 
+     *
      * @return the comparator used for comparing users by name
      */
     public Comparator<User> getNameComparator() {
@@ -157,7 +169,7 @@ public class UserDirectory {
 
     /**
      * Register a new user with the directory
-     * 
+     *
      * @param username  Username for the new user
      * @param password  Password for the new user
      * @param firstName First name of the user

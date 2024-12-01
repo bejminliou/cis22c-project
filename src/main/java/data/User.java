@@ -1,6 +1,7 @@
 package data;
 
 import util.*;
+
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,9 @@ import java.util.List;
  * Represents a user in the system with their personal information and friend
  * connections
  * Users are comparable by their ID and can be searched by name
+ *
+ * @author Benjamin Liou
+ * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {
     private int id;
@@ -43,7 +47,7 @@ public class User implements Comparable<User> {
 
     /**
      * Creates a new User with empty friends list and interests
-     * 
+     *
      * @see util.BST#BST() for friends list implementation
      * @see util.LinkedList#LinkedList() for interests list implementation
      */
@@ -103,7 +107,7 @@ public class User implements Comparable<User> {
 
     /**
      * Adds a new interest to the user's list of interests
-     * 
+     *
      * @param interest The interest to add
      * @see util.LinkedList#addLast(Object) for interest storage
      */
@@ -115,7 +119,7 @@ public class User implements Comparable<User> {
 
     /**
      * Remove the [! first occurrence] of an interest from the user's list
-     * 
+     *
      * @param interest The interest to remove (case-sensitive, will be trimmed)
      * @return true if the interest was found and removed, false otherwise
      * @throws NullPointerException if the iterator operations fail
@@ -141,7 +145,7 @@ public class User implements Comparable<User> {
 
     /**
      * Gets the list of user's interests
-     * 
+     *
      * @return The LinkedList containing all interests
      * @see util.LinkedList for the list implementation
      */
@@ -151,7 +155,7 @@ public class User implements Comparable<User> {
 
     /**
      * Gets the number of interests the user has
-     * 
+     *
      * @return The number of interests
      * @see util.LinkedList#getLength() for size calculation
      */
@@ -163,9 +167,9 @@ public class User implements Comparable<User> {
      * Adds a new friend connection
      * May want to change later on to return:
      * - an int 0 for success, 1 for already friends, 2 for null input, 3 for is self;
-     * 
+     * <p>
      * (?) once ui is implemented ^
-     * 
+     *
      * @param friend The user to add as a friend
      * @see util.BST#insert(Object, Comparator) for friend storage
      */
@@ -192,7 +196,7 @@ public class User implements Comparable<User> {
 
     /**
      * Removes a friend connection
-     * 
+     *
      * @param friend The user to remove from friends
      * @see util.BST#remove(Object, Comparator) for friend removal
      * @see #nameComparator for how friends are located
@@ -206,12 +210,12 @@ public class User implements Comparable<User> {
 
     /**
      * Search for a friend by their name
-     * 
+     *
      * @param firstName First name to search for
      * @param lastName  Last name to search for
+     * @return The found friend or null if not found
      * @see util.BST#search(Object, Comparator) for search
      * @see #nameComparator for how friends are searched
-     * @return The found friend or null if not found
      */
     public User searchFriendByName(String firstName, String lastName) {
         User searchUser = new User();
@@ -222,7 +226,7 @@ public class User implements Comparable<User> {
 
     /**
      * Get the BST containing all friends
-     * 
+     *
      * @return The friends BST
      * @see util.BST
      */
@@ -232,7 +236,7 @@ public class User implements Comparable<User> {
 
     /**
      * Get the number of friends this user has
-     * 
+     *
      * @return number of friends
      */
     public int getFriendCount() {
@@ -241,7 +245,7 @@ public class User implements Comparable<User> {
 
     /**
      * Check if another user is a friend
-     * 
+     *
      * @param other user to check friendship with
      * @return true if users are friends, false otherwise
      * @see util.BST#search(Object, Comparator) for search
@@ -257,7 +261,7 @@ public class User implements Comparable<User> {
 
     /**
      * Compare users by their unique IDs
-     * 
+     *
      * @param other The other user to compare with
      * @return negative if this user's ID is less, positive if greater, 0 if equal
      * @see #getId() for the ID being compared

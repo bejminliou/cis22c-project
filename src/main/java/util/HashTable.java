@@ -1,6 +1,13 @@
 package util;
 import java.util.ArrayList;
 
+/**
+ * HashTable.java
+ *
+ * @author Rolen Louie
+ * @param <T> a generic data type
+ * CIS 22C, Lab 14
+ */
 public class HashTable<T> {
 
     private int numElements;
@@ -57,7 +64,7 @@ public class HashTable<T> {
      */
     private int hash(T obj) {
         int code = obj.hashCode();
-        
+
         return Math.abs(code % table.size()); // pos
     }
 

@@ -2,9 +2,11 @@ package util;
 
 /**
  * A simple key-value pair class for use in HashTable
- * 
+ *
+ * @author Benjamin Liou
  * @param <K> The key type
  * @param <V> The value type
+ * CIS 22C, Course Project
  */
 public class KeyValuePair<K, V> {
     private K key;
