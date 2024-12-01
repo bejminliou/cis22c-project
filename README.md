@@ -14,8 +14,6 @@ cis22c-project/
 ├── src/
 │   ├── main/
 │   │   └── java/
-│   │       ├── app/
-│   │       │   └── App.java
 │   │       ├── data/
 │   │       │   └── Auth.java
 │   │       │   └── Interest.java
@@ -38,6 +36,7 @@ cis22c-project/
 │   │       │   └── DataStorage.java
 │   │       ├── ui/
 │   │       │   └── Menu.java
+│   │       ├── App.java
 │   │   └── resources/
 │   │       └── users.txt
 │   │       └── dataset.js
