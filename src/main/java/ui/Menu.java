@@ -1,6 +1,7 @@
 package ui;
 
 import model.Account;
+import data.Interest;
 import data.UserDirectory;
 
 import java.util.ArrayList;
@@ -493,7 +494,7 @@ public class Menu {
     /**
      *
      */
-    public void searchUsersByInterest() {
+    public User searchUsersByInterest() {
         String interest;
         ArrayList<User> matchingUsers;
         User returnUser = null;
@@ -510,7 +511,7 @@ public class Menu {
     /**
      *
      */
-    public void getFriendRecs() {
+    public User getFriendRecs() {
 
     }
 }
