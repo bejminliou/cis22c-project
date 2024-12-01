@@ -1,9 +1,6 @@
-// import ...
-
 import data.*;
 import io.*;
 import model.*;
-import util.*;
 import ui.Menu;
 
 import java.util.*;
@@ -24,7 +21,6 @@ public class App {
     public static Menu menu;
 
     public static void main(String[] args) {
-        // ...
         Scanner scanner = new Scanner(System.in);
         try {
             load.loadData();
@@ -34,18 +30,14 @@ public class App {
                 String key = aUsers.getUserName() + ":" + aUsers.getPassword();
                 userAccount.getAuth().addExisitingUser(key);
             }
-            menu = new Menu(userAccount);
+
+            menu = new Menu(userAccount, ud);
             menu.displayLogIn();
-
             menu.mainMenu();
-
 
             System.out.println(userAccount.getAuth().getRegisteredUserCount());
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-
-
     }
-
 }
