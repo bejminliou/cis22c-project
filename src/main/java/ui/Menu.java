@@ -1,9 +1,7 @@
 package ui;
 
-import app.App;
 import model.Account;
 import data.UserDirectory;
-import data.InterestManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,30 +19,22 @@ import util.LinkedList;
  * CIS 22C, Course Project
  */
 public class Menu {
-    private Scanner scanner;
-    private Account account;
+    private final Scanner scanner = new Scanner(System.in);
+    private final Account account;
+    private final UserDirectory ud;
     public User user;
     private String userName;
 
     /**
-     * Creates a new Menu with a Scanner for user input.
-     *
-     * @see java.util.Scanner#Scanner(System.in) for input handling
-     */
-    public Menu() {
-        scanner = new Scanner(System.in);
-    }
-
-    /**
-     * Creates a new Menu with a Scanner for user input.
+     * Creates a new Menu with a Scanner for user input
+     * and the UserDirectory for access
      *
      * @param account the Account Object used to manage users
-     * @see java.util.Scanner#Scanner(System.in) for input handling
+     * @param ud      the UserDirectory storing the data of all existing users
      */
-    public Menu(Account account) {
+    public Menu(Account account, UserDirectory ud) {
         this.account = account;
-        scanner = new Scanner(System.in);
-        userName = "";
+        this.ud = ud;
     }
 
     // Scanner Helper Methods
@@ -104,7 +94,6 @@ public class Menu {
         String choiceStr;
         boolean validInput = false, login = false, createAccount = false;
 
-        // have user choose to log in or create a new account
         while (!validInput) {
             // print user options
             System.out.println("Please select from one of the following:");
@@ -126,7 +115,7 @@ public class Menu {
                 validInput = true;
             }
 
-            if (!validInput) { // if valid input != true
+            if (!validInput) {
                 System.out.println("Invalid choice. Please Try again\n");
                 scanner.nextLine(); // clear scanner before repeating loop
             }
@@ -184,11 +173,11 @@ public class Menu {
                         break;
                     }
 
-                    // add interest to user
                     user.addInterest(interests);
-                } while (true); // break when user quits
+                } while (true);
                 System.out.println("Finished entering your interests.\n");
 
+                // ** Setting the userID like this is part of Issue #11 that we will most likely change **
                 // set user ID
                 String id = "";
                 while (id.length() != 2) {
@@ -232,12 +221,12 @@ public class Menu {
                     addFriendMenu();
                 } else if (choice == 3) {
                     System.out.println("\nGoodbye!");
+                    scanner.close();
                     System.exit(0);
-                } else { // if valid choice was not input
+                } else {
                     System.out.println("Please enter a number 1, 2, or 3.\n");
                     scanner.next(); // clear scanner before repeating loop
                 }
-                break; // exit while loop
             } else { // if int was not input
                 System.out.println("Please enter a number 1, 2, or 3.\n");
                 scanner.next(); // clear scanner before repeating loop
@@ -265,7 +254,7 @@ public class Menu {
                     }
                 } else if (choice == 2) {
                     searchFriendByName();
-                } else { // if choice is not a valid input
+                } else { // if choice is not a valid int
                     System.out.println("Please enter a valid choice (1 or 2).");
                 }
                 break;
@@ -420,9 +409,11 @@ public class Menu {
                 } while (inputStr.equals("1"));
                 break;
             case 2:
+                // **UNFINISHED**//
                 //viewedUser =  searchUsersByInterest();
                 break;
             case 3:
+                // **UNFINISHED**//
                 //viewedUser = getFriendRecs();
                 break;
         }
@@ -440,20 +431,16 @@ public class Menu {
         String firstNameOfFriend, lastNameOfFriend, inputStr;
         ArrayList<User> matchingUsers;
         User returnUser = null;
-
-        // get current UserDirectory
-        UserDirectory currUD = App.getUserDirectory();
-
-        ArrayList<Integer> validIDs = new ArrayList<>(); // stores IDs of matching users
+        ArrayList<Integer> validIDs = new ArrayList<>();
 
         // get first and last name of user to search
         System.out.println("Searching users by name:");
-        System.out.print("Enter the name of the user: ");
+        System.out.print("Enter the full name of the user: ");
         firstNameOfFriend = scanner.next(); // input first name
         lastNameOfFriend = scanner.next(); // input last name
 
         // search UserDirectory by name
-        matchingUsers = currUD.findUsersByName(firstNameOfFriend, lastNameOfFriend);
+        matchingUsers = ud.findUsersByName(firstNameOfFriend, lastNameOfFriend);
 
         if (!matchingUsers.isEmpty()) { // matchingUsers is not empty
             System.out.println("\nHere are the matching users:");
