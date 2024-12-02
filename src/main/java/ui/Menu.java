@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import data.User;
+import data.InterestManager;
 import util.LinkedList;
 
 /**
@@ -17,14 +18,17 @@ import util.LinkedList;
  * @author Benjamin Liou
  * @author Kenneth Garcia
  * @author Kevin Young
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
     private final Account account;
     private final UserDirectory ud;
+    private final InterestManager im;
     public User user;
     private String userName;
+    private InterestManager interestManager;
 
     // Constructors
 
@@ -38,6 +42,7 @@ public class Menu {
     public Menu(Account account, UserDirectory ud) {
         this.account = account;
         this.ud = ud;
+
     }
 
     // Menu methods
@@ -384,6 +389,9 @@ public class Menu {
             case 2:
                 // **UNFINISHED**//
                 //viewedUser =  searchUsersByInterest();
+                /* I've taken this to a different approach, different from searchUsersByName, i am not sure if this
+                 * is more optimal but I think it is more user friendly
+                 */
                 break;
             case 3:
                 // **UNFINISHED**//
@@ -490,13 +498,112 @@ public class Menu {
         System.out.print("Enter the interest you'd like to search users for: ");
         interest = scanner.next(); // input interest
 
-        return null;
+        // Use InterestManager class to find the list of users with that interest
+        // I could not find a way to load up all the interests into interestManager like what yall did in searchUsersByName
+        matchingUsers = im.getUsersWithInterest(interest);
+
+        if (!matchingUsers.isEmpty()) { // If there are matching users
+            for (User user : matchingUsers) {
+                validIDs.add(user.getId());
+            }
+
+            // Delegate the process of displaying and interacting with the list to a helper method
+            handleUserSelection(matchingUsers, validIDs);
+
+        } else { // If no matching users are found
+            System.out.println("\nThere were no users that match the given interest.");
+        }
+
+        return returnUser;
+    }
+
+    /**
+     * Helper method to handle user selection and actions from a list of matching users.
+     *
+     * @param matchingUsers The list of users matching the search criteria.
+     * @param validIDs      The list of valid IDs corresponding to the matching users.
+     */
+    private void handleUserSelection(ArrayList<User> matchingUsers, ArrayList<Integer> validIDs) {
+        boolean continueSelection = true;
+
+        while (continueSelection && !matchingUsers.isEmpty()) {
+            // Display the current list of matching users
+            System.out.println("\nHere are the current matching users:");
+            for (User user : matchingUsers) {
+                System.out.println(user.getId() + ". " + user.getFirstName() + " " + user.getLastName());
+            }
+
+            try {
+                System.out.print("\nEnter the ID of the person you'd like to view, or enter 0 to go back: ");
+                int selectedID = scanner.nextInt();
+
+                if (selectedID == 0) {
+                    System.out.println("Going back to the previous menu...");
+                    continueSelection = false; // Exit the loop and return to the main menu
+                } else if (validIDs.contains(selectedID)) {
+                    User selectedUser = matchingUsers.get(validIDs.indexOf(selectedID));
+
+                    // Print profile of selected user
+                    printProfile(selectedUser);
+
+                    // Prompt user for action
+                    boolean actionValid = false;
+                    while (!actionValid) {
+                        System.out.println("\nWhat would you like to do?");
+                        System.out.println("1. Add this user as a friend");
+                        System.out.println("2. Skip this user");
+                        System.out.println("3. Go back to the list of users");
+                        System.out.print("Enter your choice: ");
+
+                        int choice = scanner.nextInt();
+
+                        switch (choice) {
+                            case 1: // Add as a friend
+                                user.addFriend(selectedUser);
+                                System.out.println(selectedUser.getFirstName() + " " + selectedUser.getLastName() + " has been added as a friend.");
+
+                                // Remove the added friend from the list and valid IDs
+                                matchingUsers.remove(selectedUser);
+                                validIDs.remove((Integer) selectedUser.getId());
+
+                                actionValid = true; // Exit inner loop
+                                break;
+
+                            case 2: // Skip user
+                                System.out.println("User not added as a friend.");
+                                actionValid = true; // Exit inner loop
+                                break;
+
+                            case 3: // Go back to the list
+                                System.out.println("\nReturning to the list of users...");
+                                actionValid = true; // Exit inner loop
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please enter 1, 2, or 3.");
+                                break;
+                        }
+                    }
+                } else {
+                    System.out.println("\nPlease ensure the ID given is valid.");
+                }
+            } catch (Exception e) {
+                System.out.println("\nPlease ensure the input is valid.");
+                scanner.nextLine(); // Clear scanner after invalid input
+            }
+        }
+
+        if (matchingUsers.isEmpty()) {
+            System.out.println("No more users left to select from.");
+        }
     }
 
     /**
      *
      */
     public User getFriendRecs() {
+
+
         return null;
     }
 }

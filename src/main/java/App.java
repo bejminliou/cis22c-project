@@ -12,6 +12,7 @@ import java.io.IOException;
  * @author Benjamin Liou
  * @author Kenneth Garcia
  * @author Kevin Young
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class App {
