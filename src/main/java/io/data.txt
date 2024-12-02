@@ -1,235 +1,237 @@
-46
-Joe Biden
-jbiden
-scranton1942
-f 3
-44
-45
-42
-city Scranton, Pennsylvania
-i 4
-Classic Cars
-Foreign Policy
-Sleep
-Ice Cream
+15
 
-45
-Donald Trump
-dtrump
-queens1946
-f 3
-43
-44
-46
-city Queens, New York
-i 4
-Golf
-Real Estate
-Business
+1
+Franklin Roosevelt
+fdroosevelt
+hyde1882
+3
+2
+3
+4
+Hyde Park, New York
+4
+Sailing
+Politics
+Conservation
+Stamp Collecting
+
+2
+Harry Truman
+htruman
+lamar1884
+4
+1
+3
+4
+5
+Lamar, Missouri
+4
+Piano
+Reading
+History
 Politics
 
-44
+3
+Dwight Eisenhower
+deisenhower
+denison1890
+4
+2
+4
+5
+1
+Denison, Texas
+4
+Military Strategy
+Golf
+Painting
+Bridge
+
+4
+John Kennedy
+jfkennedy
+brookline1917
+4
+3
+5
+6
+2
+Brookline, Massachusetts
+4
+Sailing
+Writing
+History
+Swimming
+
+5
+Lyndon Johnson
+lbjohnson
+stonewall1908
+4
+4
+6
+7
+3
+Stonewall, Texas
+4
+Ranching
+Education
+Civil Rights
+Politics
+
+6
+Richard Nixon
+rnixon
+yorba1913
+4
+5
+7
+8
+4
+Yorba Linda, California
+4
+Piano
+Law
+Foreign Policy
+Writing
+
+7
+Gerald Ford
+gford
+omaha1913
+4
+6
+8
+9
+5
+Omaha, Nebraska
+4
+Football
+Skiing
+Economics
+Law
+
+8
+Jimmy Carter
+jcarter
+plains1924
+4
+7
+9
+10
+6
+Plains, Georgia
+4
+Farming
+Nuclear Physics
+Woodworking
+Humanitarian Work
+
+9
+Ronald Reagan
+rreagan
+tampico1911
+4
+8
+10
+11
+7
+Tampico, Illinois
+4
+Horseback Riding
+Acting
+Swimming
+Economics
+
+10
+George Bush
+ghwbush
+milton1924
+4
+9
+11
+12
+8
+Milton, Massachusetts
+3
+Horseshoes
+Skydiving
+Fishing
+
+11
+Bill Clinton
+bclinton
+hope1915
+4
+10
+12
+13
+15
+Hope, Arkansas
+4
+Saxophone
+Movies
+Golf
+Reading
+
+12
+George Bush
+gwbush
+newhaven1946
+4
+10
+11
+13
+14
+New Haven, Connecticut
+4
+Painting
+Running
+Cigar Smoking
+Golf
+
+13
 Barack Obama
 bobama
 honolulu1961
-f 3
-42
-43
-46
-city Honolulu, Hawaii
-i 5
+3
+11
+12
+15
+Honolulu, Hawaii
+5
 Basketball
 Reading
 Community Service
 Family Time
 TV Shows
 
-43
-George Bush
-gwbush
-newhaven1946
-f 4
-41
-42
-44
-45
-city New Haven, Connecticut
-i 4
-Painting
-Running
-Cigar Smoking
+14
+Donald Trump
+dtrump
+queens1946
+3
+12
+13
+15
+Queens, New York
+4
 Golf
+Real Estate
+Business
+Politics
 
-42
-Bill Clinton
-bclinton
-hope1946
-f 4
-41
-43
-44
-46
-city Hope, Arkansas
-i 4
-Saxophone
-Movies
-Golf
-Reading
-
-41
-George Bush
-ghwbush
-milton1924
-f 4
-40
-42
-43
-39
-city Milton, Massachusetts
-i 3
-Horseshoes
-Skydiving
-Fishing
-
-40
-Ronald Reagan
-rreagan
-tampico1911
-f 4
-39
-41
-42
-38
-city Tampico, Illinois
-i 4
-Horseback Riding
-Acting
-Swimming
-Economics
-
-39
-Jimmy Carter
-jcarter
-plains1924
-f 4
-38
-40
-41
-37
-city Plains, Georgia
-i 4
-Farming
-Nuclear Physics
-Woodworking
-Humanitarian Work
-
-38
-Gerald Ford
-gford
-omaha1913
-f 4
-37
-39
-40
-36
-city Omaha, Nebraska
-i 4
-Football
-Skiing
-Economics
-Law
-
-37
-Richard Nixon
-rnixon
-yorba1913
-f 4
-36
-38
-39
-35
-city Yorba Linda, California
-i 4
-Piano
-Law
+15
+Joe Biden
+jbiden
+scranton1942
+3
+13
+14
+11
+Scranton, Pennsylvania
+4
+Classic Cars
 Foreign Policy
-Writing
-
-36
-Lyndon B. Johnson
-lbjohnson
-stonewall1908
-f 4
-35
-37
-38
-34
-city Stonewall, Texas
-i 4
-Ranching
-Education
-Civil Rights
-Politics
-
-35
-John F. Kennedy
-jfkennedy
-brookline1917
-f 4
-34
-36
-37
-33
-city Brookline, Massachusetts
-i 4
-Sailing
-Writing
-History
-Swimming
-
-34
-Dwight D. Eisenhower
-deisenhower
-denison1890
-f 4
-33
-35
-36
-32
-city Denison, Texas
-i 4
-Military Strategy
-Golf
-Painting
-Bridge
-
-33
-Harry S. Truman
-htruman
-lamar1884
-f 4
-32
-34
-35
-36
-city Lamar, Missouri
-i 4
-Piano
-Reading
-History
-Politics
-
-32
-Franklin D. Roosevelt
-fdroosevelt
-hyde1882
-f 3
-33
-34
-35
-city Hyde Park, New York
-i 4
-Sailing
-Politics
-Conservation
-Stamp Collecting
+Sleep
+Ice Cream

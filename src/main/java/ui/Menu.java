@@ -26,6 +26,8 @@ public class Menu {
     public User user;
     private String userName;
 
+    // Constructors
+
     /**
      * Creates a new Menu with a Scanner for user input
      * and the UserDirectory for access
@@ -36,52 +38,6 @@ public class Menu {
     public Menu(Account account, UserDirectory ud) {
         this.account = account;
         this.ud = ud;
-    }
-
-    // Scanner Helper Methods
-
-    /**
-     * @param input
-     * @return
-     */
-    private static String getNext(Scanner input) {
-        String next = "";
-
-        while (input.hasNext()) {
-            next = input.next().trim();
-
-            if (!next.isEmpty()) {
-                break;
-            }
-        }
-
-        return next;
-    }
-
-    /**
-     * @param input
-     * @return
-     */
-    private static String getLine(Scanner input) {
-        String next = "";
-
-        while (input.hasNextLine()) {
-            next = input.nextLine().trim();
-
-            if (!next.isEmpty()) {
-                break;
-            }
-        }
-
-        return next;
-    }
-
-    /**
-     * @param input
-     * @return
-     */
-    private static char getNextCharUpper(Scanner input) {
-        return getNext(input).toUpperCase().charAt(0);
     }
 
     // Menu methods
@@ -125,16 +81,16 @@ public class Menu {
 
         // get user's username and password
         System.out.print("Please enter your username: ");
-        String userName = getNext(scanner);
+        String userName = scanner.next();
         System.out.print("Please enter your password: ");
-        String password = getNext(scanner);
+        String password = scanner.next();
 
         if (login) {
             // authenticate given credentials
             boolean authenticate = account.getAuth().authenticate(userName, password);
 
             if (authenticate) { // if credentials match
-                user = account.getUser(userName);
+                user = ud.findUserByUsername(userName);
                 System.out.println("\nWelcome " + user.getUserName() + "!");
                 this.userName = user.getUserName();
             } else { // if no matching credentials
@@ -149,18 +105,18 @@ public class Menu {
             user = new User();
             user.setUserName(userName);
             user.setPassword(password);
-            boolean accountCreate = account.createAccount(user);
+            boolean accountCreate = account.createAccount(user, ud);
 
             // if account successfully created
             if (accountCreate) {
                 // input remaining user info
                 System.out.println("\nLet's finish setting up your account.");
                 System.out.print("Enter your first name: ");
-                user.setFirstName(getNext(scanner)); // input first name
+                user.setFirstName(scanner.next()); // input first name
                 System.out.print("Enter your last name: ");
-                user.setLastName(getNext(scanner)); // input last name
+                user.setLastName(scanner.next()); // input last name
                 System.out.print("Enter your city: ");
-                user.setCity(getNext(scanner)); // input city
+                user.setCity(scanner.next()); // input city
 
                 // get interests
                 scanner.nextLine(); // clear scanner for input
@@ -184,7 +140,7 @@ public class Menu {
                 String id = "";
                 while (id.length() != 2) {
                     System.out.print("Please set an ID of 2 digits: ");
-                    id = getNext(scanner);
+                    id = scanner.next();
                 }
                 user.setId(Integer.parseInt(id));
                 System.out.println("Your ID has been set.");
@@ -226,12 +182,12 @@ public class Menu {
                     scanner.close();
                     System.exit(0);
                 } else {
-                    System.out.println("Please enter a number 1, 2, or 3.\n");
-                    scanner.next(); // clear scanner before repeating loop
+                    System.out.println("Invalid input. Please enter a valid option 1, 2, or 3.\n");
+                    scanner.nextLine(); // clear scanner before repeating loop
                 }
             } else { // if int was not input
-                System.out.println("Please enter a number 1, 2, or 3.\n");
-                scanner.next(); // clear scanner before repeating loop
+                System.out.println("Invalid input. Please enter a valid option 1, 2, or 3.\n");
+                scanner.nextLine(); // clear scanner before repeating loop
             }
         }
     }
@@ -248,7 +204,7 @@ public class Menu {
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt(); // input user choice
                 if (choice == 1) {
-                    if (account.getUser(this.userName).getFriendCount() == 0) { // if user's friend list is empty
+                    if (ud.findUserByUsername(this.userName).getFriendCount() == 0) { // if user's friend list is empty
                         System.out.println("You do not have any friends to display!\n");
                         mainMenu();
                     } else {
@@ -271,7 +227,7 @@ public class Menu {
      * Displays the current friends
      */
     private void displayFriends() {
-        String result = account.getUser(this.userName).getFriends().inOrderString();
+        String result = ud.findUserByUsername(this.userName).getFriends().inOrderString();
         System.out.println("\nHere are your current friends:");
         System.out.println(result.trim());
         System.out.println();
@@ -306,10 +262,25 @@ public class Menu {
      * Searches for a user's friend based on a given first and last name.
      */
     private void searchFriendByName() {
-        // get first and last name of friend
-        System.out.print("Enter the full name of your friend: ");
-        String firstNameOfFriend = scanner.next(); // input first name
-        String lastNameOfFriend = scanner.next(); // input last name
+        String nameOfFriend, firstNameOfFriend = "", lastNameOfFriend = "";
+
+        // get first and last name of user to search
+        System.out.println("Searching friends by name:");
+        System.out.print("Enter the full name of the friend (first name + last name): ");
+        scanner.nextLine(); // clear scanner
+        nameOfFriend = scanner.nextLine(); // input full name
+
+        // split full name into first and last
+        String[] nameParts = nameOfFriend.split(" ");
+
+        if (nameParts.length >= 2) { // first and last given
+            firstNameOfFriend = nameParts[0];
+            lastNameOfFriend = nameParts[1];
+        } else if (nameParts.length == 1) { // only first name given
+            firstNameOfFriend = nameParts[0];
+            System.out.print("Please enter the last name of the user to search: ");
+            lastNameOfFriend = scanner.nextLine();
+        }
 
         // search for friend
         User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);

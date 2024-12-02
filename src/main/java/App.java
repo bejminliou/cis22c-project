@@ -1,5 +1,5 @@
 import data.*;
-import io.*;
+import io.ReadAndWriteData;
 import model.*;
 import ui.Menu;
 
@@ -15,20 +15,18 @@ import java.io.IOException;
  * CIS 22C, Course Project
  */
 public class App {
-    public static UserDirectory ud = new UserDirectory();
-    public static DataStorage load = new DataStorage(ud);
+    public static UserDirectory ud = ReadAndWriteData.readData();
     public static Account userAccount;
     public static Menu menu;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         try {
-            load.loadData();
             userAccount = new Account(ud);
-            ArrayList<User> users = ud.getAllUsers();
-            for (User aUsers : users) {
-                String key = aUsers.getUserName() + ":" + aUsers.getPassword();
-                userAccount.getAuth().addExisitingUser(key);
+            ArrayList<User> users = ud.getArrayList();
+            for (int i = 1; i < users.size(); i++) {
+                String key = users.get(i).getUserName() + ":" + users.get(i).getPassword();
+                userAccount.getAuth().addExistingUser(key);
             }
 
             menu = new Menu(userAccount, ud);
@@ -36,7 +34,7 @@ public class App {
             menu.mainMenu();
 
             System.out.println(userAccount.getAuth().getRegisteredUserCount());
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

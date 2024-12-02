@@ -12,6 +12,7 @@ import java.util.List;
  * Users are comparable by their ID and can be searched by name
  *
  * @author Benjamin Liou
+ * @author Kevin Young
  * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {
@@ -21,29 +22,11 @@ public class User implements Comparable<User> {
     private String userName;
     private String password;
     private String city;
+    private final LinkedList<String> interests;
     private BST<User> friends;
-    private LinkedList<String> interests;
     private List<Integer> friendIds;
 
-    private final Comparator<User> nameComparator = (u1, u2) -> {
-        String lastName1 = u1.getLastName();
-        String lastName2 = u2.getLastName();
-        String firstName1 = u1.getFirstName();
-        String firstName2 = u2.getFirstName();
-
-        if (lastName1 == null)
-            lastName1 = "";
-        if (lastName2 == null)
-            lastName2 = "";
-        if (firstName1 == null)
-            firstName1 = "";
-        if (firstName2 == null)
-            firstName2 = "";
-
-        int lastNameComparison = lastName1.compareToIgnoreCase(lastName2);
-        return lastNameComparison != 0 ? lastNameComparison
-                : firstName1.compareToIgnoreCase(firstName2);
-    };
+    // Constructors
 
     /**
      * Creates a new User with empty friends list and interests
@@ -57,52 +40,152 @@ public class User implements Comparable<User> {
         friendIds = new ArrayList<>();
     }
 
+    // Accessors
+
+    /**
+     * @return
+     */
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    /**
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * @return
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * @return
+     */
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
+    /**
+     * @return
+     */
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    /**
+     * @return
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * Gets the list of user's interests
+     *
+     * @return The LinkedList containing all interests
+     * @see util.LinkedList for the list implementation
+     */
+    public LinkedList<String> getInterests() {
+        return interests;
+    }
+
+    /**
+     * Gets the number of interests the user has
+     *
+     * @return The number of interests
+     * @see util.LinkedList#getLength() for size calculation
+     */
+    public int getInterestCount() {
+        return interests.getLength();
+    }
+
+    /**
+     * Get the BST containing all friends
+     *
+     * @return The friends BST
+     * @see util.BST
+     */
+    public BST<User> getFriends() {
+        return friends;
+    }
+
+    /**
+     * Get the number of friends this user has
+     *
+     * @return number of friends
+     */
+    public int getFriendCount() {
+        return friends.getSize();
+    }
+
+    /**
+     * @return
+     */
+    public List<Integer> getFriendIds() {
+        return new ArrayList<>(friendIds);
+    }
+
+    // Mutators
+
+    /**
+     * @param userName
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param firstName
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @param lastName
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * @param city
+     */
     public void setCity(String city) {
         this.city = city;
+    }
+
+    /**
+     * @param friendIds
+     */
+    public void setFriendIds(List<Integer> friendIds) {
+        this.friendIds = friendIds;
+    }
+
+    /**
+     * @param friends
+     */
+    public void setFriends(BST<User> friends) {
+        this.friends = friends;
     }
 
     /**
@@ -144,26 +227,6 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Gets the list of user's interests
-     *
-     * @return The LinkedList containing all interests
-     * @see util.LinkedList for the list implementation
-     */
-    public LinkedList<String> getInterests() {
-        return interests;
-    }
-
-    /**
-     * Gets the number of interests the user has
-     *
-     * @return The number of interests
-     * @see util.LinkedList#getLength() for size calculation
-     */
-    public int getInterestCount() {
-        return interests.getLength();
-    }
-
-    /**
      * Adds a new friend connection
      * May want to change later on to return:
      * - an int 0 for success, 1 for already friends, 2 for null input, 3 for is self;
@@ -184,12 +247,12 @@ public class User implements Comparable<User> {
             return;
         }
 
-        friends.insert(friend, nameComparator);
+        friends.insert(friend, UserDirectory.nameComparator);
         friendIds.add(friend.getId());
 
         // Add reverse connection if not already present
         if (friend.friends.search(this, (u1, u2) -> Integer.compare(u1.getId(), u2.getId())) == null) {
-            friend.friends.insert(this, friend.nameComparator);
+            friend.friends.insert(this, UserDirectory.nameComparator);
             friend.friendIds.add(this.getId());
         }
     }
@@ -199,10 +262,9 @@ public class User implements Comparable<User> {
      *
      * @param friend The user to remove from friends
      * @see util.BST#remove(Object, Comparator) for friend removal
-     * @see #nameComparator for how friends are located
      */
     public void removeFriend(User friend) {
-        friends.remove(friend, nameComparator);
+        friends.remove(friend, UserDirectory.nameComparator);
         if (friend != null) {
             friendIds.remove(Integer.valueOf(friend.getId()));
         }
@@ -215,32 +277,12 @@ public class User implements Comparable<User> {
      * @param lastName  Last name to search for
      * @return The found friend or null if not found
      * @see util.BST#search(Object, Comparator) for search
-     * @see #nameComparator for how friends are searched
      */
     public User searchFriendByName(String firstName, String lastName) {
         User searchUser = new User();
         searchUser.firstName = firstName;
         searchUser.lastName = lastName;
-        return friends.search(searchUser, nameComparator);
-    }
-
-    /**
-     * Get the BST containing all friends
-     *
-     * @return The friends BST
-     * @see util.BST
-     */
-    public BST<User> getFriends() {
-        return friends;
-    }
-
-    /**
-     * Get the number of friends this user has
-     *
-     * @return number of friends
-     */
-    public int getFriendCount() {
-        return friends.getSize();
+        return friends.search(searchUser, UserDirectory.nameComparator);
     }
 
     /**
@@ -259,6 +301,8 @@ public class User implements Comparable<User> {
         return friends.search(other, idComparator) != null;
     }
 
+    // Additional Methods
+
     /**
      * Compare users by their unique IDs
      *
@@ -271,16 +315,12 @@ public class User implements Comparable<User> {
         return Integer.compare(this.id, other.id);
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         return firstName + " " + lastName;
     }
 
-    public void setFriendIds(List<Integer> friendIds) {
-        this.friendIds = friendIds;
-    }
-
-    public List<Integer> getFriendIds() {
-        return new ArrayList<>(friendIds);
-    }
 }

@@ -1,7 +1,6 @@
 package data;
 
 import util.HashTable;
-import util.KeyValuePair; // (?) req 2 is misleading
 
 /**
  * Manage user authentication using a hash table
@@ -9,15 +8,15 @@ import util.KeyValuePair; // (?) req 2 is misleading
  *
  * @author Benjamin Liou
  * @author Kenneth Garcia
+ * @author Kevin Young
  * @see model.Account for high-level account management
  * @see data.UserDirectory for user data storage
  * @see util.HashTable
  * CIS 22C, Course Project
  */
 public class Auth {
-    private HashTable<String> loginTable;
+    private final HashTable<String> loginTable;
     private static final int INITIAL_TABLE_SIZE = 10;
-    private UserDirectory userDirectory;
 
     /**
      * Create a new Auth instance with an empty login table
@@ -32,7 +31,6 @@ public class Auth {
             throw new IllegalArgumentException("User directory cannot be null");
         }
         this.loginTable = new HashTable<>(INITIAL_TABLE_SIZE);
-        this.userDirectory = userDirectory;
     }
 
     /**
@@ -58,12 +56,13 @@ public class Auth {
      *
      * @param username The username to register (must be unique)
      * @param password The password to register
+     * @param ud       the UserDirectory containing all users' data
      * @return true if registration successful, false if username exists
      * @see data.UserDirectory#findUserByUsername(String) for username validation
      * @see data.UserDirectory#addUser(User) for user storage
      * @see #createLoginKey(String, String) for key generation
      */
-    public boolean register(String username, String password) {
+    public boolean register(String username, String password, UserDirectory ud) {
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }
@@ -71,7 +70,7 @@ public class Auth {
             throw new IllegalArgumentException("Password cannot be null");
         }
 
-        if (userDirectory.findUserByUsername(username) != null) {
+        if (ud.findUserByUsername(username) != null) {
             return false;
         }
 
@@ -83,7 +82,7 @@ public class Auth {
         User newUser = new User();
         newUser.setUserName(username);
         newUser.setPassword(password);
-        userDirectory.addUser(newUser);
+        ud.addUser(newUser);
 
         loginTable.add(loginKey);
 
@@ -113,31 +112,33 @@ public class Auth {
      * Register an existing user's credentials in the hash table
      *
      * @param user The user to register (must have username and password set)
+     * @param ud   the UserDirectory containing all users' data
      * @return true if registration successful, false if user exists or invalid
      * @throws IllegalArgumentException if user is null or missing credentials
      * @see data.User#getUserName for username retrieval
      * @see data.User#getPassword for password retrieval
      * @see #createLoginKey for credential storage format
      */
-    public boolean registerUser(User user) {
+    public boolean registerUser(User user, UserDirectory ud) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        return register(user.getUserName(), user.getPassword());
+        return register(user.getUserName(), user.getPassword(), ud);
     }
 
     /**
      * Check if a username is registered
      *
      * @param username The username to check
+     * @param ud       the UserDirectory containing all users' data
      * @return true if username exists, false otherwise
      * @see data.UserDirectory#findUserByUsername(String) for user lookup
      */
-    public boolean isUserRegistered(String username) {
+    public boolean isUserRegistered(String username, UserDirectory ud) {
         if (username == null) {
             throw new IllegalArgumentException("Username cannot be null");
         }
-        return userDirectory.findUserByUsername(username) != null;
+        return ud.findUserByUsername(username) != null;
     }
 
     /**
@@ -150,17 +151,12 @@ public class Auth {
         return loginTable.getNumElements();
     }
 
-
     /**
-     * Hashs existing users to the HashTable (SHOULD ONLY BE USED AT START OF APP)
+     * Hashes existing users to the HashTable (SHOULD ONLY BE USED AT START OF APP)
      *
      * @param key a string of the username and password separated by a ':'
-     * @return if the User was added to the Hashtable, verified by an increase in table size
      */
-    public boolean addExisitingUser(String key) {
-        int amount = getRegisteredUserCount();
+    public void addExistingUser(String key) {
         loginTable.add(key);
-        return amount != getRegisteredUserCount();
-
     }
 }
