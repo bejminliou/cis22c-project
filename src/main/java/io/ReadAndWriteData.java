@@ -109,32 +109,27 @@ public class ReadAndWriteData {
     }
 
     /**
-     * Save user data to persistent storage
+     * Save user data to persistent storage in the specified format.
      *
      * @param ud the UserDirectory containing all the data to save
      * @throws IOException if there is an error writing to the file
-     * @see data.User for user data structure
-     * @see data.UserDirectory for user management operations
      */
-    public static void saveData(UserDirectory ud) throws IOException {
-        String fileName = "data.txt";
+    public static void writeData(UserDirectory ud) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DEFAULT_DATA_FILE))) {
+            // Get all users from directory
+            ArrayList<User> usersAL = ud.getUsersAL();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            // Get all users from directory in sorted order
-            ArrayList<User> users = ud.getUsersAL();
-            boolean firstUser = true;
+            // Write the total number of users
+            writer.write(String.valueOf(usersAL.size()));
+            writer.newLine();
 
-            for (User user : users) {
-                if (!firstUser) {
-                    writer.write("\n");
-                }
-                firstUser = false;
-
+            for (User user : usersAL) {
+                writer.newLine();
                 // Write user ID
                 writer.write(String.valueOf(user.getId()));
                 writer.newLine();
 
-                // Write name
+                // Write full name
                 writer.write(user.getFirstName() + " " + user.getLastName());
                 writer.newLine();
 
@@ -146,34 +141,22 @@ public class ReadAndWriteData {
                 writer.write(user.getPassword());
                 writer.newLine();
 
-                // Write friends
-                BST<User> friends = user.getFriends();
-                ArrayList<User> friendsList = new ArrayList<>();
-                String friendsString = friends.inOrderString();
-                if (friendsString != null && !friendsString.isEmpty()) {
-                    String[] friendEntries = friendsString.split("\n");
-                    for (String entry : friendEntries) {
-                        if (entry == null || entry.isEmpty()) continue;
-                        User friend = friends.search(null, ud.getNameComparator());
-                        if (friend != null) {
-                            friendsList.add(friend);
-                        }
-                    }
-                }
-                writer.write("f " + friendsList.size());
+                // Write friend IDs
+                List<Integer> friendIds = user.getFriendIds();
+                writer.write(String.valueOf(friendIds.size()));
                 writer.newLine();
-                for (User friend : friendsList) {
-                    writer.write(String.valueOf(friend.getId()));
+                for (Integer friendId : friendIds) {
+                    writer.write(String.valueOf(friendId));
                     writer.newLine();
                 }
 
                 // Write city
-                writer.write("city " + (user.getCity() != null ? user.getCity() : ""));
+                writer.write(user.getCity() != null ? user.getCity() : "");
                 writer.newLine();
 
                 // Write interests
                 LinkedList<String> interests = user.getInterests();
-                writer.write("i " + interests.getLength());
+                writer.write(String.valueOf(interests.getLength()));
                 writer.newLine();
                 interests.positionIterator();
                 while (!interests.offEnd()) {
@@ -182,6 +165,8 @@ public class ReadAndWriteData {
                     interests.advanceIterator();
                 }
             }
+        } catch (IOException e) {
+            throw new IOException("ReadAndWriteData.java writeData(): Error writing to file: " + e.getMessage());
         }
     }
 }
