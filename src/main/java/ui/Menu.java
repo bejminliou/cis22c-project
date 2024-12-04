@@ -1,14 +1,12 @@
 package ui;
 
-import data.Interest;
-import model.Account;
+import data.InterestManager;
 import data.UserDirectory;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import data.User;
-import data.InterestManager;
 import util.LinkedList;
 
 /**
@@ -23,12 +21,9 @@ import util.LinkedList;
  */
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
-    private final Account account;
     private final UserDirectory ud;
-    private final InterestManager im;
     public User user;
     private String userName;
-    private InterestManager interestManager;
 
     // Constructors
 
@@ -36,11 +31,9 @@ public class Menu {
      * Creates a new Menu with a Scanner for user input
      * and the UserDirectory for access
      *
-     * @param account the Account Object used to manage users
      * @param ud      the UserDirectory storing the data of all existing users
      */
-    public Menu(Account account, UserDirectory ud) {
-        this.account = account;
+    public Menu(UserDirectory ud) {
         this.ud = ud;
 
     }
@@ -50,8 +43,6 @@ public class Menu {
     /**
      * Displays the log in menu and handles user input.
      *
-     * @see model.Account#login(String, String) for login processing
-     * @see model.Account#createAccount(User) for account creation
      */
     public void displayLogIn() {
         String choiceStr;
@@ -92,7 +83,7 @@ public class Menu {
 
         if (login) {
             // authenticate given credentials
-            boolean authenticate = account.getAuth().authenticate(userName, password);
+            boolean authenticate = ud.getCredAuthStatus(userName, password);
 
             if (authenticate) { // if credentials match
                 user = ud.findUserByUsername(userName);
@@ -110,7 +101,7 @@ public class Menu {
             user = new User();
             user.setUserName(userName);
             user.setPassword(password);
-            boolean accountCreate = account.createAccount(user, ud);
+            boolean accountCreate = ud.addAuthNewUser(user);
 
             // if account successfully created
             if (accountCreate) {
@@ -209,7 +200,7 @@ public class Menu {
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt(); // input user choice
                 if (choice == 1) {
-                    if (ud.findUserByUsername(this.userName).getFriendCount() == 0) { // if user's friend list is empty
+                    if (user.getFriendCount() == 0) { // if user's friend list is empty
                         System.out.println("You do not have any friends to display!\n");
                         mainMenu();
                     } else {
@@ -500,6 +491,7 @@ public class Menu {
 
         // Use InterestManager class to find the list of users with that interest
         // I could not find a way to load up all the interests into interestManager like what yall did in searchUsersByName
+        InterestManager im =  new InterestManager();
         matchingUsers = im.getUsersWithInterest(interest);
 
         if (!matchingUsers.isEmpty()) { // If there are matching users

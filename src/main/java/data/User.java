@@ -40,6 +40,24 @@ public class User implements Comparable<User> {
         friendIds = new ArrayList<>();
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     */
+    public User(String firstName, String lastName) {
+        this();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    /**
+     * @param userName
+     */
+    public User(String userName) {
+        this();
+        this.userName = userName;
+    }
+
     // Accessors
 
     /**

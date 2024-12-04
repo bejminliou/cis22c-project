@@ -32,7 +32,7 @@ public class Friend {
         this.friendGraph = new ArrayList<>();
 
         // Initialize graph with existing users
-        for (User user : userDirectory.getArrayList()) {
+        for (User user : userDirectory.getUsersAL()) {
             addToGraph(user);
         }
     }
@@ -74,7 +74,7 @@ public class Friend {
         ArrayList<User> matches = new ArrayList<>();
         String searchName = name.trim().toLowerCase();
 
-        for (User user : userDirectory.getArrayList()) {
+        for (User user : userDirectory.getUsersAL()) {
             String firstName = user.getFirstName() != null ? user.getFirstName().toLowerCase() : "";
             String lastName = user.getLastName() != null ? user.getLastName().toLowerCase() : "";
             String fullName = firstName + " " + lastName;
@@ -135,7 +135,7 @@ public class Friend {
     public void refreshNetwork() {
         friendGraph.clear();
 
-        for (User user : userDirectory.getArrayList()) {
+        for (User user : userDirectory.getUsersAL()) {
             addToGraph(user);
         }
     }
@@ -147,7 +147,7 @@ public class Friend {
      * @return User with matching ID, or null if not found
      */
     private User findUserById(int userId) {
-        for (User user : userDirectory.getArrayList()) {
+        for (User user : userDirectory.getUsersAL()) {
             if (user.getId() == userId) {
                 return user;
             }
