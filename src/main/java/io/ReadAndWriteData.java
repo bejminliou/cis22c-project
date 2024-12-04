@@ -3,6 +3,7 @@ package io;
 import java.io.*;
 import java.util.*;
 
+import data.InterestManager;
 import data.UserDirectory;
 import data.User;
 import util.BST;
@@ -33,6 +34,7 @@ public class ReadAndWriteData {
         HashTable<String> interests = new HashTable<>(1);
         ArrayList<User> usersAL = new ArrayList<>();
         BST<User> allUsersBST = new BST<>();
+        InterestManager interestManager = new InterestManager();
 
         int userID, numFriends, friendID, numInterests;
         String fullName, interest;
@@ -87,7 +89,7 @@ public class ReadAndWriteData {
             for (int i = 0; i < numInterests; i++) {
                 interest = fileInput.nextLine(); // read one interest
                 currUser.addInterest(interest); // add to current user
-                interests.add(interest); // add to HashTable of interests
+                interestManager.addUserToInterest(interest, currUser); // add to interest manager
             }
 
             usersAL.add(currUser);
@@ -104,7 +106,7 @@ public class ReadAndWriteData {
         }
 
         fileInput.close();
-        return new UserDirectory(usersAL, allUsersBST, friendNetwork);
+        return new UserDirectory(usersAL, allUsersBST, friendNetwork, interestManager);
     }
 
     /**

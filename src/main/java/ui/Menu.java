@@ -11,7 +11,8 @@ import util.LinkedList;
 
 /**
  * Handles the user interface and menu system for the application.
- * Provides options for login, account creation, and other user interactions.
+ * Provides options for login, account creation, viewing user friends,
+ * and adding new friends.
  *
  * @author Benjamin Liou
  * @author Kenneth Garcia
@@ -28,10 +29,9 @@ public class Menu {
     // Constructors
 
     /**
-     * Creates a new Menu with a Scanner for user input
-     * and the UserDirectory for access
+     * Creates a new Menu with the data from the given UserDirectory
      *
-     * @param ud      the UserDirectory storing the data of all existing users
+     * @param ud the UserDirectory storing the data of existing users
      */
     public Menu(UserDirectory ud) {
         this.ud = ud;
@@ -42,7 +42,8 @@ public class Menu {
 
     /**
      * Displays the log in menu and handles user input.
-     *
+     * Logs in user by authenticating their credentials.
+     * Creates new account by creating new User with the given credentials.
      */
     public void displayLogIn() {
         String choiceStr;
@@ -87,8 +88,8 @@ public class Menu {
 
             if (authenticate) { // if credentials match
                 user = ud.findUserByUsername(userName);
-                System.out.println("\nWelcome " + user.getUserName() + "!");
-                this.userName = user.getUserName();
+                System.out.println("\nWelcome " + user.getUsername() + "!");
+                this.userName = user.getUsername();
             } else { // if no matching credentials
                 System.out.println("Your username or password is incorrect. Returning to previous menu.\n");
                 scanner.nextLine(); // clear scanner before recursion
@@ -123,11 +124,12 @@ public class Menu {
                     String interests = scanner.nextLine();
 
                     // check if user quit
-                    if (interests.equals("0")) {
+                    if (interestName.equals("0")) {
                         break;
                     }
 
-                    user.addInterest(interests);
+                    ud.getInterestManager().addUserToInterest(interestName, user);
+                    user.addInterest(interestName);
                 } while (true);
                 System.out.println("Finished entering your interests.\n");
 
@@ -143,8 +145,8 @@ public class Menu {
 
                 // print welcome message
                 System.out.println("\nYour account has successfully been created, welcome "
-                        + user.getUserName() + "!\n");
-                this.userName = user.getUserName();
+                        + user.getUsername() + "!\n");
+                this.userName = user.getUsername();
                 scanner.nextLine(); // clear scanner before returning
 
             } else { // failed to create accounts
@@ -189,7 +191,8 @@ public class Menu {
     }
 
     /**
-     *
+     * Prints the View Friends Menu and allows for user to view friends
+     * sorted by name or to search for a specific friend by their name.
      */
     public void viewMyFriends() {
         while (true) {
@@ -220,7 +223,7 @@ public class Menu {
     }
 
     /**
-     * Displays the current friends
+     * Displays the current friends of the User.
      */
     private void displayFriends() {
         String result = ud.findUserByUsername(this.userName).getFriends().inOrderString();
@@ -308,7 +311,7 @@ public class Menu {
     }
 
     /**
-     *
+     * The User Menu used to add friends by name, interest, or get friend recommendations.
      */
     public void addFriendMenu() {
         String inputStr;
@@ -365,6 +368,7 @@ public class Menu {
                         // adding as friend
                         if (inputStr.equals("1")) {
                             user.addFriend(viewedUser);
+                            ud.addFriendConnection(user, viewedUser);
 
                             System.out.println(viewedUser.getFirstName() + " " + viewedUser.getLastName()
                                     + " has been added as your friend!\n");
@@ -379,7 +383,7 @@ public class Menu {
                 break;
             case 2:
                 // **UNFINISHED**//
-                //viewedUser =  searchUsersByInterest();
+                //searchUsersByInterest();
                 /* I've taken this to a different approach, different from searchUsersByName, i am not sure if this
                  * is more optimal but I think it is more user friendly
                  */
@@ -395,7 +399,7 @@ public class Menu {
     }
 
     /**
-     * Allows user to search all current Users by name and select a matching User using their UserID.
+     * Allows user to search all current Users by name and select a matching user.
      *
      * @return the selected User
      */
@@ -478,9 +482,9 @@ public class Menu {
      *
      */
     public User searchUsersByInterest() {
-        String interest;
-        ArrayList<User> matchingUsers;
+        String interest, inputStr;
         User returnUser = null;
+        ;
         //InterestManager storedInterests =
         ArrayList<Integer> validIDs = new ArrayList<>();
 
@@ -491,23 +495,55 @@ public class Menu {
 
         // Use InterestManager class to find the list of users with that interest
         // I could not find a way to load up all the interests into interestManager like what yall did in searchUsersByName
-        InterestManager im =  new InterestManager();
-        matchingUsers = im.getUsersWithInterest(interest);
 
-        if (!matchingUsers.isEmpty()) { // If there are matching users
-            for (User user : matchingUsers) {
-                validIDs.add(user.getId());
-            }
 
-            // Delegate the process of displaying and interacting with the list to a helper method
-            handleUserSelection(matchingUsers, validIDs);
+        // matchingUsers = im.getUsersWithInterest(interest);
+        BST<User> userList = ud.interestManager.retrieveInterestBST(interest);
+        if (userList != null) { // If there are matching users
+            System.out.println(userList.inOrderString());
 
         } else { // If no matching users are found
             System.out.println("\nThere were no users that match the given interest.");
         }
 
+        boolean validInput = false;
+        do {
+            try {
+                // Get ID of profile to view
+                System.out.print("Enter the ID (number to the left of the name) of the person whose profile" +
+                        " you'd like to view: ");
+                inputStr = scanner.next();
+
+                // Check if inputStr matches a valid ID
+                for (int ID : validIDs) {
+                    if (Integer.parseInt(inputStr) == ID) { // If inputStr matches validID
+                        // Set and print returnUser
+                        //returnUser = userList.get(validIDs.indexOf(Integer.parseInt(inputStr)));  // Assuming BST.get() method is available
+                        printProfile(returnUser);
+
+                        validInput = true;
+                        break;
+                    }
+                }
+
+                // If input doesn't match validID
+                if (!validInput) {
+                    System.out.println("\nPlease ensure the ID given is valid.");
+                }
+            } catch (Exception e) {
+                System.out.println("\nPlease ensure the ID given is valid.");
+                scanner.nextLine(); // Clear scanner after invalid input
+            }
+        } while (!validInput);
+
+
+        { // If no matching users are found
+            System.out.println("\nThere were no users that match the given interest.");
+        }
+
         return returnUser;
     }
+    */
 
     /**
      * Helper method to handle user selection and actions from a list of matching users.

@@ -1,11 +1,8 @@
 package model;
 
-import data.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import util.Graph;
+import util.LinkedList;
+import data.UserDirectory;
 
 /**
  * Search utility for finding users and analyzing network relationships
@@ -27,14 +24,8 @@ public class Friend {
      *
      * @param userDirectory The user directory to search through
      */
-    public Friend(UserDirectory userDirectory) {
-        this.userDirectory = userDirectory;
-        this.friendGraph = new ArrayList<>();
-
-        // Initialize graph with existing users
-        for (User user : userDirectory.getUsersAL()) {
-            addToGraph(user);
-        }
+    public Friend(UserDirectory userDirectory) {;
+        this.friendGraph = userDirectory.getFriendNetwork();
     }
 
     /**
@@ -59,35 +50,6 @@ public class Friend {
         userFriends.addAll(user.getFriendIds());
     }
 
-    /**
-     * Find users by name using UserDirectory
-     * Supports finding multiple users with the same name
-     *
-     * @param name Name to search for (first name, last name, or full name)
-     * @return List of users with matching name
-     */
-    public ArrayList<User> findUsersByName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        ArrayList<User> matches = new ArrayList<>();
-        String searchName = name.trim().toLowerCase();
-
-        for (User user : userDirectory.getUsersAL()) {
-            String firstName = user.getFirstName() != null ? user.getFirstName().toLowerCase() : "";
-            String lastName = user.getLastName() != null ? user.getLastName().toLowerCase() : "";
-            String fullName = firstName + " " + lastName;
-
-            if (firstName.toLowerCase().contains(searchName) ||
-                    lastName.toLowerCase().contains(searchName) ||
-                    fullName.toLowerCase().contains(searchName)) {
-                matches.add(user);
-            }
-        }
-
-        return matches;
-    }
 
     /**
      * Get all users directly connected to specified user in the network

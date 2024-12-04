@@ -298,6 +298,20 @@ public class Graph {
      * Performs depth first search on this Graph in order of vertex lists
      */
     public void DFS() {
+        for (int i = 0; i < vertices; i++) {
+            color.set(i, 'W');
+            parent.set(i, null);
+            discoverTime.set(i, -1);
+            finishTime.set(i, -1);
+        }
+
+        time = 0;
+
+        for(int i = 0; i < vertices; i++) {
+            if (color.get(i) == 'W') {
+                visit(i);
+            }
+        }
     }
 
     /**
@@ -306,5 +320,24 @@ public class Graph {
      * @param vertex the vertex to visit
      */
     private void visit(int vertex) {
+        color.set(vertex, 'G');
+        time++;
+        discoverTime.set(vertex, time);
+
+        LinkedList<Integer> adjlist = adj.get(vertex);
+        adjlist.positionIterator();
+
+        while (!adjlist.offEnd()) {
+            int neighbor = adjlist.getIterator();
+            if (color.get(neighbor) == 'W') {
+                parent.set(neighbor, vertex);
+                visit(neighbor);
+            }
+            adjlist.advanceIterator();
+        }
+
+        color.set(vertex, 'B');
+        time++;
+        finishTime.set(vertex, time);
     }
 }

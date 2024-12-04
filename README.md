@@ -15,7 +15,6 @@ cis22c-project/
 │   ├── main/
 │   │   └── java/
 │   │       ├── data/
-│   │       │   └── Auth.java
 │   │       │   └── Interest.java
 │   │       │   └── InterestManager.java
 │   │       │   ├── User.java
@@ -178,7 +177,7 @@ The project will be developed in phases:
 
 ## Getting Started
 
-This project will mainly be coordinated through the Discord server. If you have any questions, feel free to message the team leader (`askioe`).
+This project will mainly be coordinated through the Discord server. If you have any questions, feel free to message the team leader through canvas.
 
 
 ## Contributors
