@@ -23,7 +23,7 @@ public class UserDirectory {
     private final BST<User> usersBST;
     private final Graph friendNetwork;
     private final HashTable<String> loginTable;
-    public final InterestManager interestManager;
+    private final InterestManager interestManager;
 
     // Comparators
 
@@ -166,6 +166,27 @@ public class UserDirectory {
             }
         }
         return results;
+    }
+
+    public User findUserAndReturnUserClass(String first, String last) {
+        if (first == null || last == null) {
+            throw new NullPointerException("UserDirectory.java findUserAndReturnUserClass(): Firstname and/or Lastname " +
+                    "cannot be null");
+        }
+
+        String orderedStr = usersBST.inOrderString();
+        // if no users in BST
+        if (orderedStr == null || orderedStr.isEmpty()) {
+            return null;
+        }
+
+        // adding users with matching name to results
+        for (User user : usersAL) {
+            if (user.getFirstName().equalsIgnoreCase(first) && user.getLastName().equalsIgnoreCase(last)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     /**

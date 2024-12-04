@@ -150,6 +150,10 @@ public class User implements Comparable<User> {
         return interests;
     }
 
+    public String getInterestsByString() {
+        return interests.toString();
+    }
+
     /**
      * Get the number of interests the user has.
      *
