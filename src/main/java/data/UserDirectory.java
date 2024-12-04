@@ -1,9 +1,12 @@
 package data;
 
-import util.*;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+
+import util.BST;
+import util.Graph;
+import util.HashTable;
+import util.LinkedList;
 
 /**
  * UserDirectory maintains a BST of all users in the system,
@@ -17,6 +20,7 @@ public class UserDirectory {
     private final ArrayList<User> usersAL;
     private final BST<User> usersBST;
     private final Graph friendNetwork;
+    private final HashTable<String> loginTable;
 
     // Comparators
 
@@ -53,8 +57,9 @@ public class UserDirectory {
     // Constructors
 
     /**
-     * Initializes UserDirectory with given ArrayList and BinarySearchTree
-     * of users.
+     * Initializes UserDirectory with given ArrayList of users, BinarySearchTree
+     * of users, and Graph of the friend connections.
+     * Authenticates all user credentials by adding them to loginTable.
      *
      * @param usersAL       an ArrayLIst of users
      * @param usersBST      a BinarySearchTree of users
@@ -64,140 +69,17 @@ public class UserDirectory {
         this.usersAL = usersAL;
         this.usersBST = usersBST;
         this.friendNetwork = friendNetwork;
-    }
 
-    // Mutators
-
-    /**
-     * Adds a new user to both the ArrayList and BST.
-     *
-     * @param user The user to add to the directory
-     * @see util.BST#insert for insertion
-     * @see #nameComparator for ordering
-     */
-    public void addUser(User user) {
-        usersAL.add(user);
-        usersBST.insert(user, nameComparator);
-    }
-
-    /**
-     * Removes a user from both the ArrayList and BSTmap
-     *
-     * @param user The user to remove from the directory
-     * @see util.BST#remove for removal
-     * @see #nameComparator for ordering
-     */
-    public void removeUser(User user) {
-        usersAL.remove(user.getId());
-        usersBST.remove(user, nameComparator);
+        // authenticate all user credentials into the loginTable
+        final int NUM_USERS_OFFSET = 10;
+        int numUsers = usersAL.size();
+        this.loginTable = new HashTable<>(numUsers + NUM_USERS_OFFSET);
+        for (User user : usersAL) {
+            loginTable.add(getLoginKey(user.getUserName(), user.getPassword()));
+        }
     }
 
     // Accessors
-
-    /**
-     * @return
-     */
-    public ArrayList<User> getArrayList() {
-        return usersAL;
-    }
-
-    /**
-     * @return
-     */
-    public BST<User> getUsersBST() {
-        return usersBST;
-    }
-
-    /**
-     * @return
-     */
-    public Graph getFriendsGraph() {
-        return friendNetwork;
-    }
-
-    /**
-     * Returns all users that match the given name
-     *
-     * @param firstName First name to search for (case insensitive)
-     * @param lastName  Last name to search for (case insensitive)
-     * @return List of users with exactly matching names
-     * @see data.User#getFirstName
-     * @see data.User#getLastName
-     */
-    public ArrayList<User> findUsersByName(String firstName, String lastName) {
-        ArrayList<User> results = new ArrayList<>();
-        String orderedStr = usersBST.inOrderString();
-
-        // if no users in BST
-        if (orderedStr == null || orderedStr.isEmpty()) {
-            return results;
-        }
-
-        // adding users with matching name to results
-        String[] userEntries = orderedStr.split("\n");
-        for (String entry : userEntries) {
-            if (entry == null || entry.isEmpty()) {
-                continue;
-            }
-
-            User user = usersBST.search(parseUser(entry), nameComparator);
-            if (user != null
-                    && user.getFirstName().equalsIgnoreCase(firstName)
-                    && user.getLastName().equalsIgnoreCase(lastName)) {
-                results.add(user);
-            }
-        }
-
-        return results;
-    }
-
-    /**
-     * Parses a user from the BST's string representation
-     *
-     * @param entry The string entry to parse
-     * @return A User object with the parsed first and last name
-     * @see util.BST#inOrderString for the format of the string representation
-     * @see data.User#setFirstName for setting parsed first name
-     * @see data.User#setLastName for setting parsed last name
-     */
-    public User parseUser(String entry) {
-        User temp = new User();
-        String[] parts = entry.trim().split(" ", 2);
-        if (parts.length >= 2) {
-            temp.setFirstName(parts[0]);
-            temp.setLastName(parts[1]);
-        } else if (parts.length == 1) {
-            temp.setFirstName(parts[0]);
-            temp.setLastName("");
-        }
-        return temp;
-    }
-
-    /**
-     * Finds a user by their unique username in the system
-     * Uses optimized username map for O(1) lookup instead of searching the BST
-     *
-     * @param username The username to search for ((?) case-sensitive)
-     * @return The user with the given username, or null if not found
-     * @see data.User#getUserName
-     */
-    public User findUserByUsername(String username) {
-        // search through usersAL
-        for (User user : usersAL) {
-            if (user.getUserName().equalsIgnoreCase(username)) {
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public int getUserCount() {
-        return usersAL.size();
-    }
 
     /**
      * Get the name comparator used for ordering users
@@ -209,19 +91,105 @@ public class UserDirectory {
     }
 
     /**
-     * Register a new user with the directory
+     * @return
+     */
+    public int getNumUsers() {
+        return usersAL.size();
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList<User> getUsersAL() {
+        return usersAL;
+    }
+
+    /**
+     * Returns all users that match the given name.
+     *
+     * @param firstName first name to search for (case-insensitive)
+     * @param lastName  last name to search for (case-insensitive)
+     * @return list of users with exactly matching names
+     * @throws NullPointerException if firstName or lastName is null
+     * @see data.User#getFirstName
+     * @see data.User#getLastName
+     */
+    public ArrayList<User> findUsersByName(String firstName, String lastName) throws NullPointerException {
+        // precondition
+        if (firstName == null || lastName == null) {
+            throw new NullPointerException("UserDirectory.java findUsersByName(): Firstname and/or Lastname " +
+                    "cannot be null");
+        }
+
+        ArrayList<User> results = new ArrayList<>();
+        String orderedStr = usersBST.inOrderString();
+        // if no users in BST
+        if (orderedStr == null || orderedStr.isEmpty()) {
+            return results;
+        }
+
+        // adding users with matching name to results
+        for (User user : usersAL) {
+            if (user.getFirstName().equalsIgnoreCase(firstName) && user.getLastName().equalsIgnoreCase(lastName)) {
+                results.add(user);
+            }
+        }
+        return results;
+    }
+
+    /**
+     * Finds a user by their unique username in the system.
+     *
+     * @param username the username to search for
+     * @return the user with the given username, or null if not found
+     * @throws NullPointerException if given username is null
+     * @see data.User#getUserName
+     */
+    public User findUserByUsername(String username) throws NullPointerException {
+        //precondition
+        if (username == null) {
+            throw new NullPointerException("UserDirectory.java findUserByUsername(): Username cannot be null");
+        }
+
+        for (User user : usersAL) {
+            if (user.getUserName().equalsIgnoreCase(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    // Mutators
+
+    /**
+     * Add a new User to usersAL, usersBST, and loginTable.
+     *
+     * @param user the user to add to the directory
+     * @see util.BST#insert for insertion
+     * @see #nameComparator for ordering
+     */
+    public void addUser(User user) {
+        usersAL.add(user);
+        usersBST.insert(user, nameComparator);
+        addAuthNewUser(user);
+    }
+
+    /**
+     * Add a new User into the UserDirectory with their username,
+     * password, firstName, and lastName.
      *
      * @param username  Username for the new user
-     * @param password  Password for the new user
-     * @param firstName First name of the user
-     * @param lastName  Last name of the user
-     * @return true if registration successful, false if username already exists
+     * @param password  password for the new user
+     * @param firstName first name of the user
+     * @param lastName  last name of the user
+     * @return true if registration successful, false if given username already exists
      */
-    public boolean registerUser(String username, String password, String firstName, String lastName) {
+    public boolean addUser(String username, String password, String firstName, String lastName) {
         if (findUserByUsername(username) != null) {
             return false;
         }
 
+        // creating new user
         User newUser = new User();
         newUser.setUserName(username);
         newUser.setPassword(password);
@@ -230,9 +198,132 @@ public class UserDirectory {
         newUser.setId(usersAL.size());
 
         addUser(newUser);
-
         return true;
     }
+
+    /**
+     * Remove a User from usersAL, usersBST, and loginTable.
+     *
+     * @param user the user to remove from the directory
+     * @see util.BST#remove for removal
+     * @see #nameComparator for ordering
+     */
+    public void removeUser(User user) {
+        usersAL.remove(user.getId());
+        usersBST.remove(user, nameComparator);
+        loginTable.delete(getLoginKey(user.getFirstName(), user.getLastName()));
+    }
+
+    // Additional methods for loginTable and authentication
+
+    /**
+     * Return a login key created by combining a User's username and password.
+     *
+     * @param username the username to combine
+     * @param password the password to combine
+     * @return the combined login key
+     * @throws IllegalArgumentException if either parameter is null
+     * @see #addAuthNewUser for key usage in registration
+     */
+    private String getLoginKey(String username, String password) {
+        // precondition
+        if (username == null || password == null) {
+            throw new IllegalArgumentException("Auth.java getLoginKey(): Username and/or Password cannot be null");
+        }
+
+        // format: "username:password"
+        return username + ":" + password;
+    }
+
+    /**
+     * Authenticate a given pair of username and password by checking if the login key
+     * already exists in loginTable.
+     *
+     * @param username the username to verify
+     * @param password the password to verify
+     * @return true if the given username and password already exist (as a
+     * login key) in loginTable, false otherwise
+     */
+    public boolean getCredAuthStatus(String username, String password) {
+        // precondition
+        if (username == null || password == null) {
+            throw new IllegalArgumentException("Auth.java getCredAuthStatus(): " +
+                    "Username and password cannot be null");
+        }
+
+        String loginKey = getLoginKey(username, password);
+        return loginTable.contains(loginKey);
+    }
+
+    /**
+     * Authenticate a User by checking if their login key exists in loginTable.
+     *
+     * @param user the existing user to authenticate
+     * @return true if User's login key already exists in loginTable, false otherwise
+     * @throws IllegalArgumentException if user, username, or password is null
+     * @see #getLoginKey for credential format
+     * @see util.HashTable#contains for credential verification
+     */
+    public boolean getUserAuthStatus(User user) {
+        // precondition for user object
+        if (user == null) {
+            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): User cannot be null");
+        }
+
+        String username = user.getUserName();
+        String password = user.getPassword();
+        // preconditions for user's name and password
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): Username cannot be null or empty");
+        }
+        if (password == null) {
+            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): Password cannot be null");
+        }
+
+        String loginKey = getLoginKey(user.getUserName(), user.getPassword());
+        return loginTable.contains(loginKey);
+    }
+
+    /**
+     * Authenticate a new user by adding their login key to the loginTable if
+     * their login key does not already exist.
+     *
+     * @param user the new user to authenticate (must have username and password set)
+     * @return true if User's login key has been added to loginTable, false otherwise
+     * @throws IllegalArgumentException if user, username, or password is null
+     * @see #getLoginKey for credential format
+     * @see util.HashTable#contains for credential verification
+     */
+    public boolean addAuthNewUser(User user) {
+        // precondition for user object
+        if (user == null) {
+            throw new IllegalArgumentException("Auth.java addAuthNewUser(): User cannot be null");
+        }
+
+        String username = user.getUserName();
+        String password = user.getPassword();
+        // preconditions for user's name and password
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Auth.java addAuthNewUser(): Username cannot be null or empty");
+        }
+        if (password == null) {
+            throw new IllegalArgumentException("Auth.java addAuthNewUser(): Password cannot be null");
+        }
+
+        // check for login key in loginTable
+        String loginKey = getLoginKey(username, password);
+        if (loginTable.contains(loginKey)) {
+            System.out.println("Error: could not register user as the given username and password have already " +
+                    "been registered.\n");
+            return false;
+        }
+
+        // authenticate new user
+        loginTable.add(loginKey);
+        return true;
+    }
+
+    // Additional methods
 
     /**
      * @return
@@ -244,9 +335,9 @@ public class UserDirectory {
         sb.append("\n===========================\n");// lol
         sb.append("  User Directory Contents\n");
         sb.append("===========================\n\n");
-        sb.append(String.format("Total Users: %d\n\n", getUserCount()));
+        sb.append(String.format("Total Users: %d\n\n", getNumUsers()));
 
-        if (getUserCount() == 0) {
+        if (getNumUsers() == 0) {
             sb.append("No users in directory.");
             return sb.toString();
         }

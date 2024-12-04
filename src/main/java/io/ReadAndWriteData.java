@@ -120,7 +120,7 @@ public class ReadAndWriteData {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             // Get all users from directory in sorted order
-            ArrayList<User> users = ud.getArrayList();
+            ArrayList<User> users = ud.getUsersAL();
             boolean firstUser = true;
 
             for (User user : users) {
@@ -153,7 +153,7 @@ public class ReadAndWriteData {
                     String[] friendEntries = friendsString.split("\n");
                     for (String entry : friendEntries) {
                         if (entry == null || entry.isEmpty()) continue;
-                        User friend = friends.search(ud.parseUser(entry), ud.getNameComparator());
+                        User friend = friends.search(null, ud.getNameComparator());
                         if (friend != null) {
                             friendsList.add(friend);
                         }
