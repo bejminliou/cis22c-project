@@ -1,13 +1,11 @@
 package ui;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import data.UserDirectory;
 import data.User;
 
 import model.Friend;
-import util.BST;
 import util.LinkedList;
 
 /**
@@ -19,16 +17,16 @@ import util.LinkedList;
  * @author Benjamin Liou
  * @author Kenneth Garcia
  * @author Kevin Young
- * @author Yukai Qiu
  * @author Rolen Louie
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
     private final UserDirectory ud;
+    private final Friend friend;
     public User user;
     private String userName;
-    private Friend friend;
 
     // Constructors
 
@@ -167,31 +165,36 @@ public class Menu {
     public void mainMenu() {
         while (true) {
             // print user options
-            System.out.println("Main Menu:\n1. View your friends\n2. Make new friends\n3. Quit");
+            System.out.println("Main Menu:\n0. Quit\n1. View Your Friends\n2. Add New Friends");
             System.out.print("Please enter your choice: ");
 
             // get user choice
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
+                scanner.nextLine();  // clear the newline character left in the buffer
 
-                if (choice == 1) {
-                    viewMyFriends();
-                } else if (choice == 2) {
-                    addFriendMenu();
-                } else if (choice == 3) {
-                    System.out.println("\nGoodbye!");
-                    scanner.close();
-                    System.exit(0);
-                } else {
-                    System.out.println("Invalid input. Please enter a valid option 1, 2, or 3.\n");
-                    scanner.nextLine(); // clear scanner before repeating loop
+                switch (choice) {
+                    case 0:
+                        System.out.println("\nGoodbye!");
+                        return;  // return to App.java
+                    case 1:
+                        viewMyFriends();
+                        break;
+                    case 2:
+                        addFriendMenu();
+                        break;
+                    default:
+                        System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.\n");
+                        break;
                 }
-            } else { // if int was not input
-                System.out.println("Invalid input. Please enter a valid option 1, 2, or 3.\n");
-                scanner.nextLine(); // clear scanner before repeating loop
+            } else {
+                // If the input is not an integer, clear the invalid input
+                System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.\n");
+                scanner.nextLine(); // clear the invalid input
             }
         }
     }
+
 
     /**
      * Prints the View Friends Menu and allows for user to view friends
@@ -208,7 +211,7 @@ public class Menu {
                 if (choice == 1) {
                     if (user.getFriendCount() == 0) { // if user's friend list is empty
                         System.out.println("You do not have any friends to display!\n");
-                        mainMenu();
+                        return;
                     } else {
                         displayFriends();
                     }
@@ -233,7 +236,6 @@ public class Menu {
         System.out.println("\nHere are your current friends:");
         System.out.println(result.trim());
         System.out.println();
-        mainMenu();
     }
 
     /**
@@ -301,9 +303,6 @@ public class Menu {
             if (choice == 1) {
                 // print profile
                 printProfile(friend);
-
-                // return to mainMenu
-                mainMenu();
             } else if (choice == 2) {
                 // remove friend
                 user.removeFriend(friend);
@@ -385,22 +384,14 @@ public class Menu {
                 } while (inputStr.equals("1"));
                 break;
             case 2:
-                // **UNFINISHED**//
-                System.out.println("Please enter the interest you want to search by: ");
+                System.out.print("Please enter the interest you want to search by: ");
                 inputStr = scanner.next();
                 searchByInterests(inputStr);
-                /* I've taken this to a different approach, different from searchUsersByName, i am not sure if this
-                 * is more optimal but I think it is more user friendly
-                 */
                 break;
             case 3:
-                // **UNFINISHED**//
                 getFriendRecs();
                 break;
         }
-
-        // return to mainMenu
-        mainMenu();
     }
 
     /**
@@ -483,6 +474,9 @@ public class Menu {
         return returnUser;
     }
 
+    /**
+     * @param interest
+     */
     private void searchByInterests(String interest) {
         String inOrder = ud.getInterestManager().retrieveInterestBST(interest).inOrderString();
         String[] splitArray = inOrder.split("\n");
