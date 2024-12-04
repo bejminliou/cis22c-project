@@ -14,6 +14,7 @@ import util.LinkedList;
  * Provides access for searching users by name or username.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * CIS 22C, Course Project
  */
@@ -68,6 +69,7 @@ public class UserDirectory {
      * @param usersAL       an ArrayLIst of users
      * @param usersBST      a BinarySearchTree of users
      * @param friendNetwork a Graph containing the friend connections between Users
+     * @param interestManager an InterestManager containing the existing interests and Users who share the interests
      */
     public UserDirectory(ArrayList<User> usersAL, BST<User> usersBST, Graph friendNetwork,
                          InterestManager interestManager) {
@@ -112,6 +114,25 @@ public class UserDirectory {
      */
     public ArrayList<User> getUsersAL() {
         return usersAL;
+    }
+
+    /**
+     * Get the Graph containing the friend network of all Users in UserDirectory.
+     *
+     * @return the Graph representing the friend network
+     */
+    public Graph getFriendNetwork() {
+        return friendNetwork;
+    }
+
+    /**
+     * Get the InterestManager managing the interests of the Users
+     * in the UserDirectory.
+     *
+     * @return the InterestManager in UserDirectory
+     */
+    public InterestManager getInterestManager() {
+        return interestManager;
     }
 
     /**

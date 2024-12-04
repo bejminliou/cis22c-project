@@ -20,7 +20,6 @@ cis22c-project/
 │   │       │   ├── User.java
 │   │       │   ├── UserDirectory.java
 │   │       ├── model/
-│   │       │   └── Account.java
 │   │       │   ├── Friend.java
 │   │       ├── util/
 │   │       │   ├── BST.java
@@ -39,9 +38,7 @@ cis22c-project/
 │   │   └── resources/
 │   │       └── users.txt
 │   │       └── dataset.js
-│   └── test/
-│       └── java/
-│           └── ... (Tests mirroring package structure) 
+├── .gitignore
 ├── pom.xml
 └── README.md
 ```

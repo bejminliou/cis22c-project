@@ -1,9 +1,6 @@
 import data.*;
 import io.ReadAndWriteData;
-import model.*;
 import ui.Menu;
-
-import java.util.*;
 
 /**
  * App.java

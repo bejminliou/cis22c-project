@@ -26,12 +26,23 @@ public class Interest {
         this.interestID = interestID;
     }
 
+    // Accessors
+
+    /**
+     * Gets the name of the Interest.
+     *
+     * @return the name of Interest
+     */
     public String getName() {
         return interestName;
     }
 
-    public int getId() {
-        return id;
+    /**
+     * Gets the ID of the Interest.
+     * @return the ID of the Interest
+     */
+    public int getInterestID() {
+        return interestID;
     }
 
     // Mutators
@@ -53,4 +64,46 @@ public class Interest {
     public void setId(int interestID) {
         this.interestID = interestID;
     }
+
+    /**
+     * Overrides the hashCode method to return a hash of only an Interest's name.
+     *
+     * @return a hashcode of an Interest ONLY based on the interestName
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(interestName.toLowerCase());
+    }
+
+    /**
+     * Determines whether two Interest have the same name (ignoring case).
+     *
+     * @param obj the Object to compare to this
+     * @return whether obj and this are equal
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { // comparing Interest to itself
+            return true;
+        } else if (!(obj instanceof Interest)) { // if comparing Interest to non-Interest or null
+            return false;
+        } else {
+            Interest otherIn = (Interest) obj;
+            return interestName.equalsIgnoreCase(otherIn.interestName);
+        }
+    }
+
+    /**
+     * Returns a String containing the Interest's information.
+     *
+     * @return a String containing the Interest name and id
+     */
+    @Override
+    public String toString() {
+        return "Interest{" +
+                "interestName='" + interestName + '\'' +
+                ", id=" + interestID +
+                '}';
+    }
+
 }

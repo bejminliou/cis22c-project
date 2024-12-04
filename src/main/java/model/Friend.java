@@ -5,9 +5,10 @@ import util.LinkedList;
 import data.UserDirectory;
 
 /**
- * Search utility for finding users and analyzing network relationships
+ * Friend.java
+ * Search utility for finding users and analyzing network relationships.
  * Uses UserDirectory as the source truth for user data, providing
- * name-based search and network connection analysis through a graph
+ * name-based search and network connection analysis through a graph.
  *
  * @author Benjamin Liou
  * @author Kevin Young
@@ -16,13 +17,13 @@ import data.UserDirectory;
  * CIS 22C, Course Project
  */
 public class Friend {
-    private ArrayList<LinkedList<Integer>> friendGraph; // Graph as ArrayList of LinkedLists
-    private UserDirectory userDirectory;
+    private final Graph friendGraph;
 
     /**
-     * Creates a new friend search utility
+     * Creates a new friend search utility with the Graph of friend connections
+     * from UserDirectory.
      *
-     * @param userDirectory The user directory to search through
+     * @param userDirectory the UserDirectory to get the friend network (as a Graph) from
      */
     public Friend(UserDirectory userDirectory) {;
         this.friendGraph = userDirectory.getFriendNetwork();

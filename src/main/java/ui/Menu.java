@@ -1,15 +1,16 @@
 package ui;
 
-import data.InterestManager;
-import data.UserDirectory;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import data.UserDirectory;
 import data.User;
+
+import util.BST;
 import util.LinkedList;
 
 /**
+ * Menu.java
  * Handles the user interface and menu system for the application.
  * Provides options for login, account creation, viewing user friends,
  * and adding new friends.
@@ -99,9 +100,7 @@ public class Menu {
 
         if (createAccount) {
             // create new user with given credentials
-            user = new User();
-            user.setUserName(userName);
-            user.setPassword(password);
+            user = new User(userName, password);
             boolean accountCreate = ud.addAuthNewUser(user);
 
             // if account successfully created
@@ -121,7 +120,7 @@ public class Menu {
                 do {
                     // input interest and add it to user
                     System.out.print("Enter your interest or \"0\" to stop: ");
-                    String interests = scanner.nextLine();
+                    String interestName = scanner.nextLine();
 
                     // check if user quit
                     if (interestName.equals("0")) {
@@ -478,9 +477,7 @@ public class Menu {
         return returnUser;
     }
 
-    /**
-     *
-     */
+    /*
     public User searchUsersByInterest() {
         String interest, inputStr;
         User returnUser = null;
@@ -626,12 +623,32 @@ public class Menu {
         }
     }
 
-    /**
-     *
-     */
-    public User getFriendRecs() {
+    /*
 
+    public User getFriendRecs() {
+        ArrayList<String> InitialRecomFriends = new ArrayList<>();
+        ArrayList<User> recommendedFriends = new ArrayList<>();
+        user.getInterests().positionIterator();
+        for (int i = 0; i < user.getInterests().getLength(); ++i) {
+            InitialRecomFriends.add((ud.getInterestManager().retrieveInterestBST(user.getInterests().getIterator())).inOrderString());
+            user.getInterests().advanceIterator();
+        }
+
+
+        // Purpose:
+        // Friends by interest -- > 
+        for (String recUsers : InitialRecomFriends) {
+            Scanner readUsers = new Scanner(recUsers);
+            while (readUsers.hasNext()) {
+                String firstName = readUsers.next();
+                String lastName = readUsers.next();
+                ArrayList<User> tempUser = ud.findUsersByName(firstName, lastName);
+                //recommendedFriends.add(tempUser);
+                //if (!user.equals(tempUser) && !recommendedFriends.contains(tempUser) && tempUser != null)
+            }
+        }
 
         return null;
     }
+    */
 }

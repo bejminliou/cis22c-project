@@ -8,10 +8,10 @@ import data.UserDirectory;
 import data.User;
 import util.BST;
 import util.Graph;
-import util.HashTable;
 import util.LinkedList;
 
 /**
+ * ReadAndWriteData.java
  * Manage retrieval and saving of all user data.
  *
  * @author Benjamin Liou
@@ -31,7 +31,6 @@ public class ReadAndWriteData {
      * @see data.UserDirectory for user management operations
      */
     public static UserDirectory readData() {
-        HashTable<String> interests = new HashTable<>(1);
         ArrayList<User> usersAL = new ArrayList<>();
         BST<User> allUsersBST = new BST<>();
         InterestManager interestManager = new InterestManager();
