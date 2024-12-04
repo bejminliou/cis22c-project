@@ -20,9 +20,9 @@ public class App {
             menu = new Menu(ud);
             menu.displayLogIn();
             menu.mainMenu();
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
+            ReadAndWriteData.writeData(ud); // save user data into data.txt
+        } catch (Exception e) {
+            System.out.println("Error from main: " + e.getMessage());
         }
     }
 }
