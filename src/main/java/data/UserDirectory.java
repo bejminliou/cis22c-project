@@ -10,7 +10,7 @@ import util.LinkedList;
 
 /**
  * UserDirectory.java
- * UserDirectory maintains access and storage of all users in the system.
+ * UserDirectory class maintains access and storage of all users in the system.
  * Provides access for searching users by name or username.
  *
  * @author Benjamin Liou
@@ -168,6 +168,13 @@ public class UserDirectory {
         return results;
     }
 
+    /**
+     * INCOMPLETE
+     *
+     * @param first
+     * @param last
+     * @return
+     */
     public User findUserAndReturnUserClass(String first, String last) {
         if (first == null || last == null) {
             throw new NullPointerException("UserDirectory.java findUserAndReturnUserClass(): Firstname and/or Lastname " +
@@ -393,8 +400,8 @@ public class UserDirectory {
     // Additional Methods
 
     /**
-     * Returns a String containing all the Users and their data
-     * that is currently in UserDirectory.
+     * Returns a String containing all the Users and their corresponding data
+     * currently in UserDirectory.
      *
      * @return a String containing the contents of the UserDirectory
      */
