@@ -207,7 +207,7 @@ public class User implements Comparable<User> {
      *
      * @return the ArrayList of friend IDs connected to the User
      */
-    public List<Integer> getFriendIds() {
+    public ArrayList<Integer> getFriendIds() {
         return new ArrayList<>(friendIds);
     }
 
