@@ -243,7 +243,7 @@ public class UserDirectory {
 
         // creating new user
         User newUser = new User();
-        newUser.setusername(username);
+        newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);

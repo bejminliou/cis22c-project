@@ -1,19 +1,21 @@
 package data;
 
-import util.*;
-
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.BST;
+import util.LinkedList;
+
 /**
  * User.java
- * Represents a user in the system with their personal information
- * and friend connections.
+ * User class that represents a User in the system with their
+ * personal information and friend connections.
  * Users are comparable by their ID and can be searched by name.
  *
  * @author Benjamin Liou
  * @author Kevin Young
+ * @author Rolen Louie
  * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {
@@ -66,11 +68,11 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Search for a friend by their name
+     * Search for a friend by their full name.
      *
-     * @param firstName First name to search for
-     * @param lastName  Last name to search for
-     * @return The found friend or null if not found
+     * @param firstName first name to search for
+     * @param lastName  last name to search for
+     * @return a User representing the found friend or null if not found
      * @see util.BST#search(Object, Comparator) for search
      */
     public User searchFriendByName(String firstName, String lastName) {
@@ -81,7 +83,7 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Check if another user is a friend
+     * Check if another user is a friend.
      *
      * @param friend user to check friendship with
      * @return true if users are friends, false otherwise
@@ -99,6 +101,8 @@ public class User implements Comparable<User> {
     // Accessors
 
     /**
+     * Get the username of the User.
+     *
      * @return the username of the User
      */
     public String getUsername() {
@@ -106,6 +110,8 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Get the password of the User.
+     *
      * @return the password of the User
      */
     public String getPassword() {
@@ -113,6 +119,8 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Get the ID of the User.
+     *
      * @return the ID of the user
      */
     public int getId() {
@@ -120,6 +128,8 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Get the first name of the User.
+     *
      * @return the first name of the User
      */
     public String getFirstName() {
@@ -127,6 +137,8 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Get the last name of the User.
+     *
      * @return the last name of the User
      */
     public String getLastName() {
@@ -134,6 +146,8 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Get the city of the User.
+     *
      * @return the city of the User
      */
     public String getCity() {
@@ -141,15 +155,20 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Get the list of user's interests.
+     * Get the LinkedList containing the User's Interests.
      *
-     * @return the LinkedList containing all interests of the User
+     * @return the LinkedList containing all Interests of the User
      * @see util.LinkedList for the list implementation
      */
     public LinkedList<String> getInterests() {
         return interests;
     }
 
+    /**
+     * INCOMPLETE
+     *
+     * @return
+     */
     public String getInterestsByString() {
         return interests.toString();
     }
@@ -199,7 +218,7 @@ public class User implements Comparable<User> {
      *
      * @param username the given username
      */
-    public void setusername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -279,7 +298,7 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Remove the [! first occurrence] of an interest from the user's list
+     * Remove the [! first occurrence] of an interest from the user's list.
      *
      * @param interest the interest to remove (case-sensitive, will be trimmed)
      * @return true if the interest was found and removed, false otherwise

@@ -65,7 +65,7 @@ public class ReadAndWriteData {
             currUser.setFirstName(nameParts[0]);
             currUser.setLastName(nameParts[1]);
 
-            currUser.setusername(fileInput.nextLine()); // set username
+            currUser.setUsername(fileInput.nextLine()); // set username
             currUser.setPassword(fileInput.nextLine()); // set password
 
             // input friends
