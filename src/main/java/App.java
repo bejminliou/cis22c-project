@@ -1,9 +1,10 @@
-import data.*;
+import data.UserDirectory;
 import io.ReadAndWriteData;
 import ui.Menu;
 
 /**
  * App.java
+ * Handles initialization of overall program.
  *
  * @author Benjamin Liou
  * @author Kenneth Garcia
@@ -12,17 +13,26 @@ import ui.Menu;
  * CIS 22C, Course Project
  */
 public class App {
-    public static UserDirectory ud = ReadAndWriteData.readData();
-    public static Menu menu;
 
+    /**
+     * Main method that initializes UserDirectory, displays login and main menu,
+     * and saves user data before exiting the program.
+     *
+     * @param args the command line arguments (not used in this program)
+     */
     public static void main(String[] args) {
         try {
-            menu = new Menu(ud);
+            UserDirectory userDirectory = ReadAndWriteData.readData(); // get data from data.txt
+
+            // run menu UI
+            Menu menu = new Menu(userDirectory);
             menu.displayLogIn();
             menu.mainMenu();
-            ReadAndWriteData.writeData(ud); // save user data into data.txt
+
+            ReadAndWriteData.writeData(userDirectory); // save user data into data.txt
         } catch (Exception e) {
             System.out.println("Error from main: " + e.getMessage());
         }
     }
+
 }
