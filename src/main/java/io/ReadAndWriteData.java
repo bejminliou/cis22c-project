@@ -1,18 +1,24 @@
 package io;
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import data.InterestManager;
-import data.UserDirectory;
 import data.User;
+import data.UserDirectory;
+
 import util.BST;
 import util.Graph;
 import util.LinkedList;
 
 /**
  * ReadAndWriteData.java
- * Manage retrieval and saving of all user data.
+ * Manage retrieval and saving of all User data from a file.
  *
  * @author Benjamin Liou
  * @author Kevin Young
@@ -65,7 +71,7 @@ public class ReadAndWriteData {
             currUser.setFirstName(nameParts[0]);
             currUser.setLastName(nameParts[1]);
 
-            currUser.setusername(fileInput.nextLine()); // set username
+            currUser.setUsername(fileInput.nextLine()); // set username
             currUser.setPassword(fileInput.nextLine()); // set password
 
             // input friends
@@ -142,7 +148,7 @@ public class ReadAndWriteData {
                 writer.newLine();
 
                 // Write friend IDs
-                List<Integer> friendIds = user.getFriendIds();
+                ArrayList<Integer> friendIds = user.getFriendIds();
                 writer.write(String.valueOf(friendIds.size()));
                 writer.newLine();
                 for (Integer friendId : friendIds) {

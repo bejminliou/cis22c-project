@@ -1,13 +1,14 @@
-
 package model;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+import data.User;
+import data.UserDirectory;
 
 import util.Graph;
 import util.LinkedList;
-import data.UserDirectory;
-import data.User;
-
-import java.util.Collections;
-import java.util.StringTokenizer;
 
 /**
  * Friend.java
@@ -17,22 +18,24 @@ import java.util.StringTokenizer;
  *
  * @author Benjamin Liou
  * @author Kevin Young
+ * @author Rolen Louie
  * @see data.UserDirectory for user storage and management
  * @see data.User for individual user's friend connections
  * CIS 22C, Course Project
  */
-
-import java.util.ArrayList;
-
 public class Friend {
     private final Graph friendGraph;
     private final UserDirectory userDirectory;
+
     public Friend(UserDirectory userDirectory) {
         friendGraph = userDirectory.getFriendNetwork();
         this.userDirectory = userDirectory;
     }
 
-    private class FriendTempClass {
+    /**
+     * INCOMPLETE
+     */
+    private static class FriendTempClass {
         private final User userObject;
         private final double score;
 
@@ -51,9 +54,12 @@ public class Friend {
     }
 
     /**
+     * Gets friend recommendations for a given user by calculating each
+     * User's recommendation score to the given user and adding Users
+     * with a good score to an ArrayList.
      *
-     * @param user
-     * @return
+     * @param user the User to find recommended friends for
+     * @return an ArrayList of Users that are recommended (by algorithm) to the user
      */
     public ArrayList<User> getFriendRecommendations(User user) {
         int interestScore = 0;
@@ -97,20 +103,20 @@ public class Friend {
             }
         }
         Collections.sort(pFriendsList, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
-        for(FriendTempClass friendTemp : pFriendsList) {
+        for (FriendTempClass friendTemp : pFriendsList) {
             recommendations.add(friendTemp.getObject());
         }
         return recommendations;
     }
 
     /**
+     * INCOMPLETE
      *
      * @param dist
      * @param interestScore
      * @return
      */
     private double calculateScore(int dist, int interestScore) {
-
         final double interestWeight = 2.0;  // Give shared interests more weight
         final double distanceWeight = 1.0; // Give distance less weight
 
