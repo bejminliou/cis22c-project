@@ -39,6 +39,7 @@ public class Interest {
 
     /**
      * Gets the ID of the Interest.
+     *
      * @return the ID of the Interest
      */
     public int getInterestID() {
@@ -50,7 +51,7 @@ public class Interest {
     /**
      * Sets the name of the Interest to the given name.
      *
-     * @param interestName the name of the interest
+     * @param interestName the given name
      */
     public void setName(String interestName) {
         this.interestName = interestName;
@@ -59,16 +60,18 @@ public class Interest {
     /**
      * Sets the ID of the Interest to the given ID.
      *
-     * @param interestID the ID of the interest
+     * @param interestID the given ID
      */
     public void setId(int interestID) {
         this.interestID = interestID;
     }
 
+    // Additional Methods
+
     /**
-     * Overrides the hashCode method to return a hash of only an Interest's name.
+     * Overrides the hashCode method to return a hash of only the Interest's name.
      *
-     * @return a hashcode of an Interest ONLY based on the interestName
+     * @return a hashcode of the Interest ONLY based on the interestName
      */
     @Override
     public int hashCode() {

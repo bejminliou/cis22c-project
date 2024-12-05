@@ -1,14 +1,13 @@
 package data;
 
 import java.util.ArrayList;
+
 import util.HashTable;
 import util.BST;
 
-
 /**
  * InterestManager.java
- * Manages the varieties of existing Interests and tracks
- * which Users share each Interest.
+ * Manages the existing Interests and tracks which Users share each Interest.
  *
  * @author Rolen Louie
  * @author Kenneth Garcia
@@ -16,8 +15,8 @@ import util.BST;
  * CIS 22C, Course Project
  */
 public class InterestManager {
-    private final HashTable<Interest> interestHashTable;
-    private final ArrayList<BST<User>> usersSharedInterest;
+    private final HashTable<Interest> interestHashTable; // storing all existing Interests
+    private final ArrayList<BST<User>> usersSharedInterest; // tracking which Users share each Interest
 
     /**
      * Default Constructor for InterestManager initializing interestHashTable
@@ -34,7 +33,7 @@ public class InterestManager {
      * Adds User to interest, if interest doesn't exist, adds interests and user to said interest.
      *
      * @param interestName the name of the Interest
-     * @param user the User to add the Interest to
+     * @param user         the User to add the Interest to
      */
     public void addUserToInterest(String interestName, User user) {
         Interest temp = new Interest(interestName, -1);
@@ -53,10 +52,10 @@ public class InterestManager {
     }
 
     /**
-     * Retrieves a BST containing users that share an exist Interest.
+     * Retrieves a BST containing users that share an existing Interest.
      *
-     * @param interestName the name of the Interest
-     * @return String of the users that share interest
+     * @param interestName the given name of an Interest
+     * @return a BST of Users that share the given Interest
      */
     public BST<User> retrieveInterestBST(String interestName) {
         Interest tempInterest = interestHashTable.get(new Interest(interestName, -1));
@@ -66,6 +65,6 @@ public class InterestManager {
             return usersSharedInterest.get(id);
         }
         return null;
-   }
+    }
 
 }
