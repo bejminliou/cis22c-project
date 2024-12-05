@@ -1,11 +1,14 @@
 package ui;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import data.UserDirectory;
 import data.User;
+import data.UserDirectory;
 
 import model.Friend;
+
 import util.LinkedList;
 
 /**
@@ -160,7 +163,8 @@ public class Menu {
     }
 
     /**
-     * Print the main menu and allow user to choose to view current friends, make new friends, or exit app.
+     * Print the main menu and allow user to choose to view current
+     * friends, make new friends, or exit the Menu UI.
      */
     public void mainMenu() {
         while (true) {
@@ -229,7 +233,7 @@ public class Menu {
     }
 
     /**
-     * Displays the current friends of the User.
+     * Displays the current friends of this User.
      */
     private void displayFriends() {
         String result = ud.findUserByUsername(this.userName).getFriends().inOrderString();
@@ -349,9 +353,10 @@ public class Menu {
                 }
 
                 // invalid input if code reaches this point
-                System.out.println("Invalid input, please enter a valid choice.\n");
+                throw new Exception();
             } catch (Exception e) {
                 System.out.println("Invalid input, please enter a valid choice.\n");
+                scanner.nextLine(); // clear scanner before repeating
             }
         }
 
@@ -475,15 +480,18 @@ public class Menu {
     }
 
     /**
-     * @param interest
+     * Searches Users that share the given Interest and allows this User
+     * to add a User who shares the Interest as a friend.
+     *
+     * @param interestName the name of the given Interest
      */
-    private void searchByInterests(String interest) {
-        String inOrder = ud.getInterestManager().retrieveInterestBST(interest).inOrderString();
+    private void searchByInterests(String interestName) {
+        String inOrder = ud.getInterestManager().retrieveInterestBST(interestName).inOrderString();
         String[] splitArray = inOrder.split("\n");
         ArrayList<String> recommended = new ArrayList<>(Arrays.asList(splitArray));
         do {
             try {
-                System.out.println("Here's some recommended friends based on interest and relations: ");
+                System.out.println("Here's some recommended friends based on interestName and relations: ");
                 for (int i = 0; i < recommended.size(); i++) {
                     System.out.println((i + 1) + ". " + recommended.get(i));
                 }
@@ -503,7 +511,8 @@ public class Menu {
                     }
                     System.out.println("You selected the profile:");
                     printProfile(temp);
-                    System.out.println("Enter 1 to add as friend or enter any other key to return to the previous menu:");
+                    System.out.print("Enter 1 to add as friend or enter any other key to return to the " +
+                            "previous menu:");
                     int choice = scanner.nextInt();
                     if (choice == 1) {
                         user.addFriend(temp);
@@ -523,7 +532,11 @@ public class Menu {
 
 
     /**
+     * Prints out friend recommendations for this User based on other Users'
+     * interest and relationships.
+     * Allows this User to add a recommended friend.
      *
+     * @see Friend#getFriendRecommendations for friend recoomendation system
      */
     public void getFriendRecs() {
         ArrayList<User> recommended = friend.getFriendRecommendations(user);
@@ -531,7 +544,8 @@ public class Menu {
             try {
                 System.out.println("Here's some recommended friends based on interest and relations: ");
                 for (int i = 0; i < recommended.size(); i++) {
-                    System.out.println((i + 1) + ". " + recommended.get(i).getFirstName() + " " + recommended.get(i).getLastName());
+                    System.out.println((i + 1) + ". " + recommended.get(i).getFirstName() + " "
+                            + recommended.get(i).getLastName());
                 }
 
                 System.out.print("Enter the number (index) of the person whose profile you'd like to view: ");
@@ -541,7 +555,8 @@ public class Menu {
                     User selectedUser = recommended.get(index - 1);
                     System.out.println("You selected the profile:");
                     printProfile(selectedUser);
-                    System.out.println("Enter 1 to add as friend or enter any other key to return to the previous menu:");
+                    System.out.print("Enter 1 to add as friend or enter any other key to return " +
+                            "to the previous menu:");
                     int choice = scanner.nextInt();
                     if (choice == 1) {
                         user.addFriend(selectedUser);
@@ -557,4 +572,5 @@ public class Menu {
             }
         } while (true);
     }
+
 }
