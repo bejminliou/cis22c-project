@@ -66,9 +66,9 @@ public class UserDirectory {
      * of users, and Graph of the friend connections.
      * Authenticates all user credentials by adding them to loginTable.
      *
-     * @param usersAL       an ArrayLIst of users
-     * @param usersBST      a BinarySearchTree of users
-     * @param friendNetwork a Graph containing the friend connections between Users
+     * @param usersAL         an ArrayLIst of users
+     * @param usersBST        a BinarySearchTree of users
+     * @param friendNetwork   a Graph containing the friend connections between Users
      * @param interestManager an InterestManager containing the existing interests and Users who share the interests
      */
     public UserDirectory(ArrayList<User> usersAL, BST<User> usersBST, Graph friendNetwork,
@@ -169,34 +169,6 @@ public class UserDirectory {
     }
 
     /**
-     * INCOMPLETE
-     *
-     * @param first
-     * @param last
-     * @return
-     */
-    public User findUserAndReturnUserClass(String first, String last) {
-        if (first == null || last == null) {
-            throw new NullPointerException("UserDirectory.java findUserAndReturnUserClass(): Firstname and/or Lastname " +
-                    "cannot be null");
-        }
-
-        String orderedStr = usersBST.inOrderString();
-        // if no users in BST
-        if (orderedStr == null || orderedStr.isEmpty()) {
-            return null;
-        }
-
-        // adding users with matching name to results
-        for (User user : usersAL) {
-            if (user.getFirstName().equalsIgnoreCase(first) && user.getLastName().equalsIgnoreCase(last)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Finds a user by their unique username in the system.
      *
      * @param username the username to search for
@@ -221,43 +193,45 @@ public class UserDirectory {
     // Mutators
 
     /**
-     * Add a new User to usersAL, usersBST, and loginTable.
+     * Add a new User into the UserDirectory with their given
+     * username, password, firstName, lastName, and city.
      *
-     * @param user the user to add to the directory
-     * @see util.BST#insert for insertion
-     * @see #nameComparator for ordering
+     * @param username  Username for the new User
+     * @param password  password for the new User
+     * @param firstName first name of the User
+     * @param lastName  last name of the User
+     * @param city      the city the of the User
+     * @return the new User added to the UserDirectory, or null if username and/or credentials already exist
      */
-    public void addUser(User user) {
-        usersAL.add(user);
-        usersBST.insert(user, nameComparator);
-        addAuthNewUser(user);
-    }
-
-    /**
-     * Add a new User into the UserDirectory with their username,
-     * password, firstName, and lastName.
-     *
-     * @param username  Username for the new user
-     * @param password  password for the new user
-     * @param firstName first name of the user
-     * @param lastName  last name of the user
-     * @return true if registration successful, false if given username already exists
-     */
-    public boolean addUser(String username, String password, String firstName, String lastName) {
+    public User addNewUser(String username, String password, String firstName, String lastName, String city) {
+        // check for existing username
         if (findUserByUsername(username) != null) {
-            return false;
+            System.out.println("Username already taken.");
+            return null;
         }
 
-        // creating new user
-        User newUser = new User();
-        newUser.setUsername(username);
-        newUser.setPassword(password);
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
-        newUser.setId(usersAL.size());
+        // authenticate credentials
+        boolean foundCreds = getCredAuthStatus(username, password);
 
-        addUser(newUser);
-        return true;
+        if (!foundCreds) { // if credentials are not already found in UserDirectory
+            // create new user
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setPassword(password);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setCity(city);
+            newUser.setId(usersAL.size() + 1);
+
+            // add User to UserDirectory
+            usersAL.add(newUser);
+            usersBST.insert(newUser, nameComparator);
+            addAuthNewUser(newUser);
+            return newUser;
+        }
+
+        System.out.println("Username and/or Password already used.");
+        return null; // if given username and password already exist
     }
 
     /**
