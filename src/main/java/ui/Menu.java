@@ -119,9 +119,6 @@ public class Menu {
                 boolean userAdded = ud.addNewUser(this.user);
 
                 if (!userAdded) { // if failed to add user
-                    System.out.println("\nAn account has already been made with your username and/or password. " +
-                            "Please login or choose a different username.\n");
-                    scanner.nextLine(); // clear scanner before recursion
                     loginMenu();
                 } else {
                     // input remaining user info

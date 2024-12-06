@@ -202,7 +202,7 @@ public class UserDirectory {
     public boolean addNewUser(User user) {
         // check for existing username
         if (findUserByUsername(user.getUsername()) != null) {
-            System.out.println("Username already taken.");
+            System.out.println("\nUsername already taken. Please login or choose a different username.\n");
             return false;
         }
 
