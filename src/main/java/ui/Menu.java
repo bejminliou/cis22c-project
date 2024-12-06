@@ -64,7 +64,7 @@ public class Menu {
 
             // get user choice
             System.out.print("Enter your choice: ");
-            choiceStr = scanner.next();
+            choiceStr = scanner.nextLine();
 
             // error checking to ensure input was "1" or "2"
             if (choiceStr.equals("1")) {
@@ -85,9 +85,9 @@ public class Menu {
 
         // get user's username and password
         System.out.print("Please enter your username: ");
-        String username = scanner.next();
+        String username = scanner.nextLine();
         System.out.print("Please enter your password: ");
-        String password = scanner.next();
+        String password = scanner.nextLine();
 
         if (login) {
             // authenticate given credentials
@@ -110,43 +110,52 @@ public class Menu {
 
             // if credentials are new
             if (!credentialsStatus) {
-                String firstName, lastName, city;
+                // create new User with username and password
+                this.user = new User();
+                user.setUsername(username);
+                user.setPassword(password);
 
-                // input remaining user info
-                System.out.println("\nLet's finish setting up your account:");
-                System.out.print("Enter your first name: ");
-                firstName = scanner.next(); // input first name
-                System.out.print("Enter your last name: ");
-                lastName = scanner.next(); // input last name
-                System.out.print("Enter your city: ");
-                city = scanner.next(); // input city
+                // try adding user to UserDirectory
+                boolean userAdded = ud.addNewUser(this.user);
 
-                // add user to UserDirectory
-                this.user = ud.addNewUser(username, password, firstName, lastName, city);
+                if (!userAdded) { // if failed to add user
+                    System.out.println("\nAn account has already been made with your username and/or password. " +
+                            "Please login or choose a different username.\n");
+                    scanner.nextLine(); // clear scanner before recursion
+                    loginMenu();
+                } else {
+                    // input remaining user info
+                    System.out.println("\nLet's finish setting up your account:");
+                    System.out.print("Enter your first name: ");
+                    user.setFirstName(scanner.nextLine()); // set first name
+                    System.out.print("Enter your last name: ");
+                    user.setLastName(scanner.nextLine()); // set last name
+                    System.out.print("Enter your city: ");
+                    user.setCity(scanner.nextLine()); // set city
 
-                // get user interests
-                scanner.nextLine(); // clear scanner for input
-                System.out.println("\nEnter one of your interests followed by the enter key.");
-                do {
-                    // input Interest
-                    System.out.print("Enter your interest or \"0\" to stop: ");
-                    String interestName = scanner.nextLine();
+                    // get user interests
+                    System.out.println("\nEnter one of your interests followed by the enter key.");
+                    do {
+                        // input Interest
+                        System.out.print("Enter your interest or \"0\" to stop: ");
+                        String interestName = scanner.nextLine();
 
-                    // check if user quit
-                    if (interestName.equals("0")) {
-                        break;
-                    }
+                        // check if user quit
+                        if (interestName.equals("0")) {
+                            break;
+                        }
 
-                    // add Interest to user
-                    ud.getInterestManager().addUserToInterest(interestName, user);
-                    user.addInterest(interestName);
-                } while (true);
-                System.out.println("Finished entering your interests.");
+                        // add Interest to user
+                        ud.getInterestManager().addUserToInterest(interestName, user);
+                        user.addInterest(interestName);
+                    } while (true);
+                    System.out.println("Finished entering your interests.");
 
-                // print welcome message
-                System.out.print("\nYour account has successfully been created, welcome "
-                        + user.getUsername() + "!");
-                printUserProfile(user);
+                    // print welcome message
+                    System.out.print("\nYour account has successfully been created, welcome "
+                            + user.getUsername() + "!");
+                    printUserProfile(user);
+                }
             } else { // credentials already used
                 System.out.println("\nAn account has already been made with your username and/or password. " +
                         "Please login or choose a different username.\n");

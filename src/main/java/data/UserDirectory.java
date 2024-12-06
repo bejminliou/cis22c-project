@@ -196,42 +196,29 @@ public class UserDirectory {
      * Add a new User into the UserDirectory with their given
      * username, password, firstName, lastName, and city.
      *
-     * @param username  Username for the new User
-     * @param password  password for the new User
-     * @param firstName first name of the User
-     * @param lastName  last name of the User
-     * @param city      the city the of the User
+     * @param user the User to add
      * @return the new User added to the UserDirectory, or null if username and/or credentials already exist
      */
-    public User addNewUser(String username, String password, String firstName, String lastName, String city) {
+    public boolean addNewUser(User user) {
         // check for existing username
-        if (findUserByUsername(username) != null) {
+        if (findUserByUsername(user.getUsername()) != null) {
             System.out.println("Username already taken.");
-            return null;
+            return false;
         }
 
         // authenticate credentials
-        boolean foundCreds = getCredAuthStatus(username, password);
+        boolean foundCreds = getCredAuthStatus(user.getUsername(), user.getPassword());
 
         if (!foundCreds) { // if credentials are not already found in UserDirectory
-            // create new user
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setPassword(password);
-            newUser.setFirstName(firstName);
-            newUser.setLastName(lastName);
-            newUser.setCity(city);
-            newUser.setId(usersAL.size() + 1);
-
             // add User to UserDirectory
-            usersAL.add(newUser);
-            usersBST.insert(newUser, nameComparator);
-            addAuthNewUser(newUser);
-            return newUser;
+            usersAL.add(user);
+            usersBST.insert(user, nameComparator);
+            addAuthNewUser(user);
+            return true;
         }
 
         System.out.println("Username and/or Password already used.");
-        return null; // if given username and password already exist
+        return false; // if given username and password already exist
     }
 
     /**
