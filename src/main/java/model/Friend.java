@@ -65,7 +65,7 @@ public class Friend {
         int interestScore = 0;
         ArrayList<User> recommendations = new ArrayList<>();
         ArrayList<FriendTempClass> pFriendsList = new ArrayList<>();
-        ArrayList<Double> scoreTracker = new ArrayList<>();// Stores recommended friends
+
         try {
             friendGraph.BFS(user.getId());  // BFS updates the distance array
         } catch (IndexOutOfBoundsException e) {
@@ -101,7 +101,8 @@ public class Friend {
                 }
             }
         }
-        Collections.sort(pFriendsList, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
+        Collections.sort(pFriendsList, (o1, o2) ->
+                Double.compare(o2.getScore(), o1.getScore()));
         for (FriendTempClass friendTemp : pFriendsList) {
             recommendations.add(friendTemp.getObject());
         }
