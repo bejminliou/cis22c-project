@@ -154,7 +154,6 @@ public class Menu {
             } else { // credentials already used
                 System.out.println("\nAn account has already been made with your username and/or password. " +
                         "Please login or choose a different username.\n");
-                scanner.nextLine(); // clear scanner before recursion
                 loginMenu();
             }
         }
