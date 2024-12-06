@@ -252,15 +252,21 @@ public class Menu {
         System.out.println("User ID: " + user.getId());
         System.out.println("City: " + user.getCity());
 
+
         // print interests of friend as a list separated by commas
-        LinkedList<String> friendInterest = user.getInterests();
-        friendInterest.positionIterator();
-        System.out.print("Interests (" + friendInterest.getLength() + "): ");
-        for (int i = 0; i < friendInterest.getLength() - 1; i++) {
-            System.out.print(friendInterest.getIterator() + ", ");
-            friendInterest.advanceIterator();
+        LinkedList<String> interests = user.getInterests();
+        interests.positionIterator();
+        System.out.print("Interests (" + interests.getLength() + "): ");
+
+        if (!(interests.getLength() == 0)) { // if interests are not empty
+            interests.positionIterator();
+            for (int i = 0; i < interests.getLength() - 1; i++) {
+                System.out.print(interests.getIterator() + ", ");
+                interests.advanceIterator();
+            }
+            System.out.println(interests.getIterator());
         }
-        System.out.println(friendInterest.getIterator());
+        System.out.println(); // for newline when there's 0 Interests to print
     }
 
     /**
