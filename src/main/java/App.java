@@ -26,7 +26,7 @@ public class App {
 
             // run menu UI
             Menu menu = new Menu(userDirectory);
-            menu.displayLogIn();
+            menu.loginMenu();
             menu.mainMenu();
 
             ReadAndWriteData.writeData(userDirectory); // save user data into data.txt
