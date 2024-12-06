@@ -69,7 +69,6 @@ public class Friend {
         try {
             friendGraph.BFS(user.getId());  // BFS updates the distance array
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error during BFS: " + e.getMessage());
             return new ArrayList<>(); // Return an empty list in case of error
         }
 
