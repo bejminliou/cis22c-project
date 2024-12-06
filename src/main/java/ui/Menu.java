@@ -79,7 +79,6 @@ public class Menu {
 
             if (!validInput) {
                 System.out.println("Invalid choice. Returning to login menu.\n");
-                scanner.nextLine(); // clear scanner before repeating loop
             }
         }
 
@@ -520,6 +519,9 @@ public class Menu {
 
         // get BST<User> containing Users who share the Interest
         BST<User> usersWithIterestBST = ud.getInterestManager().retrieveInterestBST(interestName);
+
+        // remove this user from BST to avoid printing themselves
+        usersWithIterestBST.remove(user, ud.getNameComparator());
 
         // convert interestBST to ArrayList<String>
         String BSTInOrderStr = usersWithIterestBST.inOrderString();
