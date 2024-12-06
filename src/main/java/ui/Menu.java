@@ -9,6 +9,7 @@ import data.UserDirectory;
 
 import model.Friend;
 
+import util.BST;
 import util.LinkedList;
 
 /**
@@ -25,33 +26,33 @@ import util.LinkedList;
  * CIS 22C, Course Project
  */
 public class Menu {
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in); // Scanner for user input
     private final UserDirectory ud;
     private final Friend friend;
     public User user;
-    private String userName;
+    private String username;
 
     // Constructors
 
     /**
      * Creates a new Menu with the data from the given UserDirectory
      *
-     * @param ud the UserDirectory storing the data of existing users
+     * @param userDirectory the UserDirectory storing the data of existing users
      */
-    public Menu(UserDirectory ud) {
-        this.ud = ud;
-        friend = new Friend(ud);
+    public Menu(UserDirectory userDirectory) {
+        this.ud = userDirectory;
+        friend = new Friend(userDirectory);
 
     }
 
-    // Menu methods
+    // Login Methods
 
     /**
      * Displays the log in menu and handles user input.
      * Logs in user by authenticating their credentials.
      * Creates new account by creating new User with the given credentials.
      */
-    public void displayLogIn() {
+    public void loginMenu() {
         String choiceStr;
         boolean validInput = false, login = false, createAccount = false;
 
@@ -77,7 +78,7 @@ public class Menu {
             }
 
             if (!validInput) {
-                System.out.println("Invalid choice. Please Try again\n");
+                System.out.println("Invalid choice. Returning to login menu.\n");
                 scanner.nextLine(); // clear scanner before repeating loop
             }
         }
@@ -94,12 +95,12 @@ public class Menu {
 
             if (authenticate) { // if credentials match
                 user = ud.findUserByUsername(userName);
-                System.out.println("\nWelcome " + user.getUsername() + "!");
-                this.userName = user.getUsername();
+                System.out.print("\nWelcome " + user.getUsername() + "!");
+                this.username = user.getUsername();
             } else { // if no matching credentials
-                System.out.println("Your username or password is incorrect. Returning to previous menu.\n");
+                System.out.println("Your username or password is incorrect. Returning to login menu.\n");
                 scanner.nextLine(); // clear scanner before recursion
-                displayLogIn();
+                loginMenu();
             }
         }
 
@@ -150,17 +151,19 @@ public class Menu {
                 // print welcome message
                 System.out.println("\nYour account has successfully been created, welcome "
                         + user.getUsername() + "!\n");
-                this.userName = user.getUsername();
+                this.username = user.getUsername();
                 scanner.nextLine(); // clear scanner before returning
 
             } else { // failed to create accounts
                 System.out.println("\nAn account has been found under this username. Please Log In or choose" +
                         "a different username.\n");
                 scanner.nextLine(); // clear scanner before recursion
-                displayLogIn();
+                loginMenu();
             }
         }
     }
+
+    // Main Menu Methods
 
     /**
      * Print the main menu and allow user to choose to view current
@@ -169,14 +172,12 @@ public class Menu {
     public void mainMenu() {
         while (true) {
             // print user options
-            System.out.println("Main Menu:\n0. Quit\n1. View Your Friends\n2. Add New Friends");
+            System.out.println("\nMain Menu:\n0. Quit\n1. View Your Friends\n2. Add New Friends");
             System.out.print("Please enter your choice: ");
 
-            // get user choice
-            if (scanner.hasNextInt()) {
+            // get user input
+            try {
                 int choice = scanner.nextInt();
-                scanner.nextLine();  // clear the newline character left in the buffer
-
                 switch (choice) {
                     case 0:
                         System.out.println("\nGoodbye!");
@@ -187,18 +188,16 @@ public class Menu {
                     case 2:
                         addFriendMenu();
                         break;
-                    default:
-                        System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.\n");
-                        break;
+                    default: // invalid choice
+                        System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.");
+                        scanner.nextLine(); // clear invalid choice
                 }
-            } else {
-                // If the input is not an integer, clear the invalid input
-                System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.\n");
-                scanner.nextLine(); // clear the invalid input
+            } catch (Exception e) { // invalid input
+                System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.");
+                scanner.nextLine(); // clear invalid input
             }
         }
     }
-
 
     /**
      * Prints the View Friends Menu and allows for user to view friends
@@ -207,27 +206,33 @@ public class Menu {
     public void viewMyFriends() {
         while (true) {
             // display user options
-            System.out.println("\n1: View all friends sorted by name\n2: Search for a friend");
+            System.out.println("\nView Friends Menu:\n0. Return to main menu" +
+                    "\n1: View all friends sorted by name\n2: Search for a friend");
             System.out.print("Enter your choice: ");
 
-            if (scanner.hasNextInt()) {
-                int choice = scanner.nextInt(); // input user choice
-                if (choice == 1) {
-                    if (user.getFriendCount() == 0) { // if user's friend list is empty
-                        System.out.println("You do not have any friends to display!\n");
+            // get user input
+            try {
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 0:
                         return;
-                    } else {
+                    case 1:
+                        if (user.getFriendCount() == 0) { // if user's friend list is empty
+                            System.out.println("You do not have any friends to display! Returning to main menu.\n");
+                            break;
+                        }
                         displayFriends();
-                    }
-                } else if (choice == 2) {
-                    searchFriendByName();
-                } else { // if choice is not a valid int
-                    System.out.println("Please enter a valid choice (1 or 2).");
+                        break;
+                    case 2:
+                        searchFriendByName();
+                        break;
+                    default: // invalid choice
+                        System.out.println("Invalid input. Please enter a valid option (0, 1, or 2).");
+                        scanner.nextLine(); // clear invalid choice
                 }
-                break;
-            } else { // if input is not an int
-                System.out.println("Please enter a valid choice (1 or 2).");
-                scanner.next();
+            } catch (Exception e) { // invalid input
+                System.out.println("Invalid input. Please enter a valid option (0, 1, or 2).");
+                scanner.nextLine(); // clear invalid input
             }
         }
     }
@@ -236,10 +241,9 @@ public class Menu {
      * Displays the current friends of this User.
      */
     private void displayFriends() {
-        String result = ud.findUserByUsername(this.userName).getFriends().inOrderString();
+        String result = ud.findUserByUsername(this.username).getFriends().inOrderString();
         System.out.println("\nHere are your current friends:");
         System.out.println(result.trim());
-        System.out.println();
     }
 
     /**
@@ -247,12 +251,12 @@ public class Menu {
      *
      * @param user the User to print
      */
-    private void printProfile(User user) {
-        System.out.println("\nUser profile:");
+    private void printUserProfile(User user) {
+        System.out.println("\nUser Profile:");
 
         // print name, ID, and city of friend
         System.out.println("Name: " + user.toString());
-        System.out.println("Id: " + user.getId());
+        System.out.println("User ID: " + user.getId());
         System.out.println("City: " + user.getCity());
 
         // print interests of friend as a list separated by commas
@@ -273,66 +277,66 @@ public class Menu {
         String nameOfFriend, firstNameOfFriend = "", lastNameOfFriend = "";
 
         // get first and last name of user to search
-        System.out.println("Searching friends by name:");
-        System.out.print("Enter the full name of the friend (first name + last name): ");
+        System.out.println("\nSearching friends by name:");
+        System.out.print("Enter the full name of the matchingFriend (first name + last name): ");
         scanner.nextLine(); // clear scanner
         nameOfFriend = scanner.nextLine(); // input full name
 
         // split full name into first and last
         String[] nameParts = nameOfFriend.split(" ");
-
         if (nameParts.length >= 2) { // first and last given
             firstNameOfFriend = nameParts[0];
             lastNameOfFriend = nameParts[1];
-        } else if (nameParts.length == 1) { // only first name given
+        }
+        if (nameParts.length == 1) { // only first name given
             firstNameOfFriend = nameParts[0];
             System.out.print("Please enter the last name of the user to search: ");
             lastNameOfFriend = scanner.nextLine();
         }
 
-        // search for friend
-        User friend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
-        if (friend == null) { // if friend not found
-            System.out.print("\n\nCould not find friend.\nEnter 1 to retry or " +
-                    "enter any other key to return to the previous menu: ");
+        // search for friend with matching name
+        User matchingFriend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
+
+        if (matchingFriend == null) { // matching friend not found
+            System.out.print("\nCould not find matching friend.\nEnter 1 to retry search by name or " +
+                    "enter any other key to return to the View Friends Menu: ");
             if (scanner.nextInt() == 1) {
                 searchFriendByName(); // retry search
-            } else {
-                viewMyFriends(); // quit
             }
-        } else { // if matching friend is found
-            System.out.print("Enter 1 to view this user's full profile or 2 to remove this friend: ");
-            int choice = scanner.nextInt(); // input user choice
+        } else { // matching friend found
+            printUserProfile(matchingFriend);
+            System.out.print("Enter 1 to remove this friend or enter any other key to return " +
+                    "to the View Friends Menu: ");
+            String choice = scanner.nextLine(); // input user choice
 
-            if (choice == 1) {
-                // print profile
-                printProfile(friend);
-            } else if (choice == 2) {
-                // remove friend
-                user.removeFriend(friend);
+            if (choice.equalsIgnoreCase("1")) {
+                // remove matchingFriend
+                user.removeFriend(matchingFriend);
                 System.out.println("Successfully removed, your new friends list is now:");
                 displayFriends();
             }
         }
     }
 
+    // Find and Add Friends Methods
+
     /**
      * The User Menu used to add friends by name, interest, or get friend recommendations.
      */
     public void addFriendMenu() {
+        final int[] validInputs = {0, 1, 2, 3};
+
         String inputStr;
         int userChoice = -1;
-        int[] validInputs = {1, 2, 3, 4};
-        User viewedUser;
 
         // prompt user to choose how to find new friends
         while (true) {
             // print options
-            System.out.println("\nMake New Friends:");
-            System.out.println("1. Search for friends by name");
-            System.out.println("2. Search for friends by interest");
-            System.out.println("3. Get friend recommendations by interests");
-            System.out.println("4. Return to main menu");
+            System.out.println("\nAdd Friend Menu:");
+            System.out.println("0. Return to Main Menu");
+            System.out.println("1. Search Users by name");
+            System.out.println("2. Search Users by interest");
+            System.out.println("3. Get friend recommendations based on your interests and mutual friends");
             System.out.print("Enter your choice: ");
 
             try {
@@ -353,19 +357,19 @@ public class Menu {
                 }
 
                 // invalid input if code reaches this point
-                throw new Exception();
+                System.out.println("Invalid input, please enter a valid choice.");
+                scanner.nextLine(); // clear scanner before repeating
             } catch (Exception e) {
-                System.out.println("Invalid input, please enter a valid choice.\n");
+                System.out.println("Invalid input, please enter a valid choice.");
                 scanner.nextLine(); // clear scanner before repeating
             }
         }
 
         // continue with user choice
-        System.out.println();
         switch (userChoice) {
             case 1:
                 do {
-                    viewedUser = searchUsersByName();
+                    User viewedUser = searchUsersByName();
 
                     if (viewedUser != null) { // user with matching name selected
                         System.out.print("Enter 1 to add this user as your friend, or any other key to continue" +
@@ -383,12 +387,12 @@ public class Menu {
                     }
 
                     // ask if user wants to retry searchUserByName()
-                    System.out.print("Enter 1 to search another name or any other key to return to previous menu: ");
+                    System.out.print("Enter 1 to search another name or any other key to return to main menu: ");
                     inputStr = scanner.next();
-                    System.out.println();
                 } while (inputStr.equals("1"));
                 break;
             case 2:
+                System.out.println("\nSearching Users by Interest:");
                 System.out.print("Please enter the interest you want to search by: ");
                 inputStr = scanner.next();
                 searchByInterests(inputStr);
@@ -408,21 +412,20 @@ public class Menu {
         String nameOfFriend, firstNameOfFriend = "", lastNameOfFriend = "", inputStr;
         ArrayList<User> matchingUsers;
         User returnUser = null;
-        ArrayList<Integer> validIDs = new ArrayList<>();
 
         // get first and last name of user to search
-        System.out.println("Searching users by name:");
+        System.out.println("\nSearching users by name:");
         System.out.print("Enter the full name of the user (first name + last name): ");
         scanner.nextLine(); // clear scanner
         nameOfFriend = scanner.nextLine(); // input full name
 
         // split full name into first and last
         String[] nameParts = nameOfFriend.split(" ");
-
         if (nameParts.length >= 2) { // first and last given
             firstNameOfFriend = nameParts[0];
             lastNameOfFriend = nameParts[1];
-        } else if (nameParts.length == 1) { // only first name given
+        }
+        if (nameParts.length == 1) { // only first name given
             firstNameOfFriend = nameParts[0];
             System.out.print("Please enter the last name of the user to search: ");
             lastNameOfFriend = scanner.nextLine();
@@ -431,49 +434,46 @@ public class Menu {
         // search UserDirectory by name
         matchingUsers = ud.findUsersByName(firstNameOfFriend, lastNameOfFriend);
 
-        if (!matchingUsers.isEmpty()) { // matchingUsers is not empty
+        if (!matchingUsers.isEmpty()) {
             System.out.println("\nHere are the matching users:");
 
             // print all users that match the given name
-            for (User user : matchingUsers) {
-                validIDs.add(user.getId()); // add ID to validIDs
-
-                // format: "ID. firstName LastName"
-                System.out.println(user.getId() + ". " + user.getFirstName() + " " + user.getLastName());
+            for (int i = 1; i <= matchingUsers.size(); i++) {
+                User currUser = matchingUsers.get(i - 1);
+                System.out.println(i + ". " + currUser.getFirstName() + " " + currUser.getLastName());
             }
 
             // continue loop until valid ID is given
             boolean validInput = false;
             do {
                 try {
-                    // get ID of profile to view
-                    System.out.print("Enter the ID (number to the left of the name) of the person whose profile" +
-                            " you'd like to view: ");
+                    // get index of profile to view
+                    System.out.print("Enter the index (1-" + matchingUsers.size() + ") " +
+                            "of the User you'd like to view: ");
                     inputStr = scanner.next();
 
-                    // check if inputStr matches a validID
-                    for (int ID : validIDs) {
-                        if (Integer.parseInt(inputStr) == ID) { // if inputStr matches validID
-                            // set and print returnUser
-                            returnUser = matchingUsers.get(validIDs.indexOf(Integer.parseInt(inputStr)));
-                            printProfile(returnUser);
+                    // check for valid index
+                    int index = Integer.parseInt(inputStr);
+                    if (index > 0 && index <= matchingUsers.size()) {
+                        // set and print returnUser
+                        returnUser = matchingUsers.get(index - 1);
+                        printUserProfile(returnUser);
 
-                            validInput = true;
-                            break;
-                        }
+                        validInput = true;
                     }
 
                     // if input doesn't match validID
                     if (!validInput) {
-                        System.out.println("\nPlease ensure the ID given is valid.");
+                        System.out.println("\nPlease ensure the index given is valid.");
+                        scanner.nextLine(); // clear scanner after invalid input
                     }
-                } catch (Exception e) {
-                    System.out.println("\nPlease ensure the ID given is valid.");
+                } catch (Exception e) { // invalid input given
+                    System.out.println("\nPlease ensure the index given is valid.");
                     scanner.nextLine(); // clear scanner after invalid input
                 }
             } while (!validInput);
         } else { // matchingUsers is empty
-            System.out.println("\nThere were no users that match the given name.");
+            System.out.println("\nThere were no users that match the given name. Returning to friend menu.");
         }
 
         return returnUser;
@@ -486,50 +486,67 @@ public class Menu {
      * @param interestName the name of the given Interest
      */
     private void searchByInterests(String interestName) {
-        String inOrder = ud.getInterestManager().retrieveInterestBST(interestName).inOrderString();
-        String[] splitArray = inOrder.split("\n");
-        ArrayList<String> recommended = new ArrayList<>(Arrays.asList(splitArray));
+        // return if no existing Users share the Interest
+        if (ud.getInterestManager().retrieveInterestBST(interestName) == null) {
+            System.out.println("No Users share that interest! Returning to main menu.");
+            return;
+        }
+
+        // get BST<User> containing Users who share the Interest
+        BST<User> interestBST = ud.getInterestManager().retrieveInterestBST(interestName);
+
+        // convert interestBST to ArrayList<String>
+        String BSTInOrderStr = interestBST.inOrderString();
+        String[] splitArray = BSTInOrderStr.split("\n");
+        ArrayList<String> recommendedUsers = new ArrayList<>(Arrays.asList(splitArray));
+
         do {
             try {
-                System.out.println("Here's some recommended friends based on interestName and relations: ");
-                for (int i = 0; i < recommended.size(); i++) {
-                    System.out.println((i + 1) + ". " + recommended.get(i));
+                System.out.println("\nHere's some Users who share the same interests as you:");
+
+                // print recommended Users
+                for (int i = 0; i < recommendedUsers.size(); i++) {
+                    System.out.println((i + 1) + ". " + recommendedUsers.get(i));
                 }
 
-                System.out.print("Enter the number (index) of the person whose profile you'd like to view: ");
+                System.out.print("Enter the index (1-" + recommendedUsers.size() + ") " +
+                        "the person whose profile you'd like to view: ");
                 int index = scanner.nextInt();
+                scanner.nextLine(); // clear line after using nextInt()
 
-                if (index > 0 && index <= recommended.size()) {
-                    String selectedUser = recommended.get(index - 1);
+                if (index > 0 && index <= recommendedUsers.size()) { // valid ID selected
+                    // get first and last name of selected User
+                    String selectedUser = recommendedUsers.get(index - 1);
                     String[] splitArray2 = selectedUser.split(" ");
                     String first = splitArray2[0];
                     String last = splitArray2[1];
-                    System.out.println("First: " + first + " Last: " + last);
+
+                    // get User using their name and print their profile
                     User temp = ud.findUserAndReturnUserClass(first, last);
-                    if (temp == null) {
-                        System.out.println("oh no");
-                    }
-                    System.out.println("You selected the profile:");
-                    printProfile(temp);
+                    printUserProfile(temp);
+
+                    // prompt this User to add friend or return
                     System.out.print("Enter 1 to add as friend or enter any other key to return to the " +
-                            "previous menu:");
-                    int choice = scanner.nextInt();
-                    if (choice == 1) {
+                            "previous menu: ");
+                    String choice = scanner.nextLine();
+
+                    if (choice.equalsIgnoreCase("1")) {
+                        System.out.println("Successfully added " + temp.getFirstName() + " " + temp.getLastName()
+                                + " as a friend!");
                         user.addFriend(temp);
-                    } else {
-                        System.out.println("Returning to the previous menu...");
+                        displayFriends();
+                        break;
                     }
-                    break;
-                } else {
-                    System.out.println("Invalid selection. Please try again.");
+                } else { // invalid ID given
+                    System.out.println("Invalid index. Please try again.");
+                    scanner.nextLine(); // clear input
                 }
-            } catch (Exception e) {
-                System.out.println("\nPlease ensure the input is valid.");
-                System.out.println(e);
+            } catch (Exception e) { // invalid input
+                System.out.println("Invalid input. Please try again.");
+                scanner.nextLine(); // clear input
             }
         } while (true);
     }
-
 
     /**
      * Prints out friend recommendations for this User based on other Users'
@@ -539,36 +556,54 @@ public class Menu {
      * @see Friend#getFriendRecommendations for friend recoomendation system
      */
     public void getFriendRecs() {
-        ArrayList<User> recommended = friend.getFriendRecommendations(user);
         do {
             try {
-                System.out.println("Here's some recommended friends based on interest and relations: ");
+                ArrayList<User> recommended = friend.getFriendRecommendations(user);
+
+                // print all recommended Users
+                System.out.println("\nHere are some recommended friends based on interest and relations: ");
                 for (int i = 0; i < recommended.size(); i++) {
                     System.out.println((i + 1) + ". " + recommended.get(i).getFirstName() + " "
                             + recommended.get(i).getLastName());
                 }
 
-                System.out.print("Enter the number (index) of the person whose profile you'd like to view: ");
+                // get user choice
+                System.out.print("Enter 0 to return to the Main Menu or the index (1-" + recommended.size() + ") " +
+                        "of the person whose profile you'd like to view: ");
                 int index = scanner.nextInt();
 
-                if (index > 0 && index <= recommended.size()) {
-                    User selectedUser = recommended.get(index - 1);
-                    System.out.println("You selected the profile:");
-                    printProfile(selectedUser);
-                    System.out.print("Enter 1 to add as friend or enter any other key to return " +
-                            "to the previous menu:");
-                    int choice = scanner.nextInt();
-                    if (choice == 1) {
-                        user.addFriend(selectedUser);
-                    } else {
-                        System.out.println("Returning to the previous menu...");
-                    }
+                // return to main menu
+                if (index == 0) {
                     break;
-                } else {
-                    System.out.println("Invalid selection. Please try again.");
+                }
+
+                // invalid input given
+                if (!(index > 0) || !(index <= recommended.size())) {
+                    System.out.println("Invalid index given. Please try again.");
+                    scanner.nextLine(); // clear input
+                }
+
+                // print selectedUser profile
+                User selectedUser = recommended.get(index - 1);
+                printUserProfile(selectedUser);
+
+                System.out.print("Enter 1 to add as friend or enter any other key to return " +
+                        "to the recommended friends: ");
+                scanner.nextLine(); // clear input
+                String choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("1")) {
+                    System.out.println("Friend added successfully!");
+
+                    // update this user and the overall friend connections
+                    user.addFriend(selectedUser);
+                    ud.addFriendConnection(this.user, selectedUser);
+
+                    // display this user's updated current friends
+                    displayFriends();
                 }
             } catch (Exception e) {
-                System.out.println("\nPlease ensure the input is valid.");
+                System.out.println("Please ensure the input is a valid index.");
+                scanner.nextLine(); // clear input
             }
         } while (true);
     }
