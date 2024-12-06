@@ -312,7 +312,7 @@ public class Menu {
             if (choice.equalsIgnoreCase("1")) {
                 // remove matchingFriend
                 user.removeFriend(matchingFriend);
-                System.out.println("Successfully removed, your new friends list is now:");
+                System.out.println("Successfully removed as friend, your new friends list is now:");
                 displayFriends();
             }
         }
@@ -381,13 +381,14 @@ public class Menu {
                             user.addFriend(viewedUser);
                             ud.addFriendConnection(user, viewedUser);
 
-                            System.out.println(viewedUser.getFirstName() + " " + viewedUser.getLastName()
+                            System.out.print(viewedUser.getFirstName() + " " + viewedUser.getLastName()
                                     + " has been added as your friend!\n");
+                            displayFriends();
                         }
                     }
 
                     // ask if user wants to retry searchUserByName()
-                    System.out.print("Enter 1 to search another name or any other key to return to main menu: ");
+                    System.out.print("\nEnter 1 to search another name or any other key to return to main menu: ");
                     inputStr = scanner.next();
                 } while (inputStr.equals("1"));
                 break;
