@@ -33,21 +33,39 @@ public class Friend {
     }
 
     /**
-     * INCOMPLETE
+     * Private static class for temporarily storing a friend along with
+     * an associated score. This class is useful for sorting a
+     * user's friend recommendation by score, and their user object
      */
     private static class FriendTempClass {
         private final User userObject;
         private final double score;
 
+        /**
+         * Constructor for storing the friend user and their score.
+         *
+         * @param userObject Friend's user object to return.
+         * @param score      Friend's score recommendation based on calculateScore
+         */
         public FriendTempClass(User userObject, double score) {
             this.userObject = userObject;
             this.score = score;
         }
 
+        /**
+         * Gets the Friend's object
+         *
+         * @return will return friend object
+         */
         public User getObject() {
             return this.userObject;
         }
 
+        /**
+         * Gets the friend's recommendation score
+         *
+         * @return will return the recommendation score
+         */
         public double getScore() {
             return score;
         }
@@ -65,11 +83,10 @@ public class Friend {
         int interestScore = 0;
         ArrayList<User> recommendations = new ArrayList<>();
         ArrayList<FriendTempClass> pFriendsList = new ArrayList<>();
-        ArrayList<Double> scoreTracker = new ArrayList<>();// Stores recommended friends
+
         try {
             friendGraph.BFS(user.getId());  // BFS updates the distance array
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error during BFS: " + e.getMessage());
             return new ArrayList<>(); // Return an empty list in case of error
         }
 
@@ -102,8 +119,12 @@ public class Friend {
                 }
             }
         }
-        Collections.sort(pFriendsList, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
+        Collections.sort(pFriendsList, (o1, o2) ->
+                Double.compare(o2.getScore(), o1.getScore()));
         for (FriendTempClass friendTemp : pFriendsList) {
+            if (friendTemp.getObject() == user) {
+                continue;
+            }
             recommendations.add(friendTemp.getObject());
         }
         return recommendations;
