@@ -43,8 +43,9 @@ public class Friend {
 
         /**
          * Constructor for storing the friend user and their score.
+         *
          * @param userObject Friend's user object to return.
-         * @param score Friend's score recommendation based on calculateScore
+         * @param score      Friend's score recommendation based on calculateScore
          */
         public FriendTempClass(User userObject, double score) {
             this.userObject = userObject;
@@ -53,6 +54,7 @@ public class Friend {
 
         /**
          * Gets the Friend's object
+         *
          * @return will return friend object
          */
         public User getObject() {
@@ -61,6 +63,7 @@ public class Friend {
 
         /**
          * Gets the friend's recommendation score
+         *
          * @return will return the recommendation score
          */
         public double getScore() {
