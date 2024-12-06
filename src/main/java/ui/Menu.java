@@ -199,7 +199,7 @@ public class Menu {
     public void viewMyFriends() {
         while (true) {
             // display user options
-            System.out.println("\nView Friends Menu:\n0. Return to main menu" +
+            System.out.println("\nView Friends Menu:\n0. Return to Main Menu" +
                     "\n1: View all friends sorted by name\n2: Search for a friend");
             System.out.print("Enter your choice: ");
 
@@ -211,7 +211,7 @@ public class Menu {
                         return;
                     case 1:
                         if (user.getFriendCount() == 0) { // if user's friend list is empty
-                            System.out.println("You do not have any friends to display! Returning to main menu.\n");
+                            System.out.println("You do not have any friends to display! Returning to Main Menu.\n");
                             break;
                         }
                         displayFriends();
@@ -245,7 +245,7 @@ public class Menu {
      * @param user the User to print
      */
     private void printUserProfile(User user) {
-        System.out.println("\nUser Profile:");
+        System.out.println("\n" + user.getFirstName() + " " + user.getLastName() + "'s Profile:");
 
         // print name, ID, and city of friend
         System.out.println("Name: " + user.toString());
@@ -473,7 +473,7 @@ public class Menu {
                 }
             } while (!validInput);
         } else { // matchingUsers is empty
-            System.out.println("\nThere were no users that match the given name. Returning to friend menu.");
+            System.out.println("\nThere were no users that match the given name. Returning to Friend Menu.");
         }
 
         return returnUser;
@@ -488,28 +488,27 @@ public class Menu {
     private void searchByInterests(String interestName) {
         // return if no existing Users share the Interest
         if (ud.getInterestManager().retrieveInterestBST(interestName) == null) {
-            System.out.println("No Users share that interest! Returning to main menu.");
+            System.out.println("No Users share that interest! Returning to Main Menu.");
             return;
         }
 
         // get BST<User> containing Users who share the Interest
-        BST<User> interestBST = ud.getInterestManager().retrieveInterestBST(interestName);
+        BST<User> usersWithIterestBST = ud.getInterestManager().retrieveInterestBST(interestName);
 
         // convert interestBST to ArrayList<String>
-        String BSTInOrderStr = interestBST.inOrderString();
+        String BSTInOrderStr = usersWithIterestBST.inOrderString();
         String[] splitArray = BSTInOrderStr.split("\n");
-        ArrayList<String> recommendedUsers = new ArrayList<>(Arrays.asList(splitArray));
+        ArrayList<String> usersWithIntr = new ArrayList<>(Arrays.asList(splitArray));
 
         do {
             try {
-                System.out.println("\nHere are some Users who share the same interests as you:");
-
-                // print recommended Users
-                for (int i = 0; i < recommendedUsers.size(); i++) {
-                    System.out.println((i + 1) + ". " + recommendedUsers.get(i));
+                System.out.println("\nHere are some Users who share the given interests:");
+                // print Users who have Interest
+                for (int i = 0; i < usersWithIntr.size(); i++) {
+                    System.out.println((i + 1) + ". " + usersWithIntr.get(i));
                 }
 
-                System.out.print("Enter 0 to return to Main Menu or the index (1-" + recommendedUsers.size() + ") " +
+                System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithIntr.size() + ") " +
                         "the person whose profile you'd like to view: ");
                 int index = scanner.nextInt();
                 scanner.nextLine(); // clear line after using nextInt()
@@ -518,9 +517,9 @@ public class Menu {
                     return;
                 }
 
-                if (index > 0 && index <= recommendedUsers.size()) { // valid ID selected
+                if (index > 0 && index <= usersWithIntr.size()) { // valid ID selected
                     // get first and lastName name of selected User
-                    String selectedUser = recommendedUsers.get(index - 1);
+                    String selectedUser = usersWithIntr.get(index - 1);
                     String[] splitArray2 = selectedUser.split(" ");
                     String firstName = splitArray2[0];
                     String lastName = splitArray2[1];
@@ -529,7 +528,7 @@ public class Menu {
                     User tempUser = new User();
                     tempUser.setFirstName(firstName);
                     tempUser.setLastName(lastName);
-                    tempUser = interestBST.search(tempUser, ud.getNameComparator());
+                    tempUser = usersWithIterestBST.search(tempUser, ud.getNameComparator());
 
                     // print tempUser
                     printUserProfile(tempUser);
@@ -567,6 +566,13 @@ public class Menu {
         do {
             try {
                 ArrayList<User> recommended = friend.getFriendRecommendations(user);
+
+                // check if there's no recommended friends
+                if (recommended.isEmpty()) {
+                    System.out.println("\nSorry we don't have any friend recommendations for you at this time." +
+                            " Returning to Main Manu.");
+                    return;
+                }
 
                 // print all recommended Users
                 System.out.println("\nHere are some recommended friends based on interest and relations: ");
