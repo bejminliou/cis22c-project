@@ -99,7 +99,6 @@ public class Menu {
                 this.username = user.getUsername();
             } else { // if no matching credentials
                 System.out.println("Your username or password is incorrect. Returning to login menu.\n");
-                scanner.nextLine(); // clear scanner before recursion
                 loginMenu();
             }
         }
