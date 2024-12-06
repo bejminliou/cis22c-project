@@ -30,7 +30,6 @@ public class Menu {
     private final UserDirectory ud;
     private final Friend friend;
     public User user;
-    private String username;
 
     // Constructors
 
@@ -96,7 +95,6 @@ public class Menu {
             if (authenticate) { // if credentials match
                 user = ud.findUserByUsername(username);
                 System.out.print("\nWelcome " + user.getUsername() + "!");
-                this.username = user.getUsername();
             } else { // if no matching credentials
                 System.out.println("Your username or password is incorrect. Returning to login menu.\n");
                 loginMenu();
@@ -261,7 +259,7 @@ public class Menu {
      * Displays the current friends of this User.
      */
     private void displayFriends() {
-        String result = ud.findUserByUsername(this.username).getFriends().inOrderString();
+        String result = ud.findUserByUsername(user.getUsername()).getFriends().inOrderString();
         System.out.println("\nHere are your current friends:");
         System.out.println(result.trim());
     }
