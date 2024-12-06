@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import data.User;
@@ -536,8 +537,7 @@ public class Menu {
 
                 System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithInterest.size() + ") " +
                         "the person whose profile you'd like to view: ");
-                int index = scanner.nextInt();
-                scanner.nextLine(); // clear line after using nextInt()
+                int index = Integer.parseInt(scanner.nextLine());
 
                 if (index == 0) {
                     return;
@@ -574,7 +574,7 @@ public class Menu {
                 } else { // invalid ID given
                     System.out.println("Invalid index. Please try again.");
                 }
-            } catch (Exception e) { // invalid input
+            } catch (InputMismatchException e) { // invalid input
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine(); // clear input
             }
