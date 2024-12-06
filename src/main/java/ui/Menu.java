@@ -512,6 +512,12 @@ public class Menu {
         // remove this user from BST to avoid printing themselves
         usersWithIterestBST.remove(user, ud.getNameComparator());
 
+        // if no User except this user shares the Interest
+        if (usersWithIterestBST.getSize() == 0) {
+            System.out.println("\nNo Users share that interest! Returning to Main Menu.");
+            return;
+        }
+
         // convert interestBST to ArrayList<String>
         String BSTInOrderStr = usersWithIterestBST.inOrderString();
         String[] splitArray = BSTInOrderStr.split("\n");
