@@ -104,6 +104,9 @@ public class Friend {
         Collections.sort(pFriendsList, (o1, o2) ->
                 Double.compare(o2.getScore(), o1.getScore()));
         for (FriendTempClass friendTemp : pFriendsList) {
+            if (friendTemp.getObject() == user) {
+                continue;
+            }
             recommendations.add(friendTemp.getObject());
         }
         return recommendations;
