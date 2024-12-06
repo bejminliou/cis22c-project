@@ -538,6 +538,7 @@ public class Menu {
 
                 System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithInterest.size() + ") " +
                         "the person whose profile you'd like to view: ");
+                scanner.nextLine(); // clear input
                 int index = Integer.parseInt(scanner.nextLine());
 
                 if (index == 0) {
