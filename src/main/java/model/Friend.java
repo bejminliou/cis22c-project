@@ -33,21 +33,36 @@ public class Friend {
     }
 
     /**
-     * INCOMPLETE
+     * Private static class for temporarily storing a friend along with
+     * an associated score. This class is useful for sorting a
+     * user's friend recommendation by score, and their user object
      */
     private static class FriendTempClass {
         private final User userObject;
         private final double score;
 
+        /**
+         * Constructor for storing the friend user and their score.
+         * @param userObject Friend's user object to return.
+         * @param score Friend's score recommendation based on calculateScore
+         */
         public FriendTempClass(User userObject, double score) {
             this.userObject = userObject;
             this.score = score;
         }
 
+        /**
+         * Gets the Friend's object
+         * @return will return friend object
+         */
         public User getObject() {
             return this.userObject;
         }
 
+        /**
+         * Gets the friend's recommendation score
+         * @return will return the recommendation score
+         */
         public double getScore() {
             return score;
         }
