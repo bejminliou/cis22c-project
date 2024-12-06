@@ -2,7 +2,6 @@ package ui;
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import data.User;
@@ -175,7 +174,7 @@ public class Menu {
 
             // get user input
             try {
-                int choice = scanner.nextInt();
+                int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 0:
                         System.out.println("\nGoodbye!");
@@ -190,7 +189,7 @@ public class Menu {
                         System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.");
                         scanner.nextLine(); // clear invalid choice
                 }
-            } catch (Exception e) { // invalid input
+            } catch (NumberFormatException e) { // invalid input
                 System.out.println("Invalid input. Please enter a valid option 0, 1, or 2.");
                 scanner.nextLine(); // clear invalid input
             }
@@ -365,7 +364,7 @@ public class Menu {
 
             try {
                 // inputStr user choice
-                inputStr = scanner.next();
+                inputStr = scanner.nextLine();
 
                 // check for valid inputStr
                 for (int validIn : validInputs) {
@@ -398,7 +397,7 @@ public class Menu {
                     if (viewedUser != null) { // user with matching name selected
                         System.out.print("\nEnter 1 to add this user as your friend, or any other key to continue" +
                                 " without adding: ");
-                        inputStr = scanner.next();
+                        inputStr = scanner.nextLine();
 
                         // adding as friend
                         if (inputStr.equals("1")) {
@@ -413,13 +412,13 @@ public class Menu {
 
                     // ask if user wants to retry searchUserByName()
                     System.out.print("\nEnter 1 to search another name or any other key to return to Main Menu: ");
-                    inputStr = scanner.next();
+                    inputStr = scanner.nextLine();
                 } while (inputStr.equals("1"));
                 break;
             case 2:
                 System.out.println("\nSearching Users by Interest:");
                 System.out.print("Please enter the interest you want to search by: ");
-                inputStr = scanner.next();
+                inputStr = scanner.nextLine();
                 searchByInterests(inputStr);
                 break;
             case 3:
@@ -475,7 +474,7 @@ public class Menu {
                     // get index of profile to view
                     System.out.print("Enter the index (1-" + matchingUsers.size() + ") " +
                             "of the User you'd like to view: ");
-                    inputStr = scanner.next();
+                    inputStr = scanner.nextLine();
 
                     // check for valid index
                     int index = Integer.parseInt(inputStr);
@@ -538,7 +537,6 @@ public class Menu {
 
                 System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithInterest.size() + ") " +
                         "the person whose profile you'd like to view: ");
-                scanner.nextLine(); // clear input
                 int index = Integer.parseInt(scanner.nextLine());
 
                 if (index == 0) {
@@ -576,7 +574,7 @@ public class Menu {
                 } else { // invalid ID given
                     System.out.println("Invalid index. Please try again.");
                 }
-            } catch (InputMismatchException e) { // invalid input
+            } catch (NumberFormatException e) { // invalid input
                 System.out.println("Invalid input. Please try again.");
                 scanner.nextLine(); // clear input
             }
@@ -612,8 +610,7 @@ public class Menu {
                 // get user choice
                 System.out.print("Enter 0 to return to the Main Menu or the index (1-" + recommended.size() + ") " +
                         "of the person whose profile you'd like to view: ");
-                int index = scanner.nextInt();
-                scanner.nextLine(); // clear input
+                int index = Integer.parseInt(scanner.nextLine());
 
                 // return to main menu
                 if (index == 0) {
