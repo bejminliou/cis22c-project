@@ -165,7 +165,10 @@ public class Menu {
     public void mainMenu() {
         while (true) {
             // print user options
-            System.out.println("\nMain Menu:\n0. Quit\n1. View Your Friends\n2. Add New Friends");
+            System.out.println("\nMain Menu:" +
+                    "\n0. Quit" +
+                    "\n1. View Your Friends" +
+                    "\n2. Add New Friends");
             System.out.print("Please enter your choice: ");
 
             // get user input
@@ -199,8 +202,11 @@ public class Menu {
     public void viewMyFriends() {
         while (true) {
             // display user options
-            System.out.println("\nView Friends Menu:\n0. Return to Main Menu" +
-                    "\n1: View all friends sorted by name\n2: Search for a friend");
+            System.out.println("\nView Friends Menu:" +
+                    "\n0. Return to Main Menu" +
+                    "\n1. View all your friends and their profiles" +
+                    "\n2: View a list friends sorted by name" +
+                    "\n3: Search for a friend");
             System.out.print("Enter your choice: ");
 
             // get user input
@@ -211,20 +217,36 @@ public class Menu {
                         return;
                     case 1:
                         if (user.getFriendCount() == 0) { // if user's friend list is empty
-                            System.out.println("You do not have any friends to display! Returning to Main Menu.\n");
+                            System.out.println("\nYou do not have any friends to display! " +
+                                    "Returning to View Friends Menu.");
+                            break;
+                        }
+
+                        System.out.println("\nHere are all of your friends' profiles:");
+
+                        // print the profile of all friends
+                        ArrayList<Integer> friendIds = user.getFriendIds();
+                        for (int friendId : friendIds) {
+                            printUserProfile(ud.getUsersAL().get(friendId - 1));
+                        }
+                        break;
+                    case 2:
+                        if (user.getFriendCount() == 0) { // if user's friend list is empty
+                            System.out.println("\nYou do not have any friends to display! " +
+                                    "Returning to View Friends Menu.");
                             break;
                         }
                         displayFriends();
                         break;
-                    case 2:
+                    case 3:
                         searchFriendByName();
                         break;
                     default: // invalid choice
-                        System.out.println("Invalid input. Please enter a valid option (0, 1, or 2).");
+                        System.out.println("Invalid input. Please enter a valid option (0, 1, 2, or 3).");
                         scanner.nextLine(); // clear invalid choice
                 }
             } catch (Exception e) { // invalid input
-                System.out.println("Invalid input. Please enter a valid option (0, 1, or 2).");
+                System.out.println("Invalid input. Please enter a valid option (0, 1, 2, or 3).");
                 scanner.nextLine(); // clear invalid input
             }
         }
@@ -248,7 +270,7 @@ public class Menu {
         System.out.println("\n" + user.getFirstName() + " " + user.getLastName() + "'s Profile:");
 
         // print name, ID, and city of friend
-        System.out.println("Name: " + user.toString());
+        System.out.println("Name: " + user);
         System.out.println("User ID: " + user.getId());
         System.out.println("City: " + user.getCity());
 
@@ -264,8 +286,9 @@ public class Menu {
                 System.out.print(interests.getIterator() + ", ");
                 interests.advanceIterator();
             }
-            System.out.println(interests.getIterator());
+            System.out.print(interests.getIterator());
         }
+
         System.out.println(); // for newline when there's 0 Interests to print
     }
 
@@ -297,8 +320,8 @@ public class Menu {
         User matchingFriend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
 
         if (matchingFriend == null) { // matching friend not found
-            System.out.print("\nCould not find matching friend.\nEnter 1 to retry search by name or " +
-                    "enter any other key to return to the View Friends Menu: ");
+            System.out.print("\nCould not find matching friend." +
+                    "\nEnter 1 to retry search by name or enter any other key to return to the View Friends Menu: ");
             if (scanner.nextInt() == 1) {
                 searchFriendByName(); // retry search
             }
@@ -387,7 +410,7 @@ public class Menu {
                     }
 
                     // ask if user wants to retry searchUserByName()
-                    System.out.print("\nEnter 1 to search another name or any other key to return to main menu: ");
+                    System.out.print("\nEnter 1 to search another name or any other key to return to Main Menu: ");
                     inputStr = scanner.next();
                 } while (inputStr.equals("1"));
                 break;
@@ -473,7 +496,7 @@ public class Menu {
                 }
             } while (!validInput);
         } else { // matchingUsers is empty
-            System.out.println("\nThere were no users that match the given name. Returning to Friend Menu.");
+            System.out.println("\nThere were no users that match the given name.");
         }
 
         return returnUser;
@@ -488,7 +511,7 @@ public class Menu {
     private void searchByInterests(String interestName) {
         // return if no existing Users share the Interest
         if (ud.getInterestManager().retrieveInterestBST(interestName) == null) {
-            System.out.println("No Users share that interest! Returning to Main Menu.");
+            System.out.println("\nNo Users share that interest! Returning to Main Menu.");
             return;
         }
 
@@ -498,17 +521,17 @@ public class Menu {
         // convert interestBST to ArrayList<String>
         String BSTInOrderStr = usersWithIterestBST.inOrderString();
         String[] splitArray = BSTInOrderStr.split("\n");
-        ArrayList<String> usersWithIntr = new ArrayList<>(Arrays.asList(splitArray));
+        ArrayList<String> usersWithInterest = new ArrayList<>(Arrays.asList(splitArray));
 
         do {
             try {
                 System.out.println("\nHere are some Users who share the given interests:");
                 // print Users who have Interest
-                for (int i = 0; i < usersWithIntr.size(); i++) {
-                    System.out.println((i + 1) + ". " + usersWithIntr.get(i));
+                for (int i = 0; i < usersWithInterest.size(); i++) {
+                    System.out.println((i + 1) + ". " + usersWithInterest.get(i));
                 }
 
-                System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithIntr.size() + ") " +
+                System.out.print("Enter 0 to return to Main Menu or the index (1-" + usersWithInterest.size() + ") " +
                         "the person whose profile you'd like to view: ");
                 int index = scanner.nextInt();
                 scanner.nextLine(); // clear line after using nextInt()
@@ -517,9 +540,9 @@ public class Menu {
                     return;
                 }
 
-                if (index > 0 && index <= usersWithIntr.size()) { // valid ID selected
+                if (index > 0 && index <= usersWithInterest.size()) { // valid ID selected
                     // get first and lastName name of selected User
-                    String selectedUser = usersWithIntr.get(index - 1);
+                    String selectedUser = usersWithInterest.get(index - 1);
                     String[] splitArray2 = selectedUser.split(" ");
                     String firstName = splitArray2[0];
                     String lastName = splitArray2[1];
