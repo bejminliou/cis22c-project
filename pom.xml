@@ -12,30 +12,53 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.8.2</junit.version> <!-- Set the version for JUnit 5 -->
     </properties>
 
     <dependencies>
-        <!-- JUnit for testing -->
+        <!-- JUnit 5 dependency for the Jupiter API -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JUnit 5 dependency for the Jupiter Engine -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 parameterized tests dependency -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Remove legacy JUnit 4 dependency -->
+        <!-- <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency> -->
     </dependencies>
 
     <build>
+        <testSourceDirectory>src/tests/java</testSourceDirectory>
         <plugins>
-            <!-- Maven Surefire Plugin for running tests -->
+            <!-- Maven Surefire Plugin for running JUnit 5 tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.0.0-M5</version> <!-- Ensure it's a version that supports JUnit 5 -->
                 <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
+                    <useModulePath>false</useModulePath> <!-- Disable module path for JUnit 5 -->
                 </configuration>
             </plugin>
         </plugins>
