@@ -10,39 +10,37 @@ public class UnicodeEscaper {
      * @return A string with non-ASCII characters escaped in Unicode format.
      */
     public static String escapeUnicode(String input) {
-        StringBuilder escapedString = new StringBuilder();
-
         // Validate input
-        if (input == null) {
-            return null;
-        }
+        if (input == null) return null;
+        if (input.isEmpty()) return "";
 
-        if (input.isEmpty()) {
-            return "";
-        }
-        // Define escape logic
-        for (int i = 0; i < input.length(); i++) {
-            char character = input.charAt(i);
-            boolean simpleChar = input.length() == 1;
+        StringBuilder escapedString = new StringBuilder();
+        boolean isSingleCharacter = input.length() == 1;
 
-            // Skip characters in the range 0 to 31 and 127 (only if input length == 1)
-            if (simpleChar && (character < 32 )) {
-                escapedString.append(""); // Skip invalid characters
-                continue;
+        for (char character : input.toCharArray()) {
+            // Handle single-character specific cases
+            if (isSingleCharacter) {
+                switch (character) {
+                    case '>':
+                        escapedString.append("\\u003E");
+                        continue;
+                    case '<':
+                        escapedString.append("\\u003C");
+                        continue;
+                    case '&':
+                        escapedString.append("\\u0026");
+                        continue;
+                    default:
+                        // Skip invalid characters in the range 0-31
+                        if (character < 32) continue;
+                }
             }
 
-            // Escape special characters >, <, and &
-            if (simpleChar && character == '>') {
-                escapedString.append("\\u003E");
-            } else if (simpleChar && character == '<') {
-                escapedString.append("\\u003C");
-            } else if (simpleChar && character == '&') {
-                escapedString.append("\\u0026");
-            } else if (character >= 127 || character == '\u0000') {
-                // Escape non-ASCII characters (above 127)
-                escapedString.append(String.format("\\u%04X", (int) character));
+            // Escape non-ASCII characters or null character
+            if (character >= 127 || character == '\u0000') {
+                escapedString.append("\\u").append(String.format("%04X", (int) character));
             } else {
-                // Leave printable ASCII characters (32-126) unchanged
+                // Append ASCII printable characters directly
                 escapedString.append(character);
             }
         }
