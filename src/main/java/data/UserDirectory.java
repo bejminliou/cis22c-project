@@ -27,6 +27,7 @@ public class UserDirectory {
     private final Graph friendNetwork;
     private final HashTable<String> loginTable;
     private final InterestManager interestManager;
+    final int numUsers;
 
     // Comparators
 
@@ -83,7 +84,7 @@ public class UserDirectory {
 
         // authenticate all user credentials into the loginTable
         final int NUM_USERS_OFFSET = 10;
-        int numUsers = usersAL.size();
+        this.numUsers = usersAL.size();
         this.loginTable = new HashTable<>(numUsers + NUM_USERS_OFFSET);
         for (User user : usersAL) {
             loginTable.add(getLoginKey(user.getUsername(), user.getPassword()));
@@ -214,6 +215,7 @@ public class UserDirectory {
 
         if (!foundCreds) { // if credentials are not already found in UserDirectory
             // add User to UserDirectory
+            user.setId(numUsers + 1);
             usersAL.add(user);
             usersBST.insert(user, nameComparator);
             addAuthNewUser(user);
