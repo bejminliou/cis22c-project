@@ -15,12 +15,15 @@ cis22c-project/
 │   ├── main/
 │   │   └── java/
 │   │       ├── data/
+│   │       │   └── Friend.java
 │   │       │   └── Interest.java
 │   │       │   └── InterestManager.java
 │   │       │   ├── User.java
 │   │       │   ├── UserDirectory.java
-│   │       ├── model/
-│   │       │   ├── Friend.java
+│   │       ├── io/
+│   │       │   └── ReadAndWriteData.java
+│   │       ├── ui/
+│   │       │   └── Menu.java
 │   │       ├── util/
 │   │       │   ├── BST.java
 │   │       │   ├── Graph.java
@@ -29,15 +32,11 @@ cis22c-project/
 │   │       │   └── LinkedList.java
 │   │       │   └── Q.java
 │   │       │   └── Queue.java
-│   │       ├── io/
-│   │       │   └── data.txt
-│   │       │   └── ReadAndWriteData.java
-│   │       ├── ui/
-│   │       │   └── Menu.java
 │   │       ├── App.java
 │   │   └── resources/
-│   │       └── users.txt
+│   │       └── data.txt
 │   │       └── dataset.js
+│   │       └── users.txt
 ├── .gitignore
 ├── pom.xml
 └── README.md
