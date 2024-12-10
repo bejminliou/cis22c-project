@@ -21,8 +21,11 @@ import util.LinkedList;
  * Manage retrieval and saving of all User data from a file.
  *
  * @author Benjamin Liou
- * @author Kenneth Garcia
  * @author Kevin Young
+ * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * @see data.User for user data structure
  * @see data.UserDirectory for user management operations
  * CIS 22C, Course Project

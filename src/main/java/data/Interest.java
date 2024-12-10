@@ -6,7 +6,12 @@ import java.util.Objects;
  * Interest.java
  * Interest class managing the details of an individual interest.
  *
+ * @author Benjamin Liou
+ * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * CIS 22C, Course Project
  */
 public class Interest {

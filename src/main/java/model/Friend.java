@@ -19,6 +19,9 @@ import util.LinkedList;
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * @see data.UserDirectory for user storage and management
  * @see data.User for individual user's friend connections
  * CIS 22C, Course Project

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 /**
  * Graph.java
  *
+ * @author Benjamin Liou
+ * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * CIS 22C, Lab 16
  */
 public class Graph {

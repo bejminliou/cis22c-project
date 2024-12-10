@@ -16,6 +16,9 @@ import util.LinkedList;
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {

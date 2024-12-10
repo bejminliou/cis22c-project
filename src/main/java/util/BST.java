@@ -6,7 +6,12 @@ import java.util.NoSuchElementException;
 /**
  * BST.java
  *
+ * @author Benjamin Liou
+ * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * @param <T> a generic data type
  * CIS 22C, Lab 12
  */

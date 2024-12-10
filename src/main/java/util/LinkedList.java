@@ -5,7 +5,14 @@ import java.util.NoSuchElementException;
  * LinkedList.java
  * Defines a doubly-linked list class
  *
+ *
+ *
+ * @author Benjamin Liou
+ * @author Kevin Young
  * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * @param <T> a generic dadta type
  * CIS 22C, Applied Lab 3.1
  */

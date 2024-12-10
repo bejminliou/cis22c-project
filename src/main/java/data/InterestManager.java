@@ -9,9 +9,12 @@ import util.BST;
  * InterestManager.java
  * Manages the existing Interests and tracks which Users share each Interest.
  *
- * @author Rolen Louie
- * @author Kenneth Garcia
+ * @author Benjamin Liou
  * @author Kevin Young
+ * @author Rolen Louie
+ * @author Yukai Qiu
+ * @author Kenneth Garcia
+ * @author Tu Luong
  * CIS 22C, Course Project
  */
 public class InterestManager {
