@@ -165,15 +165,6 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * INCOMPLETE
-     *
-     * @return
-     */
-    public String getInterestsByString() {
-        return interests.toString();
-    }
-
-    /**
      * Get the number of interests the user has.
      *
      * @return the number of interests

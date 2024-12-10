@@ -105,10 +105,10 @@ public class Friend {
                 int dist = friendGraph.getDistance(potentialFriend.getId());  // Get distance from the user
                 if (dist >= 2 && dist <= 4) {// Check valid distance for recommendation
 
-                    StringTokenizer StringTokenized = new StringTokenizer(potentialFriend.getInterestsByString());
+                    StringTokenizer StringTokenized = new StringTokenizer(potentialFriend.getInterests().toString());
                     while (StringTokenized.hasMoreTokens()) {
                         String next = StringTokenized.nextToken();
-                        if (user.getInterestsByString().contains(next)) {
+                        if (user.getInterests().toString().contains(next)) {
                             interestScore++;
                         }
                     }
