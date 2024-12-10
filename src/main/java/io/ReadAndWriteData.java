@@ -29,7 +29,7 @@ import util.LinkedList;
  * CIS 22C, Course Project
  */
 public class ReadAndWriteData {
-    private static final String DEFAULT_DATA_FILE = "src/main/java/io/data.txt";
+    private static final String DEFAULT_DATA_FILE = "src/resources/data.txt";
 
     /**
      * Read user data from persistent storage.

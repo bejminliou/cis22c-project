@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import data.Friend;
 import data.User;
 import data.UserDirectory;
-
-import model.Friend;
 
 import util.BST;
 import util.LinkedList;

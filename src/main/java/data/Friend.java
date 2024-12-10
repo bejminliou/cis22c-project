@@ -1,11 +1,8 @@
-package model;
+package data;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
-
-import data.User;
-import data.UserDirectory;
 
 import util.Graph;
 import util.LinkedList;
