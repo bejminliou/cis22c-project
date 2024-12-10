@@ -82,22 +82,6 @@ public class User implements Comparable<User> {
         return friends.search(searchUser, UserDirectory.nameComparator);
     }
 
-    /**
-     * Check if another user is a friend.
-     *
-     * @param friend user to check friendship with
-     * @return true if users are friends, false otherwise
-     * @see util.BST#search(Object, Comparator) for search
-     */
-    public boolean isFriend(User friend) {
-        if (friend == null)
-            return false;
-
-        // Use ID comparator since it's unique
-        Comparator<User> idComparator = (u1, u2) -> Integer.compare(u1.getId(), u2.getId());
-        return friends.search(friend, idComparator) != null;
-    }
-
     // Accessors
 
     /**
@@ -162,16 +146,6 @@ public class User implements Comparable<User> {
      */
     public LinkedList<String> getInterests() {
         return interests;
-    }
-
-    /**
-     * Get the number of interests the user has.
-     *
-     * @return the number of interests
-     * @see util.LinkedList#getLength() for size calculation
-     */
-    public int getInterestCount() {
-        return interests.getLength();
     }
 
     /**
@@ -286,32 +260,6 @@ public class User implements Comparable<User> {
         if (interest != null && !interest.trim().isEmpty()) {
             interests.addLast(interest.trim());
         }
-    }
-
-    /**
-     * Remove the [! first occurrence] of an interest from the user's list.
-     *
-     * @param interest the interest to remove (case-sensitive, will be trimmed)
-     * @return true if the interest was found and removed, false otherwise
-     * @throws NullPointerException if the iterator operations fail
-     * @see util.LinkedList#removeIterator() for removal operation
-     */
-    public boolean removeInterest(String interest) {
-        if (interest == null) {
-            return false;
-        }
-
-        String trimmedInterest = interest.trim();
-        interests.positionIterator();
-
-        while (!interests.offEnd()) {
-            if (interests.getIterator().equals(trimmedInterest)) {
-                interests.removeIterator();
-                return true;
-            }
-            interests.advanceIterator();
-        }
-        return false;
     }
 
     /**

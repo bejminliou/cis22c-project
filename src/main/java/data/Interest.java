@@ -10,8 +10,8 @@ import java.util.Objects;
  * CIS 22C, Course Project
  */
 public class Interest {
-    private String interestName;
-    private int interestID;
+    private final String interestName;
+    private final int interestID;
 
     // Constructors
 
@@ -29,41 +29,12 @@ public class Interest {
     // Accessors
 
     /**
-     * Gets the name of the Interest.
-     *
-     * @return the name of Interest
-     */
-    public String getName() {
-        return interestName;
-    }
-
-    /**
      * Gets the ID of the Interest.
      *
      * @return the ID of the Interest
      */
     public int getInterestID() {
         return interestID;
-    }
-
-    // Mutators
-
-    /**
-     * Sets the name of the Interest to the given name.
-     *
-     * @param interestName the given name
-     */
-    public void setName(String interestName) {
-        this.interestName = interestName;
-    }
-
-    /**
-     * Sets the ID of the Interest to the given ID.
-     *
-     * @param interestID the given ID
-     */
-    public void setId(int interestID) {
-        this.interestID = interestID;
     }
 
     // Additional Methods
