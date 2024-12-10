@@ -224,19 +224,6 @@ public class UserDirectory {
         return false; // if given username and password already exist
     }
 
-    /**
-     * Remove a User from usersAL, usersBST, and loginTable.
-     *
-     * @param user the user to remove from the directory
-     * @see util.BST#remove for removal
-     * @see #nameComparator for ordering
-     */
-    public void removeUser(User user) {
-        usersAL.remove(user.getId());
-        usersBST.remove(user, nameComparator);
-        loginTable.delete(getLoginKey(user.getFirstName(), user.getLastName()));
-    }
-
     // Additional methods for loginTable (HashTable) and authentication
 
     /**
@@ -275,35 +262,6 @@ public class UserDirectory {
         }
 
         String loginKey = getLoginKey(username, password);
-        return loginTable.contains(loginKey);
-    }
-
-    /**
-     * Authenticate a User by checking if their login key exists in loginTable.
-     *
-     * @param user the existing user to authenticate
-     * @return true if User's login key already exists in loginTable, false otherwise
-     * @throws IllegalArgumentException if user, username, or password is null
-     * @see #getLoginKey for credential format
-     * @see util.HashTable#contains for credential verification
-     */
-    public boolean getUserAuthStatus(User user) {
-        // precondition for user object
-        if (user == null) {
-            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): User cannot be null");
-        }
-
-        String username = user.getUsername();
-        String password = user.getPassword();
-        // preconditions for user's name and password
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): Username cannot be null or empty");
-        }
-        if (password == null) {
-            throw new IllegalArgumentException("Auth.java getUserAuthStatus(): Password cannot be null");
-        }
-
-        String loginKey = getLoginKey(user.getUsername(), user.getPassword());
         return loginTable.contains(loginKey);
     }
 

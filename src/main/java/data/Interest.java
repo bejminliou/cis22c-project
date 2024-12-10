@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * Interest.java
- * Interest class managing the details of an individual interest.
+ * Interest class managing the details of an individual Interest.
  *
  * @author Benjamin Liou
  * @author Kevin Young
@@ -15,8 +15,8 @@ import java.util.Objects;
  * CIS 22C, Course Project
  */
 public class Interest {
-    private String interestName;
-    private int interestID;
+    private final String interestName;
+    private final int interestID;
 
     // Constructors
 
@@ -24,7 +24,7 @@ public class Interest {
      * Creates a new Interest with the given interestName and interestID.
      *
      * @param interestName the name of the Interest.
-     * @param interestID the ID of the Interest
+     * @param interestID   the ID of the Interest
      */
     public Interest(String interestName, int interestID) {
         this.interestName = interestName;
@@ -34,41 +34,12 @@ public class Interest {
     // Accessors
 
     /**
-     * Gets the name of the Interest.
-     *
-     * @return the name of Interest
-     */
-    public String getName() {
-        return interestName;
-    }
-
-    /**
      * Gets the ID of the Interest.
      *
      * @return the ID of the Interest
      */
     public int getInterestID() {
         return interestID;
-    }
-
-    // Mutators
-
-    /**
-     * Sets the name of the Interest to the given name.
-     *
-     * @param interestName the given name
-     */
-    public void setName(String interestName) {
-        this.interestName = interestName;
-    }
-
-    /**
-     * Sets the ID of the Interest to the given ID.
-     *
-     * @param interestID the given ID
-     */
-    public void setId(int interestID) {
-        this.interestID = interestID;
     }
 
     // Additional Methods

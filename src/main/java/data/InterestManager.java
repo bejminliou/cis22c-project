@@ -33,7 +33,8 @@ public class InterestManager {
     }
 
     /**
-     * Adds User to interest, if interest doesn't exist, adds interests and user to said interest.
+     * Adds User to an Interest.
+     * If the Interest doesn't exist, adds Interest to interestHashTable and User to the Interest.
      *
      * @param interestName the name of the Interest
      * @param user         the User to add the Interest to
