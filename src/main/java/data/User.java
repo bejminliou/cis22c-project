@@ -1,7 +1,7 @@
 package data;
 
-import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import util.BST;
@@ -315,11 +315,8 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Adds a new friend connection.
-     * May want to change later on to return:
-     * - an int 0 for success, 1 for already friends, 2 for null input, 3 for is self;
-     * <p>
-     * (?) once ui is implemented ^
+     * Adds a friend connection between two Users if the friend connection
+     * does not already exist.
      *
      * @param friend the user to add as a friend
      * @see util.BST#insert(Object, Comparator) for friend storage

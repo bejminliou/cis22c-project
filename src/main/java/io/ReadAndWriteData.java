@@ -1,12 +1,13 @@
 package io;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import data.InterestManager;
 import data.User;
@@ -49,7 +50,7 @@ public class ReadAndWriteData {
         // open file Scanner
         try {
             fileInput = new Scanner(new File(DEFAULT_DATA_FILE));
-        } catch (Exception e) { // error when opening file
+        } catch (FileNotFoundException e) { // error when opening file
             System.out.println("UserDirectory.java readData(): could not locate user data file. Exiting program.");
             System.exit(1);
         }

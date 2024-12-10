@@ -44,8 +44,8 @@ public class Friend {
         /**
          * Constructor for storing the friend user and their score.
          *
-         * @param userObject Friend's user object to return.
-         * @param score      Friend's score recommendation based on calculateScore
+         * @param userObject friend's user object to return.
+         * @param score      friend's score recommendation based on calculateScore
          */
         public FriendTempClass(User userObject, double score) {
             this.userObject = userObject;
@@ -131,11 +131,15 @@ public class Friend {
     }
 
     /**
-     * INCOMPLETE
+     * Calculates the score for a relationship between two Users based on their distance
+     * in friendGraph and interest score. The distance is influenced by mutual friends
+     * (tracked in the Graph of Users) and the interest score is influenced by shared Interests,
+     * with shared Interests having a bigger weight on the score than distance.
      *
-     * @param dist
-     * @param interestScore
-     * @return
+     * @param dist          the distance between two Users in the friendGraph
+     * @param interestScore the number of shared interests between two Users
+     * @return the calculated score for the friendship between two Users, with a higher
+     * score indicating a higher likelihood of being recommended as a friend
      */
     private double calculateScore(int dist, int interestScore) {
         final double interestWeight = 2.0;  // Give shared interests more weight
@@ -151,4 +155,3 @@ public class Friend {
     }
 
 }
-
