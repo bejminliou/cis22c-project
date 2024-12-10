@@ -9,6 +9,7 @@ import ui.Menu;
  * @author Benjamin Liou
  * @author Kenneth Garcia
  * @author Kevin Young
+ * @author Rolen Louie
  * @author Yukai Qiu
  * CIS 22C, Course Project
  */
@@ -24,14 +25,14 @@ public class App {
         try {
             UserDirectory userDirectory = ReadAndWriteData.readData(); // get data from data.txt
 
-            // run menu UI
+            // run program UI
             Menu menu = new Menu(userDirectory);
             menu.loginMenu();
             menu.mainMenu();
 
             ReadAndWriteData.writeData(userDirectory); // save user data into data.txt
         } catch (Exception e) {
-            System.out.println("Error from main: " + e.getMessage());
+            System.out.println("Error caught from main: " + e.getMessage());
         }
     }
 

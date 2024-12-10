@@ -1,7 +1,7 @@
 package ui;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import data.User;

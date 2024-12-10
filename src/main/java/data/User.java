@@ -1,7 +1,7 @@
 package data;
 
-import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import util.BST;
@@ -82,22 +82,6 @@ public class User implements Comparable<User> {
         return friends.search(searchUser, UserDirectory.nameComparator);
     }
 
-    /**
-     * Check if another user is a friend.
-     *
-     * @param friend user to check friendship with
-     * @return true if users are friends, false otherwise
-     * @see util.BST#search(Object, Comparator) for search
-     */
-    public boolean isFriend(User friend) {
-        if (friend == null)
-            return false;
-
-        // Use ID comparator since it's unique
-        Comparator<User> idComparator = (u1, u2) -> Integer.compare(u1.getId(), u2.getId());
-        return friends.search(friend, idComparator) != null;
-    }
-
     // Accessors
 
     /**
@@ -162,25 +146,6 @@ public class User implements Comparable<User> {
      */
     public LinkedList<String> getInterests() {
         return interests;
-    }
-
-    /**
-     * INCOMPLETE
-     *
-     * @return
-     */
-    public String getInterestsByString() {
-        return interests.toString();
-    }
-
-    /**
-     * Get the number of interests the user has.
-     *
-     * @return the number of interests
-     * @see util.LinkedList#getLength() for size calculation
-     */
-    public int getInterestCount() {
-        return interests.getLength();
     }
 
     /**
@@ -298,37 +263,8 @@ public class User implements Comparable<User> {
     }
 
     /**
-     * Remove the [! first occurrence] of an interest from the user's list.
-     *
-     * @param interest the interest to remove (case-sensitive, will be trimmed)
-     * @return true if the interest was found and removed, false otherwise
-     * @throws NullPointerException if the iterator operations fail
-     * @see util.LinkedList#removeIterator() for removal operation
-     */
-    public boolean removeInterest(String interest) {
-        if (interest == null) {
-            return false;
-        }
-
-        String trimmedInterest = interest.trim();
-        interests.positionIterator();
-
-        while (!interests.offEnd()) {
-            if (interests.getIterator().equals(trimmedInterest)) {
-                interests.removeIterator();
-                return true;
-            }
-            interests.advanceIterator();
-        }
-        return false;
-    }
-
-    /**
-     * Adds a new friend connection.
-     * May want to change later on to return:
-     * - an int 0 for success, 1 for already friends, 2 for null input, 3 for is self;
-     * <p>
-     * (?) once ui is implemented ^
+     * Adds a friend connection between two Users if the friend connection
+     * does not already exist.
      *
      * @param friend the user to add as a friend
      * @see util.BST#insert(Object, Comparator) for friend storage
