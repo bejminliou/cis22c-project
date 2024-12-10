@@ -27,7 +27,7 @@ public class UserDirectory {
     private final Graph friendNetwork;
     private final HashTable<String> loginTable;
     private final InterestManager interestManager;
-    final int numUsers;
+    int numUsers;
 
     // Comparators
 
@@ -215,7 +215,8 @@ public class UserDirectory {
 
         if (!foundCreds) { // if credentials are not already found in UserDirectory
             // add User to UserDirectory
-            user.setId(numUsers + 1);
+            numUsers++;
+            user.setId(numUsers);
             usersAL.add(user);
             usersBST.insert(user, nameComparator);
             addAuthNewUser(user);
