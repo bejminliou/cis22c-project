@@ -353,8 +353,18 @@ public class Menu {
                     if (index > 0 && index <= matchingFriends.size()) {
                         // print selected User
                         printUserProfile(matchingFriends.get(index - 1));
-
                         validInput = true;
+
+                        System.out.print("\nEnter 1 to remove this friend or enter any other key to return " +
+                                "to the View Friends Menu: ");
+                        String choice = scanner.nextLine(); // input user choice
+
+                        if (choice.equalsIgnoreCase("1")) {
+                            // remove matchingFriend
+                            user.removeFriend(matchingFriends.get(index - 1));
+                            System.out.println("Successfully removed as friend, your new friends list is now:");
+                            displayFriends();
+                        }
                     }
 
                     // if input doesn't match validID
