@@ -1,7 +1,5 @@
 package util;
 
-import data.User;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -12,11 +10,11 @@ import java.util.NoSuchElementException;
  *
  * @param <T> a generic data type
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Final Course Project
  */
 public class BST<T> {

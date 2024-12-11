@@ -10,11 +10,11 @@ import util.BST;
  * Manages the existing Interests and tracks which Users share each Interest.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class InterestManager {

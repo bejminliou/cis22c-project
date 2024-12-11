@@ -14,11 +14,11 @@ import util.LinkedList;
  * Users are comparable by their ID and can be searched by name.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class User implements Comparable<User> {

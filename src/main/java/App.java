@@ -7,11 +7,11 @@ import ui.Menu;
  * Handles initialization of overall program.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class App {

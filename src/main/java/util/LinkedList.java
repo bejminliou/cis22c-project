@@ -1,20 +1,19 @@
 package util;
+
 import java.util.NoSuchElementException;
 
 /**
  * LinkedList.java
  * Defines a doubly-linked list class
  *
- *
- *
+ * @param <T> a generic data type
+ *            CIS 22C, Applied Lab 3.1
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
  * @author Yukai Qiu
  * @author Kenneth Garcia
  * @author Tu Luong
- * @param <T> a generic dadta type
- * CIS 22C, Applied Lab 3.1
  */
 public class LinkedList<T> {
     private class Node {
@@ -72,7 +71,7 @@ public class LinkedList<T> {
      *
      * @param original the LinkedList to copy
      * @postcondition a new List object, which is an identical, but separate, copy of the LinkedList
-     *                original
+     * original
      */
     public LinkedList(LinkedList<T> original) {
         this();
@@ -93,9 +92,9 @@ public class LinkedList<T> {
     /**
      * Returns the value stored in the first node
      *
-     * @precondition length > 0
      * @return the value stored at node first
      * @throws NoSuchElementException if isEmpty() == true
+     * @precondition length > 0
      */
     public T getFirst() throws NoSuchElementException {
         if (isEmpty()) {
@@ -108,9 +107,9 @@ public class LinkedList<T> {
     /**
      * Returns the value stored in the last node
      *
-     * @precondition length > 0
      * @return the value stored in the node last
      * @throws NoSuchElementException if isEmpty() == true
+     * @precondition length > 0
      */
     public T getLast() throws NoSuchElementException {
         if (isEmpty()) {
@@ -123,8 +122,8 @@ public class LinkedList<T> {
     /**
      * Returns the data stored in the iterator node
      *
-     * @precondition iterator != null;
      * @return the data stored in the iterator node
+     * @precondition iterator != null;
      * @throw NullPointerException when iterator == null
      */
     public T getIterator() throws NullPointerException {
@@ -210,8 +209,8 @@ public class LinkedList<T> {
      * Inserts a new element after the iterator
      *
      * @param data the data to insert
-     * @precondition iterator exists
      * @throws NullPointerException iterator doesn't exist (iterator == null)
+     * @precondition iterator exists
      */
     public void addIterator(T data) throws NullPointerException {
         if (offEnd()) {
@@ -237,9 +236,9 @@ public class LinkedList<T> {
     /**
      * removes the element at the front of the LinkedList
      *
+     * @throws NoSuchElementException if length = 0
      * @precondition length > 0
      * @postcondition removes first node, sets previous node as first, subtracts length by 1
-     * @throws NoSuchElementException if length = 0
      */
     public void removeFirst() throws NoSuchElementException {
         if (isEmpty()) {
@@ -262,9 +261,9 @@ public class LinkedList<T> {
     /**
      * removes the element at the end of the LinkedList
      *
+     * @throws NoSuchElementException if length == 0
      * @precondition length > 0
      * @postcondition removes last node, subtracts length by 1
-     * @throws NoSuchElementException if length == 0
      */
     public void removeLast() throws NoSuchElementException {
         if (isEmpty()) {
@@ -283,9 +282,9 @@ public class LinkedList<T> {
     /**
      * removes the element referenced by the iterator
      *
+     * @throws NullPointerException if iterator == null
      * @precondition iterator != null
      * @postcondition iterator == null
-     * @throws NullPointerException if iterator == null
      */
     public void removeIterator() throws NullPointerException {
         if (offEnd()) {
@@ -318,9 +317,9 @@ public class LinkedList<T> {
     /**
      * Moves the iterator one node towards the last
      *
+     * @throws NullPointerException if either iterator or iterator.next don't exist
      * @precondition iterator && next != null; iterator and next both exist
      * @postcondition iterator = iterator.next
-     * @throws NullPointerException if either iterator or iterator.next don't exist
      */
     public void advanceIterator() throws NullPointerException {
         if (isEmpty()) {
@@ -343,9 +342,9 @@ public class LinkedList<T> {
     /**
      * Moves the iterator one node towards the first
      *
+     * @throws NullPointerException if iterator or previous iterator == null
      * @precondition iterator != null
      * @postcondition iterator = iterator.prev
-     * @throws NullPointerException if iterator or previous iterator == null
      */
     public void reverseIterator() throws NullPointerException {
         if (offEnd()) {
@@ -446,10 +445,10 @@ public class LinkedList<T> {
      * ,3]
      *
      * @param numMoves the number of times to move each node.
+     * @throws IllegalArgumentException when numMoves < 0
      * @precondition numMoves >= 0
      * @postcondition iterator position unchanged (i.e. still referencing the same node in the list,
-     *                regardless of new location of Node)
-     * @throws IllegalArgumentException when numMoves < 0
+     * regardless of new location of Node)
      */
     public void spinList(int numMoves) throws IllegalArgumentException {
         if (length <= 1 || numMoves == 0) {
@@ -565,8 +564,8 @@ public class LinkedList<T> {
      * Advances the iterator to location within the LinkedList specified by the given index
      *
      * @param index the index at which to place the iterator
-     * @precondition index >= 0, index < length
      * @throws IndexOutOfBoundsException when index is out of bounds
+     * @precondition index >= 0, index < length
      */
     public void advanceIteratorToIndex(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= length) {

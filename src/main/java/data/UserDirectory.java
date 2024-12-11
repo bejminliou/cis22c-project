@@ -14,11 +14,11 @@ import util.LinkedList;
  * Provides access for searching users by name or username.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class UserDirectory {

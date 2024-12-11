@@ -1,17 +1,18 @@
 package util;
+
 import java.util.ArrayList;
 
 /**
  * HashTable.java
  *
+ * @param <T> a generic data type
+ *            CIS 22C, Lab 14
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
  * @author Yukai Qiu
  * @author Kenneth Garcia
  * @author Tu Luong
- * @param <T> a generic data type
- * CIS 22C, Lab 14
  */
 public class HashTable<T> {
 
@@ -23,8 +24,8 @@ public class HashTable<T> {
      * passed in as a parameter. Inserts size empty Lists into the table. Sets numElements to 0
      *
      * @param size the table size
-     * @precondition size > 0
      * @throws IllegalArgumentException when size <= 0
+     * @precondition size > 0
      */
     public HashTable(int size) throws IllegalArgumentException {
         if (size <= 0) {
@@ -45,9 +46,9 @@ public class HashTable<T> {
      * the appropriate indices
      *
      * @param array an array of elements to insert
-     * @param size the size of the Table
-     * @precondition size > 0
+     * @param size  the size of the Table
      * @throws IllegalArgumentException when size <= 0
+     * @precondition size > 0
      */
     public HashTable(T[] array, int size) throws IllegalArgumentException {
         this(size);
@@ -77,9 +78,9 @@ public class HashTable<T> {
      * Counts the number of elements at this index.
      *
      * @param index the index in the table
-     * @precondition 0 <= index < table.size()
      * @return the count of elements at this index
      * @throws IndexOutOfBoundsException when the precondition is violated
+     * @precondition 0 <= index < table.size()
      */
     public int countBucket(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= table.size()) {
@@ -103,9 +104,9 @@ public class HashTable<T> {
      *
      * @param elmt the key to search for
      * @return the value to which the specified key is mapped, or null if this table contains no
-     *         mapping for the key.
-     * @precondition elmt != null
+     * mapping for the key.
      * @throws NullPointerException when the precondition is violated.
+     * @precondition elmt != null
      */
     public T get(T elmt) throws NullPointerException {
         if (elmt == null) {
@@ -134,8 +135,8 @@ public class HashTable<T> {
      *
      * @param elmt the element to locate
      * @return the bucket number where the element is located or -1 if it is not found.
-     * @precondition elmt != null
      * @throws NullPointerException when the precondition is violated.
+     * @precondition elmt != null
      */
     public int find(T elmt) throws NullPointerException {
         if (elmt == null) {
@@ -164,8 +165,8 @@ public class HashTable<T> {
      *
      * @param elmt the element to locate
      * @return whether the element is in the table
-     * @precondition elmt != null
      * @throws NullPointerException when the precondition is violated
+     * @precondition elmt != null
      */
     public boolean contains(T elmt) throws NullPointerException {
         if (elmt == null) {
@@ -181,8 +182,8 @@ public class HashTable<T> {
      * Inserts a new element in the table at the end of the chain of the correct bucket.
      *
      * @param elmt the element to insert
-     * @precondition elmt != null
      * @throws NullPointerException when the precondition is violated.
+     * @precondition elmt != null
      */
     public void add(T elmt) throws NullPointerException {
         if (elmt == null) {
@@ -200,9 +201,9 @@ public class HashTable<T> {
      * Removes the given element from the table.
      *
      * @param elmt the element to remove
-     * @precondition elmt != null
      * @return whether elmt exists and was removed from the table
      * @throws NullPointerException when the precondition is violated
+     * @precondition elmt != null
      */
     public boolean delete(T elmt) throws NullPointerException {
         if (elmt == null) {
@@ -258,8 +259,8 @@ public class HashTable<T> {
      *
      * @param bucket the index in the table
      * @return a String of elements, separated by spaces with a new line character at the end
-     * @precondition 0 <= bucket < table.size()
      * @throws IndexOutOfBoundsException when bucket is out of bounds
+     * @precondition 0 <= bucket < table.size()
      */
     public String bucketToString(int bucket) throws IndexOutOfBoundsException {
         if (bucket < 0 || bucket >= table.size()) {

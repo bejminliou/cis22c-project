@@ -5,14 +5,14 @@ import java.util.NoSuchElementException;
 /**
  * Queue.java
  *
+ * @param <T> a generic data type
+ *            CIS 22C, Lab 9
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
  * @author Yukai Qiu
  * @author Kenneth Garcia
  * @author Tu Luong
- * @param <T> a generic data type
- * CIS 22C, Lab 9
  */
 public class Queue<T> implements Q<T> {
     private class Node {
@@ -33,9 +33,9 @@ public class Queue<T> implements Q<T> {
 
     /**
      * Default constructor for the Queue class
-     * 
+     *
      * @postcondition a new Queue object with all fields
-     *                assigned default values
+     * assigned default values
      */
     public Queue() {
         front = end = null;
@@ -44,7 +44,7 @@ public class Queue<T> implements Q<T> {
 
     /**
      * Converts an array into a Queue
-     * 
+     *
      * @param array the array to copy into Queue
      */
     public Queue(T[] array) {
@@ -60,7 +60,7 @@ public class Queue<T> implements Q<T> {
     /**
      * Copy constructor for the Queue class
      * Makes a deep copy of the parameter
-     * 
+     *
      * @param original the Queue to copy
      * @postcondition creates a new Queue class with the same data as the original
      */
@@ -84,11 +84,11 @@ public class Queue<T> implements Q<T> {
     /**
      * Returns the value stored at the front
      * of the Queue
-     * 
+     *
      * @return the value at the front of the queue
-     * @precondition !isEmpty()
      * @throws NoSuchElementException when the
      *                                precondition is violated
+     * @precondition !isEmpty()
      */
     public T getFront() throws NoSuchElementException {
         if (front == null) {
@@ -100,7 +100,7 @@ public class Queue<T> implements Q<T> {
 
     /**
      * Returns the size of the Queue
-     * 
+     *
      * @return the size from 0 to n
      */
     public int getSize() {
@@ -109,7 +109,7 @@ public class Queue<T> implements Q<T> {
 
     /**
      * Determines whether a Queue is empty
-     * 
+     *
      * @return whether the Queue contains no elements
      */
     public boolean isEmpty() {
@@ -137,9 +137,9 @@ public class Queue<T> implements Q<T> {
 
     /**
      * Removes the front element in the Queue
-     * 
-     * @precondition !isEmpty()
+     *
      * @throws NoSuchElementException when precondition is violated
+     * @precondition !isEmpty()
      * @postcondition Removes first node, and decrements size
      */
     public void dequeue() throws NoSuchElementException {
@@ -159,7 +159,7 @@ public class Queue<T> implements Q<T> {
     /**
      * Returns values stored in Queue as String, separated by a blank space
      * with a new line character at the end
-     * 
+     *
      * @return a String of Queue values
      */
     @Override
@@ -176,7 +176,7 @@ public class Queue<T> implements Q<T> {
     /**
      * Determines whether two Queues contain
      * the same values in the same order
-     * 
+     *
      * @param obj the Object to compare to this
      * @return whether obj and this are equal
      */

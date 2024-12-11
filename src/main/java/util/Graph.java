@@ -1,4 +1,5 @@
 package util;
+
 import java.util.ArrayList;
 
 /**
@@ -29,8 +30,8 @@ public class Graph {
      * initializes an empty graph, with n vertices and 0 edges
      *
      * @param numVtx the number of vertices in the graph
-     * @precondition numVtx > 0
      * @throws IllegalArgumentException when numVtx <= 0
+     * @precondition numVtx > 0
      */
     public Graph(int numVtx) throws IllegalArgumentException {
         if (numVtx <= 0) {
@@ -90,9 +91,9 @@ public class Graph {
      * Returns the value of the distance[v]
      *
      * @param v a vertex in the graph
-     * @precondition 0 < v <= vertices
      * @return the distance of vertex v
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public Integer getDistance(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -105,9 +106,9 @@ public class Graph {
      * Returns the value of the parent[v]
      *
      * @param v a vertex in the graph
-     * @precondition 0 < v <= vertices
      * @return the parent of vertex v
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public Integer getParent(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -120,9 +121,9 @@ public class Graph {
      * Returns the value of the color[v]
      *
      * @param v a vertex in the graph
-     * @precondition 0 < v <= vertices
      * @return the color of vertex v
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public Character getColor(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -135,9 +136,9 @@ public class Graph {
      * Returns the value of the discoverTime[v]
      *
      * @param v a vertex in the graph
-     * @precondition 0 < v <= vertices
      * @return the discover time of vertex v
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public Integer getDiscoverTime(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -150,9 +151,9 @@ public class Graph {
      * Returns the value of the finishTime[v]
      *
      * @param v a vertex in the graph
-     * @precondition 0 < v <= vertices
      * @return the finish time of vertex v
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public Integer getFinishTime(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -166,8 +167,8 @@ public class Graph {
      *
      * @param v a vertex in the graph
      * @return the adjacency LinkedList at v
-     * @precondition 0 < v <= vertices
      * @throws IndexOutOfBoundsException when v is out of bounds
+     * @precondition 0 < v <= vertices
      */
     public LinkedList<Integer> getAdjacencyList(Integer v) throws IndexOutOfBoundsException {
         if (v <= 0 || v > vertices) {
@@ -208,8 +209,8 @@ public class Graph {
      *
      * @param u a vertex in the graph
      * @param v a vertex in the graph
-     * @precondition, 0 < u, v <= vertices
      * @throws IndexOutOfBoundsException when u or v is out of bounds
+     * @precondition, 0 < u, v <= vertices
      */
     public void addUndirectedEdge(Integer u, Integer v) throws IndexOutOfBoundsException {
         if (u <= 0 || u > vertices || v <= 0 || v > vertices) {
@@ -226,6 +227,7 @@ public class Graph {
      * Creates a String representation of the Graph Prints the adjacency list of
      * each vertex in the graph, vertex: <space separated list of adjacent
      * vertices>
+     *
      * @return a space separated list of adjacent vertices
      */
     @Override
@@ -250,9 +252,9 @@ public class Graph {
      * Performs breath first search on this Graph give a source vertex
      *
      * @param source the starting vertex
-     * @precondition source is a vertex in the graph
      * @throws IndexOutOfBoundsException when the source vertex is out of bounds
-     *     of the graph
+     *                                   of the graph
+     * @precondition source is a vertex in the graph
      */
     public void BFS(Integer source) throws IndexOutOfBoundsException {
         if (source <= 0 || source > vertices) {
@@ -312,7 +314,7 @@ public class Graph {
 
         time = 0;
 
-        for(int i = 0; i < vertices; i++) {
+        for (int i = 0; i < vertices; i++) {
             if (color.get(i) == 'W') {
                 visit(i);
             }

@@ -17,11 +17,11 @@ import util.LinkedList;
  * name-based search and network connection analysis through a graph.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * @see data.UserDirectory for user storage and management
  * @see data.User for individual user's friend connections
  * CIS 22C, Course Project

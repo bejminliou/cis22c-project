@@ -7,11 +7,11 @@ import java.util.Objects;
  * Interest class managing the details of an individual Interest.
  *
  * @author Benjamin Liou
+ * @author Kenneth Garcia
  * @author Kevin Young
  * @author Rolen Louie
- * @author Yukai Qiu
- * @author Kenneth Garcia
  * @author Tu Luong
+ * @author Yukai Qiu
  * CIS 22C, Course Project
  */
 public class Interest {
