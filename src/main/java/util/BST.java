@@ -1,5 +1,7 @@
 package util;
 
+import data.User;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -302,16 +304,19 @@ public class BST<T> {
     }
 
     /**
-     * Returns a list of Users that match the first and last name of a given User.
+     * Returns an ArrayListList of Users that have names that match the
+     * given first and last name (case-insensitive).
      *
-     * @param user the User with the first and last name to search for
-     * @param cmp  the Comparator that indicates the way
-     *             the data in the tree was ordered
-     * @return list of Users with exactly matching names
+     * @param firstName  the first name to search for
+     * @param lastName   the last name to search for
+     * @param userToFind a User with the firstName and lastname
+     * @param cmp        a Comparator that compares Users by first and last name
+     * @return an ArrayList of Users with matching name
      * @see data.User#getFirstName
      * @see data.User#getLastName
      */
-    public ArrayList<T> findUsersByName(T user, Comparator<T> cmp) {
+    public ArrayList<T> findUsersByName(String firstName, String lastName, T userToFind,
+                                        Comparator<T> cmp) {
         ArrayList<T> results = new ArrayList<>();
 
         // if BST is empty
@@ -319,15 +324,19 @@ public class BST<T> {
             return results;
         }
 
+        BST<T> copyBST = new BST<>(this, cmp);
+        String fullName = firstName + " " + lastName;
         String inOrder = this.inOrderString();
         String[] userEntries = inOrder.split("\n");
+
         for (String entry : userEntries) {
             if (entry == null || entry.isEmpty())
                 continue;
 
-            T tempUser = this.search(user, cmp);
-            if (tempUser != null) {
-                results.add(user);
+            if (entry.equalsIgnoreCase(fullName)) {
+                T tempUser = copyBST.search(userToFind, cmp);
+                copyBST.remove(userToFind, cmp);
+                results.add(tempUser);
             }
         }
         return results;

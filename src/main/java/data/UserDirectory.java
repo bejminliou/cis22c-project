@@ -159,7 +159,7 @@ public class UserDirectory {
         User userToFind = new User();
         userToFind.setFirstName(firstName);
         userToFind.setLastName(lastName);
-        return usersBST.findUsersByName(userToFind, this.getNameComparator());
+        return usersBST.findUsersByName(firstName, lastName, userToFind, this.getNameComparator());
     }
 
     /**
