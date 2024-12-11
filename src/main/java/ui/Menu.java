@@ -350,9 +350,9 @@ public class Menu {
 
                     // check for valid index
                     int index = Integer.parseInt(inputStr);
-                    if (index > 0 && index <= matchingUsers.size()) {
+                    if (index > 0 && index <= matchingFriends.size()) {
                         // print selected User
-                        printUserProfile(matchingUsers.get(index - 1));
+                        printUserProfile(matchingFriends.get(index - 1));
 
                         validInput = true;
                     }
