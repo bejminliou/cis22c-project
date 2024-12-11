@@ -15,12 +15,15 @@ cis22c-project/
 │   ├── main/
 │   │   └── java/
 │   │       ├── data/
+│   │       │   └── Friend.java
 │   │       │   └── Interest.java
 │   │       │   └── InterestManager.java
 │   │       │   ├── User.java
 │   │       │   ├── UserDirectory.java
-│   │       ├── model/
-│   │       │   ├── Friend.java
+│   │       ├── io/
+│   │       │   └── ReadAndWriteData.java
+│   │       ├── ui/
+│   │       │   └── Menu.java
 │   │       ├── util/
 │   │       │   ├── BST.java
 │   │       │   ├── Graph.java
@@ -29,15 +32,11 @@ cis22c-project/
 │   │       │   └── LinkedList.java
 │   │       │   └── Q.java
 │   │       │   └── Queue.java
-│   │       ├── io/
-│   │       │   └── data.txt
-│   │       │   └── ReadAndWriteData.java
-│   │       ├── ui/
-│   │       │   └── Menu.java
 │   │       ├── App.java
 │   │   └── resources/
-│   │       └── users.txt
+│   │       └── data.txt
 │   │       └── dataset.js
+│   │       └── initialUsers.txt
 ├── .gitignore
 ├── pom.xml
 └── README.md
@@ -81,7 +80,7 @@ username
 password
 total number of friends
 list of ids of all friends (one ID per line)
-city
+city, state
 total number of interests
 list of interests (one interest per line)
 ```
@@ -126,15 +125,15 @@ The dataset was developed through a multi-step process:
 4. **Data Formatting**
     - Structured data according to project requirements:
       ```bash
-      id                 # Presidential order number (32-46)
-      name               # Full name
-      username           # First initial + last name
-      password           # Birthplace + birth year
-      f <amt_friends>    # 'f' prefix, 3-5 friends
-      <friend_ids>       # List of friend IDs
-      city <city>        # 'city' prefix + birthplace
-      i <amt_interests>  # 'i' prefix, 3-5 interests
-      <interests>        # List of interests/hobbies
+      id                 # User ID
+      name               # Full name (separated by a space)
+      username           # Username
+      password           # Password
+      <amt_friends>      # Number of friends
+      <friend_ids>       # List of friend IDs (1 per line)
+      <city>             # birthplace (city, state)
+      <amt_interests>    # Number of interests
+      <interests>        # List of interests (1 per line)
       ```
     - Validated format consistency across all entries
     - Added prefix indicators ('f' for friends, 'city' for city, 'i' for interests)

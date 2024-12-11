@@ -7,7 +7,7 @@ import java.util.Scanner;
 import data.User;
 import data.UserDirectory;
 
-import model.Friend;
+import data.Friend;
 
 import util.BST;
 import util.LinkedList;
