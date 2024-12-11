@@ -206,7 +206,7 @@ public class Menu {
                     "\n0. Return to Main Menu" +
                     "\n1. View all your friends and their profiles" +
                     "\n2: View a list friends sorted by name" +
-                    "\n3: Search for a friend");
+                    "\n3: Search for a friend by name");
             System.out.print("Enter your choice: ");
 
             // get user input
@@ -313,28 +313,60 @@ public class Menu {
             lastNameOfFriend = scanner.nextLine();
         }
 
-        // search for friend with matching name
-        User matchingFriend = user.searchFriendByName(firstNameOfFriend, lastNameOfFriend);
+        // search for all Users with matching name
+        ArrayList<User> matchingUsers = ud.findUsersByName(firstNameOfFriend, lastNameOfFriend);
 
-        if (matchingFriend == null) { // matching friend not found
+        // check if Users with matching name are friends with this.User
+        ArrayList<User> matchingFriends = new ArrayList<>();
+        for (User currUser : matchingUsers) { // for all Users that match given name
+            if (user.getFriendIds().contains(currUser.getId())) {
+                matchingFriends.add(currUser);
+            }
+        }
+
+        if (matchingUsers.isEmpty() || matchingFriends.isEmpty()) { // matching friend not found
             System.out.print("\nCould not find matching friend." +
                     "\nEnter 1 to retry search by name or enter any other key to return to the View Friends Menu: ");
             if (scanner.nextLine().equalsIgnoreCase("1")) {
                 searchFriendByName(); // retry search
             }
         } else { // matching friend found
-            printUserProfile(matchingFriend);
-            System.out.print("\nEnter 1 to remove this friend or enter any other key to return " +
-                    "to the View Friends Menu: ");
-            String choice = scanner.nextLine(); // input user choice
+            System.out.println("\nHere are Friends that match the given name:");
 
-            if (choice.equalsIgnoreCase("1")) {
-                // remove matchingFriend
-                user.removeFriend(matchingFriend);
-                System.out.println("Successfully removed as friend, your new friends list is now:");
-                displayFriends();
+            // print all Friends that match the given name
+            for (int i = 1; i <= matchingFriends.size(); i++) {
+                User currUser = matchingFriends.get(i - 1);
+                System.out.println(i + ". " + currUser.getFirstName() + " " + currUser.getLastName());
             }
+
+            // continue loop until valid index is given
+            boolean validInput = false;
+            do {
+                try {
+                    // get index of profile to view
+                    System.out.print("Enter the index (1-" + matchingUsers.size() + ") " +
+                            "of the Friend you'd like to view: ");
+                    String inputStr = scanner.nextLine();
+
+                    // check for valid index
+                    int index = Integer.parseInt(inputStr);
+                    if (index > 0 && index <= matchingUsers.size()) {
+                        // print selected User
+                        printUserProfile(matchingUsers.get(index - 1));
+
+                        validInput = true;
+                    }
+
+                    // if input doesn't match validID
+                    if (!validInput) {
+                        System.out.println("\nPlease ensure the index given is valid.");
+                    }
+                } catch (NumberFormatException e) { // invalid input given
+                    System.out.println("\nPlease ensure the index given is valid.");
+                }
+            } while (!validInput);
         }
+
     }
 
     // Find and Add Friends Methods
@@ -454,13 +486,13 @@ public class Menu {
         if (!matchingUsers.isEmpty()) {
             System.out.println("\nHere are the matching users:");
 
-            // print all users that match the given name
+            // print all Users that match the given name
             for (int i = 1; i <= matchingUsers.size(); i++) {
                 User currUser = matchingUsers.get(i - 1);
                 System.out.println(i + ". " + currUser.getFirstName() + " " + currUser.getLastName());
             }
 
-            // continue loop until valid ID is given
+            // continue loop until valid index is given
             boolean validInput = false;
             do {
                 try {
