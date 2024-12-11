@@ -344,7 +344,7 @@ public class Menu {
             do {
                 try {
                     // get index of profile to view
-                    System.out.print("Enter the index (1-" + matchingUsers.size() + ") " +
+                    System.out.print("Enter the index (1-" + matchingFriends.size() + ") " +
                             "of the Friend you'd like to view: ");
                     String inputStr = scanner.nextLine();
 
