@@ -35,8 +35,6 @@ cis22c-project/
 │   │       ├── App.java
 │   │   └── resources/
 │   │       └── data.txt
-│   │       └── dataset.js
-│   │       └── initialUsers.txt
 ├── .gitignore
 ├── pom.xml
 └── README.md
