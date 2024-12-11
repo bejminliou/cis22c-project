@@ -1,13 +1,13 @@
-# cis22c-project
-F24 CIS D022C Data Abstract &amp; Structures 62Z Parrish 22855
+# CIS22C-Project
+F24 CIS D022C Data Abstract &amp; Structures 62Z Parrish 22855, Fall 2024
 
 # Project: U.S. Presidents Social Network
 
-This project simulates a social network platform specifically for U.S. Presidents (dataset TBD). It implements core social networking features like adding friends, viewing profiles, and provides friend recommendations using a graph-based approach.  This project is for CIS 22C and fulfills the requirements outlined by Jennifer Parrish.
+This project simulates a social network platform specifically for U.S. Presidents. It implements core social networking features like adding friends, viewing profiles, and provides friend recommendations using a graph-based approach. This project is for CIS 22C and fulfills the requirements outlined by Professor Jennifer Parrish.
 
 ## Project Structure
 
-The project follows a standard Maven structure:
+The project follows a standard Maven directory structure:
 
 ```bash
 cis22c-project/
@@ -47,7 +47,7 @@ cis22c-project/
 * **User Management:** Create and manage user accounts (U.S. Presidents). Includes profile information, friend lists, and interests.
 * **Friend Connections:**  Users can add and remove friends.
 * **Friend Search:** Search for users by name or shared interests.
-* **Friend Recommendations:**  Friend recommendations based on network proximity and shared interests, using a Breadth-First Search (BFS) algorithm (?) on the friend graph.
+* **Friend Recommendations:**  Friend recommendations based on network proximity and shared interests, done using Breadth-First Search (BFS) the friend graph and an algorithm considering interests.
 * **Data Persistence:**  User data is loaded from and saved to a file.
 
 ## Data Structures
@@ -60,8 +60,7 @@ This project utilizes several data structures to efficiently manage and retrieve
 
 * **Hash Tables:**
     * **`HashTable<String, User>` for Authentication:**  Stores user credentials (username as key, User object as value) for login. Passwords should be securely hashed before storage.
-    * **`HashTable<String, Integer>` for Interests:** Stores unique interests (interest string as key, interest ID as value).  Used for efficient lookup of interest IDs.
-    * **`HashTable<Integer, Interest>` (Clarification):** While not explicitly stated in the instructions, a hash table mapping interest IDs to `Interest` objects might be easier to use for managing interests.
+    * **`HashTable<String, Integer>` for Interests:** Stores unique interests (interest string as key, interest ID as value). Used for efficient lookup of interest IDs.
 
 * **Graph (Adjacency List):**  An `ArrayList<LinkedList<Integer>>` represents the social network graph. Each index in the ArrayList corresponds to a User's ID, and the LinkedList at that index stores the IDs of their friends.  An additional `ArrayList<User>` indexed by User ID is used to quickly access `User` objects by ID.
 
@@ -178,9 +177,8 @@ This project will mainly be coordinated through the Discord server. If you have 
 
 ## Contributors
 
-* **Rolen Louie** -
-* **Benjamin Liou** -
-* **Kevin Young** -
-* **Kenneth Garcia** -
-* **Yukai Qiu** -
-* **Tu Luong** -
+* **Benjamin Liou** - Code development, presentation
+* **Rolen Louie** - Code development, debugging, presentation
+* **Kevin Young** - Code development, UI testing, debugging
+* **Kenneth Garcia** - Code development, UI testing, presentation
+* **Yukai Qiu** - Code development, presentation
