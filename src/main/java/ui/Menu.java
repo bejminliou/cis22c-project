@@ -211,7 +211,7 @@ public class Menu {
 
             // get user input
             try {
-                int choice = scanner.nextInt();
+                int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 0:
                         return;
@@ -244,7 +244,7 @@ public class Menu {
                     default: // invalid choice
                         System.out.println("Invalid input. Please enter a valid option (0, 1, 2, or 3).");
                 }
-            } catch (Exception e) { // invalid input
+            } catch (NumberFormatException e) { // invalid input
                 System.out.println("Invalid input. Please enter a valid option (0, 1, 2, or 3).");
             }
         }
@@ -319,7 +319,7 @@ public class Menu {
         if (matchingFriend == null) { // matching friend not found
             System.out.print("\nCould not find matching friend." +
                     "\nEnter 1 to retry search by name or enter any other key to return to the View Friends Menu: ");
-            if (scanner.nextInt() == 1) {
+            if (scanner.nextLine().equalsIgnoreCase("1")) {
                 searchFriendByName(); // retry search
             }
         } else { // matching friend found
@@ -377,7 +377,7 @@ public class Menu {
 
                 // invalid input if code reaches this point
                 System.out.println("Invalid input, please enter a valid choice.");
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please enter a valid choice.");
             }
         }
@@ -483,7 +483,7 @@ public class Menu {
                     if (!validInput) {
                         System.out.println("\nPlease ensure the index given is valid.");
                     }
-                } catch (Exception e) { // invalid input given
+                } catch (NumberFormatException e) { // invalid input given
                     System.out.println("\nPlease ensure the index given is valid.");
                 }
             } while (!validInput);
@@ -636,7 +636,7 @@ public class Menu {
                     // display this user's updated current friends
                     displayFriends();
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Please ensure the input is a valid index.");
             }
         } while (true);

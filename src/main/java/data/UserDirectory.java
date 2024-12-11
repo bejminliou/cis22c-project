@@ -27,6 +27,7 @@ public class UserDirectory {
     private final Graph friendNetwork;
     private final HashTable<String> loginTable;
     private final InterestManager interestManager;
+    int numUsers;
 
     // Comparators
 
@@ -83,7 +84,7 @@ public class UserDirectory {
 
         // authenticate all user credentials into the loginTable
         final int NUM_USERS_OFFSET = 10;
-        int numUsers = usersAL.size();
+        this.numUsers = usersAL.size();
         this.loginTable = new HashTable<>(numUsers + NUM_USERS_OFFSET);
         for (User user : usersAL) {
             loginTable.add(getLoginKey(user.getUsername(), user.getPassword()));
@@ -155,20 +156,10 @@ public class UserDirectory {
                     "cannot be null");
         }
 
-        ArrayList<User> results = new ArrayList<>();
-        String orderedStr = usersBST.inOrderString();
-        // if no users in BST
-        if (orderedStr == null || orderedStr.isEmpty()) {
-            return results;
-        }
-
-        // adding users with matching name to results
-        for (User user : usersAL) {
-            if (user.getFirstName().equalsIgnoreCase(firstName) && user.getLastName().equalsIgnoreCase(lastName)) {
-                results.add(user);
-            }
-        }
-        return results;
+        User userToFind = new User();
+        userToFind.setFirstName(firstName);
+        userToFind.setLastName(lastName);
+        return usersBST.findUsersByName(firstName, lastName, userToFind, this.getNameComparator());
     }
 
     /**
@@ -214,6 +205,8 @@ public class UserDirectory {
 
         if (!foundCreds) { // if credentials are not already found in UserDirectory
             // add User to UserDirectory
+            numUsers++;
+            user.setId(numUsers);
             usersAL.add(user);
             usersBST.insert(user, nameComparator);
             addAuthNewUser(user);
