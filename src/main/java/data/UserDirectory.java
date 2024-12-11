@@ -156,20 +156,10 @@ public class UserDirectory {
                     "cannot be null");
         }
 
-        ArrayList<User> results = new ArrayList<>();
-        String orderedStr = usersBST.inOrderString();
-        // if no users in BST
-        if (orderedStr == null || orderedStr.isEmpty()) {
-            return results;
-        }
-
-        // adding users with matching name to results
-        for (User user : usersAL) {
-            if (user.getFirstName().equalsIgnoreCase(firstName) && user.getLastName().equalsIgnoreCase(lastName)) {
-                results.add(user);
-            }
-        }
-        return results;
+        User userToFind = new User();
+        userToFind.setFirstName(firstName);
+        userToFind.setLastName(lastName);
+        return usersBST.findUsersByName(userToFind, this.getNameComparator());
     }
 
     /**

@@ -1,4 +1,6 @@
 package util;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
@@ -6,14 +8,14 @@ import java.util.NoSuchElementException;
 /**
  * BST.java
  *
+ * @param <T> a generic data type
  * @author Benjamin Liou
  * @author Kevin Young
  * @author Rolen Louie
  * @author Yukai Qiu
  * @author Kenneth Garcia
  * @author Tu Luong
- * @param <T> a generic data type
- * CIS 22C, Lab 12
+ * CIS 22C, Final Course Project
  */
 public class BST<T> {
     private class Node {
@@ -41,6 +43,7 @@ public class BST<T> {
 
     /**
      * Copy constructor for BST.
+     *
      * @param bst the BST of which to make a copy.
      * @param cmp the way the tree is organized.
      */
@@ -57,8 +60,9 @@ public class BST<T> {
 
     /**
      * Helper method for copy constructor.
+     *
      * @param node the node containing data to copy.
-     * @param cmp the way the tree is organized.
+     * @param cmp  the way the tree is organized.
      */
     private void copyHelper(Node node, Comparator<T> cmp) {
         if (node == null) {
@@ -73,10 +77,11 @@ public class BST<T> {
 
     /**
      * Creates a BST of minimal height from an array of values.
+     *
      * @param array the list of values to insert.
-     * @param cmp the way the tree is organized.
-     * @precondition array must be sorted in ascending order.
+     * @param cmp   the way the tree is organized.
      * @throws IllegalArgumentException when the array is unsorted.
+     * @precondition array must be sorted in ascending order.
      */
     public BST(T[] array, Comparator<T> cmp) throws IllegalArgumentException {
         if (array == null) {
@@ -86,14 +91,15 @@ public class BST<T> {
         if (!isSorted(array, cmp)) {
             throw new IllegalArgumentException("Array is not sorted.");
         }
-        root = arrayHelper(0, array.length -1, array);
+        root = arrayHelper(0, array.length - 1, array);
     }
 
     /**
      * Private helper method for array constructor
      * to check for a sorted array.
+     *
      * @param array the array to check.
-     * @param cmp the way the tree is organized.
+     * @param cmp   the way the tree is organized.
      * @return whether the array is sorted.
      */
     private boolean isSorted(T[] array, Comparator<T> cmp) {
@@ -110,8 +116,9 @@ public class BST<T> {
 
     /**
      * Recursive helper for the array constructor.
+     *
      * @param begin beginning array index.
-     * @param end ending array index.
+     * @param end   ending array index.
      * @param array array to search.
      * @return the newly created Node.
      */
@@ -133,9 +140,10 @@ public class BST<T> {
 
     /**
      * Returns the data stored in the root.
-     * @precondition !isEmpty()
+     *
      * @return the data stored in the root.
      * @throws NoSuchElementException when precondition is violated.
+     * @precondition !isEmpty()
      */
     public T getRoot() throws NoSuchElementException {
         if (isEmpty()) {
@@ -146,6 +154,7 @@ public class BST<T> {
 
     /**
      * Determines whether the tree is empty.
+     *
      * @return whether the tree is empty.
      */
     public boolean isEmpty() {
@@ -154,6 +163,7 @@ public class BST<T> {
 
     /**
      * Returns the current size of the tree (number of nodes).
+     *
      * @return the size of the tree.
      */
     public int getSize() {
@@ -162,6 +172,7 @@ public class BST<T> {
 
     /**
      * Helper method for the getSize method.
+     *
      * @param node the current node to count.
      * @return the size of the tree.
      */
@@ -174,6 +185,7 @@ public class BST<T> {
 
     /**
      * Returns the height of tree by counting edges.
+     *
      * @return the height of the tree.
      */
     public int getHeight() {
@@ -182,6 +194,7 @@ public class BST<T> {
 
     /**
      * Helper method for getHeight method.
+     *
      * @param node the current node whose height to count.
      * @return the height of the tree.
      */
@@ -198,9 +211,10 @@ public class BST<T> {
 
     /**
      * Returns the smallest value in the tree.
-     * @precondition !isEmpty()
+     *
      * @return the smallest value in the tree.
      * @throws NoSuchElementException when the precondition is violated.
+     * @precondition !isEmpty()
      */
     public T findMin() throws NoSuchElementException {
         if (isEmpty()) {
@@ -211,6 +225,7 @@ public class BST<T> {
 
     /**
      * Recursive helper method to findMin method.
+     *
      * @param node the current node to check if it is the smallest.
      * @return the smallest value in the tree.
      */
@@ -223,9 +238,10 @@ public class BST<T> {
 
     /**
      * Returns the largest value in the tree
-     * @precondition !isEmpty()
+     *
      * @return the largest value in the tree.
      * @throws NoSuchElementException when the precondition is violated.
+     * @precondition !isEmpty()
      */
     public T findMax() throws NoSuchElementException {
         if (isEmpty()) {
@@ -236,6 +252,7 @@ public class BST<T> {
 
     /**
      * Recursive helper method to findMax method.
+     *
      * @param node the current node to check if it is the largest.
      * @return the largest value in the tree.
      */
@@ -248,9 +265,10 @@ public class BST<T> {
 
     /**
      * Searches for a specified value in the tree.
+     *
      * @param data the value to search for.
-     * @param cmp the Comparator that indicates the way
-     * the data in the tree was ordered.
+     * @param cmp  the Comparator that indicates the way
+     *             the data in the tree was ordered.
      * @return the data stored in that Node of the tree, otherwise null.
      */
     public T search(T data, Comparator<T> cmp) {
@@ -259,9 +277,10 @@ public class BST<T> {
 
     /**
      * Helper method for the search method.
+     *
      * @param data the data to search for.
      * @param node the current node to check.
-     * @param cmp the Comparator that determines how the BST is organized.
+     * @param cmp  the Comparator that determines how the BST is organized.
      * @return the data stored in that Node of the tree, otherwise null.
      */
     private T search(T data, Node node, Comparator<T> cmp) {
@@ -273,7 +292,7 @@ public class BST<T> {
 
         if (comparison == 0) {
             return node.data;
-        } else if(comparison < 0) {
+        } else if (comparison < 0) {
             return search(data, node.left, cmp);
         } else if (comparison > 0) {
             return search(data, node.right, cmp);
@@ -282,12 +301,45 @@ public class BST<T> {
         return null;
     }
 
+    /**
+     * Returns a list of Users that match the first and last name of a given User.
+     *
+     * @param user the User with the first and last name to search for
+     * @param cmp  the Comparator that indicates the way
+     *             the data in the tree was ordered
+     * @return list of Users with exactly matching names
+     * @see data.User#getFirstName
+     * @see data.User#getLastName
+     */
+    public ArrayList<T> findUsersByName(T user, Comparator<T> cmp) {
+        ArrayList<T> results = new ArrayList<>();
+
+        // if BST is empty
+        if (isEmpty()) {
+            return results;
+        }
+
+        String inOrder = this.inOrderString();
+        String[] userEntries = inOrder.split("\n");
+        for (String entry : userEntries) {
+            if (entry == null || entry.isEmpty())
+                continue;
+
+            T tempUser = this.search(user, cmp);
+            if (tempUser != null) {
+                results.add(user);
+            }
+        }
+        return results;
+    }
+
     /***MUTATORS***/
 
     /**
      * Inserts a new node in the tree.
+     *
      * @param data the data to insert.
-     * @param cmp the Comparator indicating how data in the tree is ordered.
+     * @param cmp  the Comparator indicating how data in the tree is ordered.
      */
     public void insert(T data, Comparator<T> cmp) {
         if (root == null) {
@@ -300,10 +352,11 @@ public class BST<T> {
     /**
      * Helper method to insert.
      * Inserts a new value in the tree.
+     *
      * @param data the data to insert.
      * @param node the current node in the search for the correct insert
-     *     location.
-     * @param cmp the Comparator indicating how data in the tree is ordered.
+     *             location.
+     * @param cmp  the Comparator indicating how data in the tree is ordered.
      */
     private void insert(T data, Node node, Comparator<T> cmp) {
         if (cmp.compare(data, node.data) < 0) {
@@ -323,9 +376,10 @@ public class BST<T> {
 
     /**
      * Removes a value from the BST
+     *
      * @param data the value to remove
-     * @param cmp the Comparator indicating how data in the tree is organized.
-     * Note: updates nothing when the element is not in the tree.
+     * @param cmp  the Comparator indicating how data in the tree is organized.
+     *             Note: updates nothing when the element is not in the tree.
      */
     public void remove(T data, Comparator<T> cmp) {
         root = remove(data, root, cmp);
@@ -333,9 +387,10 @@ public class BST<T> {
 
     /**
      * Helper method to the remove method.
+     *
      * @param data the data to remove.
      * @param node the current node.
-     * @param cmp the Comparator indicating how data in the tree is organized.
+     * @param cmp  the Comparator indicating how data in the tree is organized.
      * @return an updated reference variable.
      */
     private Node remove(T data, Node node, Comparator<T> cmp) {
@@ -373,6 +428,7 @@ public class BST<T> {
     /**
      * Returns a String containing the data in pre order
      * followed by a new line.
+     *
      * @return a String of data in pre order.
      */
     public String preOrderString() {
@@ -387,7 +443,8 @@ public class BST<T> {
     /**
      * Helper method to preOrderString method.
      * Prints the data in pre order to the console followed by a new line.
-     * @param node the current Node
+     *
+     * @param node     the current Node
      * @param preOrder a StringBuilder containing the data
      */
     private void preOrderString(Node node, StringBuilder preOrder) {
@@ -403,6 +460,7 @@ public class BST<T> {
 
     /**
      * Returns a String containing the data in order followed by a new line.
+     *
      * @return a String of data in order
      */
     public String inOrderString() {
@@ -417,7 +475,8 @@ public class BST<T> {
     /**
      * Helper method to inOrderString.
      * Inserts the data in order into a String in order.
-     * @param node the current Node
+     *
+     * @param node    the current Node
      * @param inOrder a String containing the data
      */
     private void inOrderString(Node node, StringBuilder inOrder) {
@@ -431,6 +490,7 @@ public class BST<T> {
 
     /**
      * Returns a String containing the data in post order.
+     *
      * @return a String of data in post order
      */
     public String postOrderString() {
@@ -445,7 +505,8 @@ public class BST<T> {
     /**
      * Helper method to postOrderString
      * Inserts the data in post order into a String
-     * @param node the current Node
+     *
+     * @param node      the current Node
      * @param postOrder a String containing the data
      */
     private void postOrderString(Node node, StringBuilder postOrder) {
@@ -464,10 +525,11 @@ public class BST<T> {
      * the Node with the largest height (the root)
      * down to Nodes of smallest height - with
      * Nodes of equal height added from left to right.
+     *
      * @return the level order traversal as a String
      */
     public String levelOrderString() {
-        Queue<Node> que  = new Queue<>();
+        Queue<Node> que = new Queue<>();
         StringBuilder sb = new StringBuilder();
         que.enqueue(root);
         levelOrderString(que, sb);
@@ -477,14 +539,15 @@ public class BST<T> {
     /**
      * Helper method to levelOrderString.
      * Inserts the data in level order into a String.
-     * @param que the Queue in which to store the data.
+     *
+     * @param que            the Queue in which to store the data.
      * @param heightTraverse a StringBuilder containing the data.
      */
     private void levelOrderString(Queue<Node> que, StringBuilder heightTraverse) {
-        if(!que.isEmpty()) {
+        if (!que.isEmpty()) {
             Node nd = que.getFront();
             que.dequeue();
-            if(nd != null) {
+            if (nd != null) {
                 que.enqueue(nd.left);
                 que.enqueue(nd.right);
                 heightTraverse.append(nd.data + " ");
@@ -500,13 +563,14 @@ public class BST<T> {
      * Nodes containing the given data. If either data1 or data2 is a
      * duplicate value, the method will find the precursor of the duplicate
      * with greatest height.
+     *
      * @param data1 the data contained in one Node of the tree.
      * @param data2 the data contained in one Node of the tree.
-     * @param cmp The comparator object
+     * @param cmp   The comparator object
      * @return the data stored by the shared precursor
-     * @precondition data1 and data2 must exist in the BST.
      * @throws IllegalArgumentException when one or both values do not exist
-     * in the BST.
+     *                                  in the BST.
+     * @precondition data1 and data2 must exist in the BST.
      */
     public T sharedPrecursor(T data1, T data2, Comparator<T> cmp) throws IllegalArgumentException {
         if (search(data1, cmp) == null) {
@@ -520,10 +584,11 @@ public class BST<T> {
     /**
      * Private helper method to sharedPrecursor, which recursively locates
      * the shared precursor.
-     * @param data1 the data contained in one Node of the tree.
-     * @param data2 the data contained in one Node of the tree.
+     *
+     * @param data1     the data contained in one Node of the tree.
+     * @param data2     the data contained in one Node of the tree.
      * @param currLevel the current Node.
-     * @param cmp The comparator object
+     * @param cmp       The comparator object
      * @return the data stored by the shared precursor.
      */
     private T sharedPrecursor(T data1, T data2, Node currLevel, Comparator<T> cmp) {
